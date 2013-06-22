@@ -90,7 +90,7 @@ for movie in movies:
 		f.write(' <img src="http://upload.wikimedia.org/wikipedia/commons/1/1b/Award-star-gold-3d.png" alt="/" width="17" height="14" align="bottom"> ('+str(movie['top250'])+'/Top250)</span></p>\n')
 	else:
 		f.write(' <img src="http://upload.wikimedia.org/wikipedia/commons/1/1b/Award-star-gold-3d.png" width="17" height="14" align="bottom"></span></p>\n')		
-	#format tvshow rating
+	#format movie mpaa
 	if str(movie['mpaa']).startswith("Rated"):
 		f.write('<p class="mpaa">'+str(movie['mpaa'])+'</p>\n')
 	elif str(movie['mpaa']) == "":
