@@ -1,4 +1,4 @@
-﻿import os
+import os
 import xbmc
 import xbmcgui
 import xbmcaddon
@@ -90,13 +90,14 @@ for movie in movies:
 		f.write(' <img src="http://upload.wikimedia.org/wikipedia/commons/1/1b/Award-star-gold-3d.png" alt="/" width="17" height="14" align="bottom"> ('+str(movie['top250'])+'/Top250)</span></p>\n')
 	else:
 		f.write(' <img src="http://upload.wikimedia.org/wikipedia/commons/1/1b/Award-star-gold-3d.png" width="17" height="14" align="bottom"></span></p>\n')		
-	#format movie mpaa
+	#format tvshow rating
 	if str(movie['mpaa']).startswith("Rated"):
 		f.write('<p class="mpaa">'+str(movie['mpaa'])+'</p>\n')
 	elif str(movie['mpaa']) == "":
 		f.write('<p class="mpaa">Rated NA</p>\n')
 	else:
 		f.write('<p class="mpaa">Rated '+str(movie['mpaa'])+'</p>\n')
+	#list plot
 	if (listplot == 'true'):
 		f.write('<p class="plot">'+movie['plot']+'</p>\n')
 		f.write('&nbsp;\n')
@@ -137,9 +138,15 @@ for tvshow in tvshows:
 	tv_rating = float(str(tvshow['rating']))
 	tv_rating = "%.1f" % tv_rating	
 	f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(tv_rating)+' <img src="http://upload.wikimedia.org/wikipedia/commons/1/1b/Award-star-gold-3d.png" width="17" height="14" align="bottom"></span></p>\n')
-	f.write('<p class="mpaa">Rated '+str(tvshow['mpaa'])+'</p>\n')
+	#format tvshow mpaa
+	if str(tvshow['mpaa']) == "":
+		f.write('<p class="mpaa">Rated NA</p>\n')
+	else:
+		f.write('<p class="mpaa">Rated '+str(tvshow['mpaa'])+'</p>\n')
+	#list plot
 	if (listplot == 'true'):
 		f.write('<p class="plot">'+tvshow['plot']+'</p>\n')	
+	#list episodes
 	if (listepisodes == 'true'):
 		prev_season = None
 		for episode in episode_list:
@@ -156,5 +163,3 @@ f.write('</html>')
 f.close()
 
 xbmcgui.Dialog().ok("XBMC HTML Library Report", "HTML Library Report File Complete.")
-
-
