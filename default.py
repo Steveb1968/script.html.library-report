@@ -56,6 +56,7 @@ f.write('p.episode {font-size:1.0em;color:white;text-align:center;font-family:"C
 f.write('p.plot {font-size:1.0em;color:white;text-align:center;font-family:"Courier New", Courier, monospace;padding:0% 5% 0% 5%}\n')
 f.write('p.episodecount {font-size:0.9em;color:cyan;text-shadow:2px 2px black;text-align:center;font-family:Arial, Helvetica, sans-serif;margin:5px;line-height:1.2}\n')
 f.write('p.genre {font-size:1.0em;color:yellowgreen;text-shadow:2px 2px black;text-align:center;font-family:Arial, Helvetica, sans-serif;margin:6px;line-height:1.2}\n')
+f.write('p.mpaa {font-size:0.8em;color:white;text-shadow:2px 2px black;text-align:center;font-family:Arial, Helvetica, sans-serif;margin:6px;line-height:1.2}\n')
 f.write('p.date {font-size:0.9em;color:white;text-shadow:2px 2px black;text-align:right;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;padding:0% 5% 0% 0%}\n')
 f.write('</style>\n')
 f.write('<p class="date">Last Updated: '+time.strftime('%d %B %Y')+'</p>\n')
@@ -84,11 +85,18 @@ for movie in movies:
 	#format movie rating	
 	movie_rating = float(str(movie['rating']))
 	movie_rating = "%.1f" % movie_rating	
-	f.write('<p class="genre">'+str(moviegenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> Rating: '+str(movie_rating))
+	f.write('<p class="genre">'+str(moviegenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(movie_rating))
 	if int(movie['top250']) > 0:	
 		f.write(' <img src="http://upload.wikimedia.org/wikipedia/commons/1/1b/Award-star-gold-3d.png" alt="/" width="17" height="14" align="bottom"> ('+str(movie['top250'])+'/Top250)</span></p>\n')
 	else:
 		f.write(' <img src="http://upload.wikimedia.org/wikipedia/commons/1/1b/Award-star-gold-3d.png" width="17" height="14" align="bottom"></span></p>\n')		
+	#format movie mpaa
+	if str(movie['mpaa']).startswith("Rated"):
+		f.write('<p class="mpaa">'+str(movie['mpaa'])+'</p>\n')
+	elif str(movie['mpaa']) == "":
+		f.write('<p class="mpaa">Rated NA</p>\n')
+	else:
+		f.write('<p class="mpaa">Rated '+str(movie['mpaa'])+'</p>\n')
 	if (listplot == 'true'):
 		f.write('<p class="plot">'+movie['plot']+'</p>\n')
 		f.write('&nbsp;\n')
@@ -128,7 +136,8 @@ for tvshow in tvshows:
 	#format tvshow rating		
 	tv_rating = float(str(tvshow['rating']))
 	tv_rating = "%.1f" % tv_rating	
-	f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:gold">Rating: '+str(tv_rating)+' <img src="http://upload.wikimedia.org/wikipedia/commons/1/1b/Award-star-gold-3d.png" width="17" height="14" align="bottom"></span></p>\n')
+	f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(tv_rating)+' <img src="http://upload.wikimedia.org/wikipedia/commons/1/1b/Award-star-gold-3d.png" width="17" height="14" align="bottom"></span></p>\n')
+	f.write('<p class="mpaa">Rated '+str(tvshow['mpaa'])+'</p>\n')
 	if (listplot == 'true'):
 		f.write('<p class="plot">'+tvshow['plot']+'</p>\n')	
 	if (listepisodes == 'true'):
