@@ -87,9 +87,9 @@ for movie in movies:
 	movie_rating = "%.1f" % movie_rating	
 	f.write('<p class="genre">'+str(moviegenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(movie_rating))
 	if int(movie['top250']) > 0:	
-		f.write(' <img src="http://upload.wikimedia.org/wikipedia/commons/1/1b/Award-star-gold-3d.png" alt="/" width="17" height="14" align="bottom"> ('+str(movie['top250'])+'/Top250)</span></p>\n')
+		f.write(' &#9733; '+'('+str(movie['top250'])+'/Top250)</span></p>\n')
 	else:
-		f.write(' <img src="http://upload.wikimedia.org/wikipedia/commons/1/1b/Award-star-gold-3d.png" width="17" height="14" align="bottom"></span></p>\n')		
+		f.write(' &#9733;</span></p>\n')		
 	#format movie mpaa
 	if str(movie['mpaa']).startswith("Rated"):
 		f.write('<p class="mpaa">'+str(movie['mpaa'])+'</p>\n')
@@ -137,7 +137,7 @@ for tvshow in tvshows:
 	#format tvshow rating		
 	tv_rating = float(str(tvshow['rating']))
 	tv_rating = "%.1f" % tv_rating	
-	f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(tv_rating)+' <img src="http://upload.wikimedia.org/wikipedia/commons/1/1b/Award-star-gold-3d.png" width="17" height="14" align="bottom"></span></p>\n')
+	f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(tv_rating)+' &#9733;</span></p>\n')
 	#format tvshow mpaa
 	if str(tvshow['mpaa']) == "":
 		f.write('<p class="mpaa">Rated NA</p>\n')
