@@ -1,7 +1,13 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <strings>
 	<string id="30000">General</string>
-	<string id="30001">File Save Location</string>
+	<string id="30001">File Output Directory:</string>
+	<string id="30002">List Movies</string>
+	<string id="30003">List TvShows</string>
+	<string id="30004">Please Select Output Directory</string>
+	<string id="30005">HTML File Complete.</string>
+	<string id="30006">Path:</string>
+	<string id="30007">Library Report</string>		
 	<string id="30010">Include Plot</string>
 	<string id="30011">Include Episodes Titles</string>
 </strings>

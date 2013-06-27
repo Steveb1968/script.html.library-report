@@ -2,8 +2,14 @@
 <settings>
 	<category label="30000">
 		<setting id="save_location" type="folder" source="images" label="30001" default=""/>
-		<setting type="sep" />		
-		<setting id="plot" type="bool" label="30010" default="false"/>
-		<setting id="episodes" type="bool" label="30011" default="false"/>
+		<setting type="sep" />
+
+		<setting id="includemovies" type="bool" label="30002" default="true"/>
+		<setting id="movieplot" type="bool" label="30010" subsetting="true" enable="eq(-1,true)" visible="eq(-1,true)" default="false"/>		
+		<setting type="sep" />
+		
+		<setting id="includetvshows" type="bool" label="30003" default="true"/>		
+		<setting id="tvshowplot" type="bool" label="30010" subsetting="true" enable="eq(-1,true)" visible="eq(-1,true)" default="false"/>
+		<setting id="episodes" type="bool" label="30011" subsetting="true" enable="eq(-2,true)" visible="eq(-2,true)" default="false"/>
 	</category>
 </settings>
