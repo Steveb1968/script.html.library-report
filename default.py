@@ -62,7 +62,7 @@ f.write('p.mpaa {font-size:0.8em;color:white;text-shadow:2px 2px black;text-alig
 f.write('p.date {font-size:0.9em;color:white;text-shadow:2px 2px black;text-align:right;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;padding:0% 5% 0% 0%}\n')
 f.write('</style>\n')
 f.write('<p class="date">Last Updated: '+time.strftime('%d %B %Y')+'</p>\n')
-f.write('<h1><img src="http://wiki.xbmc.org/images/thumb/9/9b/XBMC_logo-solid_shadow.png/800px-XBMC_logo-solid_shadow.png" alt="XBMC" width="93" height="50" align="top"> '+__language__(30008)+'</h1>\n')
+f.write('<h1><img src="http://wiki.xbmc.org/images/thumb/9/9b/XBMC_logo-solid_shadow.png/800px-XBMC_logo-solid_shadow.png" alt="XBMC" width="93" height="50" align="top"> '+__language__(30007)+'</h1>\n')
 f.write("</head>\n")
 f.write("<body>\n")
 
