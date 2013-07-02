@@ -21,11 +21,12 @@ while file_path=="":
 
 #data
 if xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
-	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "runtime", "mpaa", "imdbnumber", "top250"], "sort": { "order": "ascending", "method": "label", "ignorearticle": true } }, "id": 1}'
+	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "top250", "runtime"], "sort": { "order": "ascending", "method": "label", "ignorearticle": true } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
 	movies = jsonobject["result"]["movies"]
+	
 
 if xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "plot", "rating", "originaltitle", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
@@ -34,7 +35,7 @@ if xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 	jsonobject = simplejson.loads(result)
 	tvshows = jsonobject["result"]["tvshows"]
 
-	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["tvshowid", "episode", "originaltitle", "season"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
+	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["tvshowid", "episode", "originaltitle", "season", "runtime"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
@@ -49,10 +50,10 @@ f.write('<head>\n')
 f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
 f.write('<title>XBMC '+__language__(30007)+' ('+time.strftime('%d %B %Y')+')</title>\n')
 f.write('<style type="text/css">\n')
-f.write("body {background-image:url('http://subtlepatterns.com/patterns/binding_dark.png');background-color:#000000;}\n")
+f.write("body {background-color:#000000;margin: 0;padding: 0;}\n")
 f.write('h1 {font-weight:bold;color:gold;text-shadow:1px 1px black;text-align:center;font-family:Verdana, Geneva, sans-serif;}\n')
 f.write('h2 {font-weight:bold;color:white;text-shadow:1px 1px black;text-align:center;font-family:"Trebuchet MS", Helvetica, sans-serif;}\n')
-f.write('h3 {font-weight:bold;color:cyan;text-shadow:1px 1px black;text-align:center;text-decoration:underline;font-family:Arial, Helvetica, sans-serif;}\n')
+f.write('h3 {font-weight:bold;color:slategrey;text-shadow:1px 1px black;text-align:center;text-decoration:underline;font-family:Arial, Helvetica, sans-serif;}\n')
 f.write('p.mediatitle {font-size:1.35em;font-weight:bold;color:white;text-shadow:1px 1px black;text-align:center;font-family:"Times New Roman", Times, serif;margin:0;line-height:1.0;}\n')
 f.write('p.episode {font-size:1.0em;color:white;text-align:center;font-family:"Courier New", Courier, monospace;margin:0;line-height:1.2;}\n')
 f.write('p.plot {font-size:1.0em;color:white;text-align:center;font-family:"Courier New", Courier, monospace;padding:0% 5% 0% 5%;}\n')
@@ -62,6 +63,10 @@ f.write('p.mpaa {font-size:0.8em;color:white;text-shadow:1px 1px black;text-alig
 f.write('p.date {font-size:0.9em;color:white;text-shadow:1px 1px black;text-align:right;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;}\n')
 f.write('p.links {color:white;text-shadow:1px 1px black;margin: 0 ;padding-top:10px;font-family:Arial, Helvetica, sans-serif;}\n')
 f.write('a.anchor{display: block; position: relative; top: -90px; visibility: hidden;}\n')
+f.write('a:link {color:white;}\n')
+f.write('a:visited {color:white;}\n')
+f.write('a:hover {color:cyan;}\n')
+f.write('a:active {color:yellowgreen;}\n') 
 f.write('</style>\n')
 f.write('<script language="JavaScript">\n')
 f.write('var TRange=null;\n')
@@ -96,8 +101,8 @@ f.write('\treturn;\n')
 f.write('}\n')
 f.write('</script>\n')
 f.write("</head>\n")
-f.write('<body style="margin: 0;padding: 0;" link="white" vlink="white" alink="red">\n')
-f.write('<div id="Header" style="height:95px;width:90%;position : fixed;background-color:#333333;margin-left: 5%;margin-right: auto ;">\n')
+f.write('<body background="http://images.wikia.com/monobook/images/7/7d/Binding_Dark.png">\n')
+f.write('<div id="header" style="height:95px;width:90%;position : fixed;background-color:#333333;margin-left: 5%;margin-right: auto ;">\n')
 f.write('<div id="Date" style="height:30px;width:20%;float:right;padding-right:1%;padding-top:15px;">\n')
 f.write('<p class="date">Last Updated: '+time.strftime('%d %B %Y')+'</p>\n')
 f.write('</div>\n')
@@ -123,7 +128,7 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 	f.write('<hr width="90%">\n')
 	f.write('&nbsp;\n')
 	for movie in movies:
-		f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/commons/3/35/IMDb_logo.svg" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')					
+		f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/35/IMDb_logo.svg/200px-IMDb_logo.svg.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')					
 		#format movie genre	
 		moviegenre = str(movie['genre'])
 		moviegenre = moviegenre.replace("u'",'')
@@ -208,10 +213,16 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 				if season != prev_season:
 					f.write('<h3>Season '+str(season)+'</h3>\n')
 					prev_season = season
-				f.write('<p class="episode">'+episode[2]+'</p>\n')
+				f.write('<p class="episode">'+episode[2]+'</p>\n')				
 			f.write('&nbsp;\n')
 	if (__addon__.getSetting('episodes') == 'false'):	
 		f.write('&nbsp;\n')
+f.write('</div>\n')
+f.write('<div id="footer">\n')
+f.write('<hr width="90%">\n')
+f.write('<div style="float:left;padding-left:5.5%;padding-bottom:10px;">\n')
+f.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;">Created using: <a href="https://github.com/Steveb1968/script.html.library-report" target="_blank">script.html.library-report</a> by Steveb</p>\n')
+f.write('</div>\n')
 f.write('</div>\n')
 f.write('</body>\n')
 f.write('</html>')
