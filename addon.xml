@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.html.library-report" name="HTML Library Report" version="0.0.1" provider-name="steveb">
+<addon id="script.html.library-report" name="HTML Library Report" version="0.1.0" provider-name="steveb">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0"/>
 		<import addon="xbmc.gui" version="4.0.0"/>

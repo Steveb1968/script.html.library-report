@@ -1,2 +1,11 @@
-﻿[B]Version 0.0.1[/B]
+﻿[B]Version 0.1.0[/B]
+- Added runtime.
+- Added Video Res.
+- Added MPAA.
+- Added Search box.
+- Code clesnup.
+- HTML updates.
+- Added Screenshot.
+
+[B]Version 0.0.1[/B]
 - initial beta.
