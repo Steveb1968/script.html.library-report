@@ -66,7 +66,8 @@ f.write('a.anchor{display: block; position: relative; top: -90px; visibility: hi
 f.write('a:link {color:white;}\n')
 f.write('a:visited {color:white;}\n')
 f.write('a:hover {color:cyan;}\n')
-f.write('a:active {color:yellowgreen;}\n') 
+f.write('a:active {color:yellowgreen;}\n')
+f.write('a:focus {outline: none;}\n')
 f.write('</style>\n')
 f.write('<script language="JavaScript">\n')
 f.write('var TRange=null;\n')
@@ -103,15 +104,15 @@ f.write('</script>\n')
 f.write("</head>\n")
 f.write('<body background="http://images.wikia.com/monobook/images/7/7d/Binding_Dark.png">\n')
 f.write('<div id="header" style="height:95px;width:90%;position : fixed;background-color:#333333;margin-left: 5%;margin-right: auto ;">\n')
-f.write('<div id="Date" style="height:30px;width:20%;float:right;padding-right:1%;padding-top:15px;">\n')
+f.write('<div id="Date" style="height:95px;width:20%;float:right;padding-right:1%;padding-top:15px;">\n')
 f.write('<p class="date">Last Updated: '+time.strftime('%d %B %Y')+'</p>\n')
 f.write('</div>\n')
-f.write('<div id="Search" style="height:30px;width:20%;float:left;padding-left:1%;padding-top:15px;">\n')
+f.write('<div id="Search" style="height:95px;width:20%;float:left;padding-left:1%;padding-top:15px;">\n')
 f.write("<iframe id="+'"srchform2" '+'src="'+"javascript:'<html><body style=margin:0px;><form action="+"\\'javascript:void();\\' onSubmit=if(this.t1.value!=\\'\\')parent.findString(this.t1.value);return(false);><input type=text id=t1 name=t1 size=20><input type=submit name=b1 value=Find></form></body></html>'"+'"'+" width=220 height=34 border=0 frameborder=0 scrolling=no></iframe>\n")
 if (__addon__.getSetting('includemovies') == 'true') and (__addon__.getSetting('includetvshows') == 'true'):
 	f.write('<p class="links"><a href="#movie_link">Movies</a>&nbsp;&nbsp;<a href="#tvshow_link">TvShows</a></p>\n')
 f.write('</div>\n')
-f.write('<div id="Heading" style="height:65px;width:80%;margin-left: auto;margin-right: auto ;">\n')
+f.write('<div id="Heading" style="height:95px;width:80%;margin-left: auto;margin-right: auto ;">\n')
 f.write('<h1><img src="http://wiki.xbmc.org/images/thumb/9/9b/XBMC_logo-solid_shadow.png/800px-XBMC_logo-solid_shadow.png" alt="XBMC" width="93" height="50" align="top"> '+__language__(30007)+'</h1>\n')
 f.write('</div>\n')
 f.write('</div>\n')
@@ -128,19 +129,9 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 	f.write('<hr width="90%">\n')
 	f.write('&nbsp;\n')
 	for movie in movies:
-		f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/35/IMDb_logo.svg/200px-IMDb_logo.svg.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')					
-		#format movie genre	
-		moviegenre = str(movie['genre'])
-		moviegenre = moviegenre.replace("u'",'')
-		b = "[]'"
-		c = ","
-		for i in range(0,len(b)):
-			moviegenre = moviegenre.replace(b[i],"")
-			for i in range(0,len(c)):
-				moviegenre = moviegenre.replace(c[i]," /")
-		#format movie rating	
-		movie_rating = float(str(movie['rating']))
-		movie_rating = "%.1f" % movie_rating	
+		moviegenre = " / ".join(movie['genre'])
+		movie_rating = str(round(float(movie['rating']),1))
+		f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/35/IMDb_logo.svg/200px-IMDb_logo.svg.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')	
 		f.write('<p class="genre">'+str(moviegenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(movie_rating))
 		if int(movie['top250']) > 0:	
 			f.write(' &#9733; '+'('+str(movie['top250'])+'/Top250)</span></p>\n')
@@ -167,6 +158,8 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 	if (__addon__.getSetting('episodes') == 'false'):
 		f.write('<hr width="90%">\n')
 	for tvshow in tvshows:
+		tvgenre = " / ".join(tvshow['genre'])
+		tv_rating = str(round(float(tvshow['rating']),1))
 		if (__addon__.getSetting('episodes') == 'true'):
 			f.write('<hr width="90%">\n')
 		f.write('&nbsp;\n')
@@ -183,19 +176,7 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 			if season != prev_season:
 				seasoncount += 1			
 				prev_season = season
-		f.write('<p class="episodecount">(Seasons ' +str(seasoncount)+' / '+str(len(episode_list))+' Episodes)</p>\n')	
-		#format tvshow genre	
-		tvgenre = str(tvshow['genre'])
-		tvgenre = tvgenre.replace("u'",'')
-		d = "[]'"
-		e = ","
-		for i in range(0,len(d)):
-			tvgenre = tvgenre.replace(d[i],"")
-			for i in range(0,len(e)):
-				tvgenre = tvgenre.replace(e[i]," /")	
-		#format tvshow rating		
-		tv_rating = float(str(tvshow['rating']))
-		tv_rating = "%.1f" % tv_rating	
+		f.write('<p class="episodecount">(Seasons ' +str(seasoncount)+' / '+str(len(episode_list))+' Episodes)</p>\n')		
 		f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(tv_rating)+' &#9733;</span></p>\n')
 		#format tvshow mpaa
 		if str(tvshow['mpaa']) == "":
@@ -220,7 +201,7 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 f.write('</div>\n')
 f.write('<div id="footer">\n')
 f.write('<hr width="90%">\n')
-f.write('<div style="float:left;padding-left:5.5%;padding-bottom:10px;">\n')
+f.write('<div style="float:right;padding-right:5.5%;padding-bottom:10px;">\n')
 f.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;">Created using: <a href="https://github.com/Steveb1968/script.html.library-report" target="_blank">script.html.library-report</a> by Steveb</p>\n')
 f.write('</div>\n')
 f.write('</div>\n')
