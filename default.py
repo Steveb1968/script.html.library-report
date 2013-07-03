@@ -130,27 +130,27 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 	f.write('&nbsp;\n')
 	for movie in movies:
 		moviegenre = " / ".join(movie['genre'])
-		movie_rating = str(round(float(movie['rating']),1))
-		movie_runtime = str(movie['runtime'] / 60)
+		movie_rating = '<span style="color:white"> &bull; </span><span style="color:gold">'+str(round(float(movie['rating']),1))+' &#9733;</span>'
+		movie_runtime = '<span style="color:white"> &bull; '+str(movie['runtime'] / 60)+' min</span>' 
 		if movie['streamdetails']['video'] != []:
 			videowidth = movie['streamdetails']['video'][0]['width']
 			videoheight = movie['streamdetails']['video'][0]['height']
 			if videowidth <= 720 and videoheight <= 480:
-				videoresolution = '<span style="color:crimson">480 SD</span>'
+				videoresolution = '<span style="color:white"> &bull; </span><span style="color:crimson">480 SD</span>'
 			elif videowidth <= 768 and videoheight <= 576:
-				videoresolution = '<span style="color:crimson">576 SD</span>'
+				videoresolution = '<span style="color:white"> &bull; </span><span style="color:crimson">576 SD</span>'
 			elif videowidth <= 960 and videoheight <= 544:
-				videoresolution = '<span style="color:crimson">540 SD</span>'
+				videoresolution = '<span style="color:white"> &bull; </span><span style="color:crimson">540 SD</span>'
 			elif videowidth <= 1280 and videoheight <= 720:
-				videoresolution = '<span style="color:deepskyblue">720 HD</span>'
+				videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">720 HD</span>'
 			else:
-				videoresolution = '<span style="color:deepskyblue">1080 HD</span>'
+				videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">1080 HD</span>'			
 		f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/35/IMDb_logo.svg/200px-IMDb_logo.svg.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')	
-		f.write('<p class="genre">'+str(moviegenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(movie_rating))
+		f.write('<p class="genre">'+str(moviegenre)+str(movie_rating))
 		if int(movie['top250']) > 0:	
-			f.write(' &#9733; '+'('+str(movie['top250'])+'/Top250)</span><span style="color:white"> &bull; '+str(movie_runtime)+' Min &bull; </span>'+str(videoresolution)+'</p>\n')
+			f.write('<span style="color:gold"> ('+str(movie['top250'])+'/Top250)</span>'+str(movie_runtime)+str(videoresolution)+'</p>\n')
 		else:
-			f.write(' &#9733;</span><span style="color:white"> &bull; '+str(movie_runtime)+' Min &bull; </span>'+str(videoresolution)+'</p>\n')		
+			f.write(str(movie_runtime)+str(videoresolution)+'</p>\n')		
 		#format movie mpaa
 		if str(movie['mpaa']).startswith("Rated"):
 			f.write('<p class="mpaa">'+str(movie['mpaa'])+'</p>\n')
@@ -180,22 +180,22 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 		f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="http://home.comcast.net/~krkweb/xbmc/thetvdb_logo_onblack.jpg" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')			
 		episode_list = []
 		for episode in episodes:
-			episode_runtime = str(episode['runtime'] / 60)
+			episode_runtime = ' &bull; '+str(episode['runtime'] / 60)+' min'
 			if episode['streamdetails']['video'] != []:
 				videowidth = episode['streamdetails']['video'][0]['width']
 				videoheight = episode['streamdetails']['video'][0]['height']
 				if videowidth <= 720 and videoheight <= 480:
-					videoresolution = '<span style="color:crimson">480 SD</span>'
+					videoresolution = ' &bull; <span style="color:crimson">480 SD</span>'
 				elif videowidth <= 768 and videoheight <= 576:
-					videoresolution = '<span style="color:crimson">576 SD</span>'
+					videoresolution = ' &bull; <span style="color:crimson">576 SD</span>'
 				elif videowidth <= 960 and videoheight <= 544:
-					videoresolution = '<span style="color:crimson">540 SD</span>'
+					videoresolution = ' &bull; <span style="color:crimson">540 SD</span>'
 				elif videowidth <= 1280 and videoheight <= 720:
-					videoresolution = '<span style="color:deepskyblue">720 HD</span>'
+					videoresolution = ' &bull; <span style="color:deepskyblue">720 HD</span>'
 				else:
-					videoresolution = '<span style="color:deepskyblue">1080 HD</span>'
+					videoresolution = ' &bull; <span style="color:deepskyblue">1080 HD</span>'
 			if episode['tvshowid'] == tvshow['tvshowid']:
-				episode_list.append((episode['season'],episode['episode'],episode['label']+' &bull; '+str(episode_runtime)+' Min &bull; '+str(videoresolution)))
+				episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)))
 		episode_list.sort()	
 		prev_season = None
 		seasoncount = 0
