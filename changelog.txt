@@ -3,7 +3,7 @@
 - Added Video Res.
 - Added MPAA.
 - Added Search box.
-- Code clesnup.
+- Code cleanup.
 - HTML updates.
 - Added Screenshot.
 
