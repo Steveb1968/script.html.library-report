@@ -19,6 +19,8 @@ while file_path=="":
 	__addon__.openSettings()
 	file_path = __addon__.getSetting('save_location')
 
+xbmc.executebuiltin( "ActivateWindow(busydialog)" )	
+	
 #data
 if xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "label", "ignorearticle": true } }, "id": 1}'
@@ -50,7 +52,7 @@ f.write('<head>\n')
 f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
 f.write('<title>XBMC '+__language__(30007)+' ('+time.strftime('%d %B %Y')+')</title>\n')
 f.write('<style type="text/css">\n')
-f.write("body {background-color:#000000;margin: 0;padding: 0;}\n")
+f.write("body {background-color:#000000;margin: 0;padding: 0;background-attachment:fixed;}\n")
 f.write('h1 {font-weight:bold;color:gold;text-shadow:1px 1px black;text-align:center;font-family:Verdana, Geneva, sans-serif;}\n')
 f.write('h2 {font-weight:bold;color:white;text-shadow:1px 1px black;text-align:center;font-family:"Trebuchet MS", Helvetica, sans-serif;}\n')
 f.write('h3 {font-weight:bold;color:slategrey;text-shadow:1px 1px black;text-align:center;text-decoration:underline;font-family:Arial, Helvetica, sans-serif;}\n')
@@ -136,11 +138,11 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 			videowidth = movie['streamdetails']['video'][0]['width']
 			videoheight = movie['streamdetails']['video'][0]['height']
 			if videowidth <= 720 and videoheight <= 480:
-				videoresolution = '<span style="color:white"> &bull; </span><span style="color:crimson">480 SD</span>'
+				videoresolution = '<span style="color:white"> &bull; </span><span style="color:darkgrey">480 SD</span>'
 			elif videowidth <= 768 and videoheight <= 576:
-				videoresolution = '<span style="color:white"> &bull; </span><span style="color:crimson">576 SD</span>'
+				videoresolution = '<span style="color:white"> &bull; </span><span style="color:darkgrey">576 SD</span>'
 			elif videowidth <= 960 and videoheight <= 544:
-				videoresolution = '<span style="color:white"> &bull; </span><span style="color:crimson">540 SD</span>'
+				videoresolution = '<span style="color:white"> &bull; </span><span style="color:darkgrey">540 SD</span>'
 			elif videowidth <= 1280 and videoheight <= 720:
 				videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">720 HD</span>'
 			else:
@@ -185,11 +187,11 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 				videowidth = episode['streamdetails']['video'][0]['width']
 				videoheight = episode['streamdetails']['video'][0]['height']
 				if videowidth <= 720 and videoheight <= 480:
-					videoresolution = ' &bull; <span style="color:crimson">480 SD</span>'
+					videoresolution = ' &bull; <span style="color:darkgrey">480 SD</span>'
 				elif videowidth <= 768 and videoheight <= 576:
-					videoresolution = ' &bull; <span style="color:crimson">576 SD</span>'
+					videoresolution = ' &bull; <span style="color:darkgrey">576 SD</span>'
 				elif videowidth <= 960 and videoheight <= 544:
-					videoresolution = ' &bull; <span style="color:crimson">540 SD</span>'
+					videoresolution = ' &bull; <span style="color:darkgrey">540 SD</span>'
 				elif videowidth <= 1280 and videoheight <= 720:
 					videoresolution = ' &bull; <span style="color:deepskyblue">720 HD</span>'
 				else:
@@ -199,7 +201,7 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 		episode_list.sort()	
 		prev_season = None
 		seasoncount = 0
-		for episode in episode_list:			
+		for episode in episode_list:
 			season = episode[0]		
 			if season != prev_season:
 				seasoncount += 1			
@@ -237,4 +239,6 @@ f.write('</body>\n')
 f.write('</html>')
 f.close()
 
+xbmc.executebuiltin( "Dialog.Close(busydialog)" )
+time.sleep(1)
 xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30005),__language__(30006),str(file_path)+str(file_name)+".html")
