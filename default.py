@@ -19,6 +19,12 @@ while file_path=="":
 	__addon__.openSettings()
 	file_path = __addon__.getSetting('save_location')
 
+#file name	
+if (__addon__.getSetting('custom_file_name') == 'true'):
+	file_name = __addon__.getSetting('file_name')
+else:
+	file_name = __language__(30012)
+
 xbmc.executebuiltin( "ActivateWindow(busydialog)" )	
 	
 #data
@@ -43,17 +49,12 @@ if xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 	jsonobject = simplejson.loads(result)
 	episodes = jsonobject["result"]["episodes"]
 	
-if (__addon__.getSetting('custom_file_name') == 'true'):
-	file_name = __addon__.getSetting('file_name')
-else:
-	file_name = "XBMC "+__language__(30007)
-	
 #create html output
 f = codecs.open(os.path.join(file_path,str(file_name)+'.html'),'wt', "utf-8")
 f.write('<!DOCTYPE html>\n')
 f.write('<head>\n')
 f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
-f.write('<title>XBMC '+__language__(30007)+' ('+time.strftime('%d %B %Y')+')</title>\n')
+f.write('<title>'+__language__(30012)+' ('+time.strftime('%d %B %Y')+')</title>\n')
 f.write('<style type="text/css">\n')
 f.write("body {background-color:#000000;margin: 0;padding: 0;background-attachment:fixed;}\n")
 f.write('h1 {font-weight:bold;color:gold;text-shadow:1px 1px black;text-align:center;font-family:Verdana, Geneva, sans-serif;}\n')

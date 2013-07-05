@@ -8,9 +8,9 @@
 	<string id="30005">HTML File Complete.</string>
 	<string id="30006">Path: </string>
 	<string id="30007">Library Report</string>
-	<string id="30008">Custom File Name (Default: XBMC Library Report)</string>
+	<string id="30008">Custom File Name</string>
 	<string id="30009">File Name:</string>
 	<string id="30010">Include Plot</string>
 	<string id="30011">Include Episodes Titles</string>
-	
+	<string id="30012">XBMC Library Report</string>
 </strings>
