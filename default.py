@@ -4,6 +4,7 @@ import xbmcgui
 import xbmcaddon
 import time
 import codecs
+import ftplib
 if sys.version_info < (2, 7):
     import simplejson
 else:
@@ -247,3 +248,14 @@ f.close()
 xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 time.sleep(1)
 xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30005),__language__(30006)+str(file_path)+str(file_name)+".html")
+
+if (__addon__.getSetting('Enable_ftp') == 'true'):
+	try:
+		session = ftplib.FTP(__addon__.getSetting('server'),__addon__.getSetting('user'),__addon__.getSetting('password'))
+		file = open(str(file_path)+str(file_name)+".html",'rb')# file to send
+		session.storbinary('STOR ' + str(file_name)+".html", file)# send the file
+		file.close()# close file and FTP
+		session.quit()
+		xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30025))
+	except IOError:
+		xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30025))

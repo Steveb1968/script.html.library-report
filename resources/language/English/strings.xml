@@ -13,4 +13,12 @@
 	<string id="30010">Include Plot</string>
 	<string id="30011">Include Episodes Titles</string>
 	<string id="30012">XBMC Library Report</string>
+	
+	<string id="30020">FTP Upload</string>
+	<string id="30021">Enable FTP File Upload</string>
+	<string id="30022">Host:</string>
+	<string id="30023">User:</string>
+	<string id="30024">Password:</string>
+	<string id="30025">FTP File Upload Successful</string>
+	<string id="30025">FTP File Upload Failed</string>
 </strings>
