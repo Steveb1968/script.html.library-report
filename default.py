@@ -9,7 +9,7 @@ if sys.version_info < (2, 7):
 else:
     import json as simplejson
 
-__addon__ = xbmcaddon.Addon(id='script.html.library-report')
+__addon__     = xbmcaddon.Addon(id='script.html.library-report')
 __language__  = __addon__.getLocalizedString
 
 #save path
@@ -43,8 +43,11 @@ if xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 	jsonobject = simplejson.loads(result)
 	episodes = jsonobject["result"]["episodes"]
 	
-file_name = "XBMC "+__language__(30007)
-
+if (__addon__.getSetting('custom_file_name') == 'true'):
+	file_name = __addon__.getSetting('file_name')
+else:
+	file_name = "XBMC "+__language__(30007)
+	
 #create html output
 f = codecs.open(os.path.join(file_path,str(file_name)+'.html'),'wt', "utf-8")
 f.write('<!DOCTYPE html>\n')
@@ -242,4 +245,4 @@ f.close()
 
 xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 time.sleep(1)
-xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30005),__language__(30006),str(file_path)+str(file_name)+".html")
+xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30005),__language__(30006)+str(file_path)+str(file_name)+".html")
