@@ -257,5 +257,5 @@ if (__addon__.getSetting('Enable_ftp') == 'true'):
 		file.close()# close file and FTP
 		session.quit()
 		xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30025))
-	except IOError:
-		xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30025))
+	except:
+		xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30026))
