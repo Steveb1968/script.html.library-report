@@ -4,7 +4,7 @@
 	<string id="30001">File Output Directory:</string>
 	<string id="30002">List Movies</string>
 	<string id="30003">List TvShows</string>
-	<string id="30004">Please Select Output Directory</string>
+	<string id="30004">Please Select Output Directory.</string>
 	<string id="30005">HTML File Complete.</string>
 	<string id="30006">Path: </string>
 	<string id="30007">Library Report</string>
@@ -19,6 +19,6 @@
 	<string id="30022">Host:</string>
 	<string id="30023">User:</string>
 	<string id="30024">Password:</string>
-	<string id="30025">FTP File Upload Successful</string>
-	<string id="30026">FTP File Upload Failed</string>
+	<string id="30025">FTP File Transfer Successful.</string>
+	<string id="30026">FTP File Transfer FAILED.</string>
 </strings>

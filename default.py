@@ -152,7 +152,9 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 			elif videowidth <= 1280 and videoheight <= 720:
 				videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">720 HD</span>'
 			else:
-				videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">1080 HD</span>'			
+				videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">1080 HD</span>'
+		else:
+			videoresolution = ''
 		f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/35/IMDb_logo.svg/200px-IMDb_logo.svg.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')	
 		f.write('<p class="genre">'+str(moviegenre)+str(movie_rating))
 		if int(movie['top250']) > 0:	
@@ -202,6 +204,8 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 					videoresolution = ' &bull; <span style="color:deepskyblue">720 HD</span>'
 				else:
 					videoresolution = ' &bull; <span style="color:deepskyblue">1080 HD</span>'
+			else:
+				videoresolution = ''
 			if episode['tvshowid'] == tvshow['tvshowid']:
 				episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)))
 		episode_list.sort()	
@@ -249,13 +253,18 @@ xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 time.sleep(1)
 xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30005),__language__(30006)+str(file_path)+str(file_name)+".html")
 
+# ftp file transfer
 if (__addon__.getSetting('Enable_ftp') == 'true'):
 	try:
 		session = ftplib.FTP(__addon__.getSetting('server'),__addon__.getSetting('user'),__addon__.getSetting('password'))
+		xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 		file = open(str(file_path)+str(file_name)+".html",'rb')# file to send
 		session.storbinary('STOR ' + str(file_name)+".html", file)# send the file
 		file.close()# close file and FTP
 		session.quit()
+		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
+		time.sleep(1)
 		xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30025))
 	except:
+		time.sleep(1)
 		xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30026))
