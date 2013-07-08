@@ -30,7 +30,7 @@ xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 	
 #data
 if xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
-	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "label", "ignorearticle": true } }, "id": 1}'
+	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime", "file"], "sort": { "order": "ascending", "method": "label", "ignorearticle": true } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
@@ -154,7 +154,7 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 			else:
 				videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">1080 HD</span>'
 		else:
-			videoresolution = ''
+			videoresolution = ''		
 		f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/35/IMDb_logo.svg/200px-IMDb_logo.svg.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')	
 		f.write('<p class="genre">'+str(moviegenre)+str(movie_rating))
 		if int(movie['top250']) > 0:	
@@ -187,7 +187,7 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 		if (__addon__.getSetting('episodes') == 'true'):
 			f.write('<hr width="90%">\n')
 		f.write('&nbsp;\n')
-		f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="http://home.comcast.net/~krkweb/xbmc/thetvdb_logo_onblack.jpg" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')			
+		f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="http://home.comcast.net/~krkweb/xbmc/thetvdb_logo_onblack.jpg" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')			
 		episode_list = []
 		for episode in episodes:
 			episode_runtime = ' &bull; '+str(episode['runtime'] / 60)+' min'
@@ -266,5 +266,6 @@ if (__addon__.getSetting('Enable_ftp') == 'true'):
 		time.sleep(1)
 		xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30025))
 	except:
+		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 		time.sleep(1)
 		xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30026))
