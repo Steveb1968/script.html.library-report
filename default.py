@@ -155,15 +155,18 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 				videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">1080 HD</span>'
 		else:
 			videoresolution = ''
-		audiochannels = int(movie['streamdetails']['audio'][0]['channels'])
-		if audiochannels == 8:
-			channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 CH</span>'		
-		elif audiochannels == 6:
-			channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 CH</span>'
-		elif audiochannels == 2:
-			channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 CH</span>'
-		elif audiochannels == 1:
-			channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 CH</span>'
+		if movie['streamdetails']['audio'] != []:
+			audiochannels = int(movie['streamdetails']['audio'][0]['channels'])
+			if audiochannels == 8:
+				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 CH</span>'		
+			elif audiochannels == 6:
+				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 CH</span>'
+			elif audiochannels == 2:
+				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 CH</span>'
+			elif audiochannels == 1:
+				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 CH</span>'
+			else:
+				channels = ''
 		else:
 			channels = ''			
 		f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/35/IMDb_logo.svg/200px-IMDb_logo.svg.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')	
@@ -217,15 +220,18 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 					videoresolution = ' &bull; <span style="color:deepskyblue">1080 HD</span>'
 			else:
 				videoresolution = ''				
-			audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
-			if audiochannels == 8:
-				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 CH</span>'		
-			elif audiochannels == 6:
-				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 CH</span>'
-			elif audiochannels == 2:
-				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 CH</span>'
-			elif audiochannels == 1:
-				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 CH</span>'
+			if episode['streamdetails']['audio'] != []:
+				audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
+				if audiochannels == 8:
+					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 CH</span>'		
+				elif audiochannels == 6:
+					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 CH</span>'
+				elif audiochannels == 2:
+					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 CH</span>'
+				elif audiochannels == 1:
+					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 CH</span>'
+				else:
+					channels = ''
 			else:
 				channels = ''				
 			if episode['tvshowid'] == tvshow['tvshowid']:
