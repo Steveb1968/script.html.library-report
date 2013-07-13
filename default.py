@@ -30,7 +30,7 @@ xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 	
 #data
 if xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
-	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime", "file"], "sort": { "order": "ascending", "method": "label", "ignorearticle": true } }, "id": 1}'
+	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "label", "ignorearticle": true } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
@@ -61,7 +61,7 @@ f.write("body {background-color:#000000;margin: 0;padding: 0;background-attachme
 f.write('h1 {font-weight:bold;color:gold;text-shadow:1px 1px black;text-align:center;font-family:Verdana, Geneva, sans-serif;}\n')
 f.write('h2 {font-weight:bold;color:white;text-shadow:1px 1px black;text-align:center;font-family:"Trebuchet MS", Helvetica, sans-serif;}\n')
 f.write('h3 {font-weight:bold;color:slategrey;text-shadow:1px 1px black;text-align:center;text-decoration:underline;font-family:Arial, Helvetica, sans-serif;}\n')
-f.write('p.mediatitle {font-size:1.35em;font-weight:bold;color:white;text-shadow:1px 1px black;text-align:center;font-family:"Times New Roman", Times, serif;margin:0;line-height:1.0;}\n')
+f.write('p.mediatitle {font-size:1.5em;font-weight:bold;color:white;text-shadow:1px 1px black;text-align:center;font-family:"Times New Roman", Times, serif;margin:0;line-height:1.0;}\n')
 f.write('p.episode {font-size:1.0em;color:white;text-align:center;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.3;}\n')
 f.write('p.plot {font-size:1.0em;color:white;text-align:center;font-family:"Courier New", Courier, monospace;padding:0% 5% 0% 5%;}\n')
 f.write('p.episodecount {font-size:0.9em;color:cyan;text-shadow:1px 1px black;text-align:center;font-family:Arial, Helvetica, sans-serif;margin:5px;line-height:1.2;}\n')
@@ -154,13 +154,24 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 			else:
 				videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">1080 HD</span>'
 		else:
-			videoresolution = ''		
+			videoresolution = ''
+		audiochannels = int(movie['streamdetails']['audio'][0]['channels'])
+		if audiochannels == 8:
+			channels = '<span style="color:white"> &bull; </span><span style="color:lightsteelblue">7.1 CH</span>'		
+		elif audiochannels == 6:
+			channels = '<span style="color:white"> &bull; </span><span style="color:lightsteelblue">5.1 CH</span>'
+		elif audiochannels == 2:
+			channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 CH</span>'
+		elif audiochannels == 1:
+			channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 CH</span>'
+		else:
+			channels = ''			
 		f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/35/IMDb_logo.svg/200px-IMDb_logo.svg.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')	
 		f.write('<p class="genre">'+str(moviegenre)+str(movie_rating))
 		if int(movie['top250']) > 0:	
-			f.write('<span style="color:gold"> ('+str(movie['top250'])+'/Top250)</span>'+str(movie_runtime)+str(videoresolution)+'</p>\n')
+			f.write('<span style="color:gold"> ('+str(movie['top250'])+'/Top250)</span>'+str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
 		else:
-			f.write(str(movie_runtime)+str(videoresolution)+'</p>\n')		
+			f.write(str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')		
 		#format movie mpaa
 		if str(movie['mpaa']).startswith("Rated"):
 			f.write('<p class="mpaa">'+str(movie['mpaa'])+'</p>\n')
@@ -205,9 +216,20 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 				else:
 					videoresolution = ' &bull; <span style="color:deepskyblue">1080 HD</span>'
 			else:
-				videoresolution = ''
+				videoresolution = ''				
+			audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
+			if audiochannels == 8:
+				channels = '<span style="color:white"> &bull; </span><span style="color:lightsteelblue">7.1 CH</span>'		
+			elif audiochannels == 6:
+				channels = '<span style="color:white"> &bull; </span><span style="color:lightsteelblue">5.1 CH</span>'
+			elif audiochannels == 2:
+				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 CH</span>'
+			elif audiochannels == 1:
+				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 CH</span>'
+			else:
+				channels = ''				
 			if episode['tvshowid'] == tvshow['tvshowid']:
-				episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)))
+				episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))
 		episode_list.sort()	
 		prev_season = None
 		seasoncount = 0
