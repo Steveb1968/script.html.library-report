@@ -158,13 +158,13 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 		if movie['streamdetails']['audio'] != []:
 			audiochannels = int(movie['streamdetails']['audio'][0]['channels'])
 			if audiochannels == 8:
-				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 CH</span>'		
+				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 ch</span>'		
 			elif audiochannels == 6:
-				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 CH</span>'
+				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 ch</span>'
 			elif audiochannels == 2:
-				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 CH</span>'
+				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 ch</span>'
 			elif audiochannels == 1:
-				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 CH</span>'
+				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 ch</span>'
 			else:
 				channels = ''
 		else:
@@ -223,13 +223,13 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 			if episode['streamdetails']['audio'] != []:
 				audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
 				if audiochannels == 8:
-					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 CH</span>'		
+					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 ch</span>'		
 				elif audiochannels == 6:
-					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 CH</span>'
+					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 ch</span>'
 				elif audiochannels == 2:
-					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 CH</span>'
+					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 ch</span>'
 				elif audiochannels == 1:
-					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 CH</span>'
+					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 ch</span>'
 				else:
 					channels = ''
 			else:
