@@ -144,11 +144,11 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 			videowidth = movie['streamdetails']['video'][0]['width']
 			videoheight = movie['streamdetails']['video'][0]['height']
 			if videowidth <= 720 and videoheight <= 480:
-				videoresolution = '<span style="color:white"> &bull; </span><span style="color:darkgrey">480 SD</span>'
+				videoresolution = '<span style="color:white"> &bull; </span><span style="color:orange">480 SD</span>'
 			elif videowidth <= 768 and videoheight <= 576:
-				videoresolution = '<span style="color:white"> &bull; </span><span style="color:darkgrey">576 SD</span>'
+				videoresolution = '<span style="color:white"> &bull; </span><span style="color:orange">576 SD</span>'
 			elif videowidth <= 960 and videoheight <= 544:
-				videoresolution = '<span style="color:white"> &bull; </span><span style="color:darkgrey">540 SD</span>'
+				videoresolution = '<span style="color:white"> &bull; </span><span style="color:orange">540 SD</span>'
 			elif videowidth <= 1280 and videoheight <= 720:
 				videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">720 HD</span>'
 			else:
@@ -157,9 +157,9 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 			videoresolution = ''
 		audiochannels = int(movie['streamdetails']['audio'][0]['channels'])
 		if audiochannels == 8:
-			channels = '<span style="color:white"> &bull; </span><span style="color:lightsteelblue">7.1 CH</span>'		
+			channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 CH</span>'		
 		elif audiochannels == 6:
-			channels = '<span style="color:white"> &bull; </span><span style="color:lightsteelblue">5.1 CH</span>'
+			channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 CH</span>'
 		elif audiochannels == 2:
 			channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 CH</span>'
 		elif audiochannels == 1:
@@ -206,11 +206,11 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 				videowidth = episode['streamdetails']['video'][0]['width']
 				videoheight = episode['streamdetails']['video'][0]['height']
 				if videowidth <= 720 and videoheight <= 480:
-					videoresolution = ' &bull; <span style="color:darkgrey">480 SD</span>'
+					videoresolution = ' &bull; <span style="color:orange">480 SD</span>'
 				elif videowidth <= 768 and videoheight <= 576:
-					videoresolution = ' &bull; <span style="color:darkgrey">576 SD</span>'
+					videoresolution = ' &bull; <span style="color:orange">576 SD</span>'
 				elif videowidth <= 960 and videoheight <= 544:
-					videoresolution = ' &bull; <span style="color:darkgrey">540 SD</span>'
+					videoresolution = ' &bull; <span style="color:orange">540 SD</span>'
 				elif videowidth <= 1280 and videoheight <= 720:
 					videoresolution = ' &bull; <span style="color:deepskyblue">720 HD</span>'
 				else:
@@ -219,9 +219,9 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 				videoresolution = ''				
 			audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
 			if audiochannels == 8:
-				channels = '<span style="color:white"> &bull; </span><span style="color:lightsteelblue">7.1 CH</span>'		
+				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 CH</span>'		
 			elif audiochannels == 6:
-				channels = '<span style="color:white"> &bull; </span><span style="color:lightsteelblue">5.1 CH</span>'
+				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 CH</span>'
 			elif audiochannels == 2:
 				channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 CH</span>'
 			elif audiochannels == 1:
