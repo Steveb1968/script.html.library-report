@@ -1,4 +1,7 @@
-﻿[B]Version 0.2.0[/B]
+﻿[B]Version 0.2.1[/B]
+- Added option to sort lists.
+
+[B]Version 0.2.0[/B]
 - Added file FTP upload.
 
 [B]Version 0.1.0[/B]
