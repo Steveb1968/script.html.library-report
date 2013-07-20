@@ -23,14 +23,14 @@
 	<string id="30026">FTP File Transfer FAILED.</string>
 	
 	<string id="30030">Sort:</string>
-	<string id="30031">ascending</string>
-	<string id="30032">descending</string>	
+	<string id="30031">Ascending</string>
+	<string id="30032">Descending</string>	
 	<string id="30033">Sort By:</string>
-	<string id="30034">title</string>
-	<string id="30035">year</string>
-	<string id="30036">rating</string>
-	<string id="30037">dateadded</string>
-	<string id="30038">totalepisodes</string>
+	<string id="30034">Title</string>
+	<string id="30035">Year</string>
+	<string id="30036">Rating</string>
+	<string id="30037">Date Added</string>
+	<string id="30038">Episodes</string>
 	
 	
 	

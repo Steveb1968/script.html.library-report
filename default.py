@@ -26,19 +26,43 @@ if (__addon__.getSetting('custom_file_name') == 'true'):
 else:
 	file_name = __language__(30012)
 
+#sort order	
+movie_sort_by = {}
+movie_sort_by['0'] = 'title'            
+movie_sort_by['1'] = 'year'          
+movie_sort_by['2'] = 'rating'            
+movie_sort_by['3'] = 'dateadded'
+MovieSortBy = str(movie_sort_by[__addon__.getSetting('msort_by')])
+
+movie_sort = {}
+movie_sort['0'] = 'ascending'            
+movie_sort['1'] = 'descending'          
+MovieSort = str(movie_sort[__addon__.getSetting('msort_mode')])
+
+tv_sort_by = {}
+tv_sort_by['0'] = 'title'            
+tv_sort_by['1'] = 'year'          
+tv_sort_by['2'] = 'rating'            
+tv_sort_by['3'] = 'totalepisodes'
+TvSortBy = str(tv_sort_by[__addon__.getSetting('tsort_by')])
+
+tv_sort = {}
+tv_sort['0'] = 'ascending'            
+tv_sort['1'] = 'descending'          
+TvSort = str(tv_sort[__addon__.getSetting('tsort_mode')])
+
 xbmc.executebuiltin( "ActivateWindow(busydialog)" )	
 	
 #data
 if xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
-	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "'+__addon__.getSetting('msort_mode')+'", "method": "'+__addon__.getSetting('msort_by')+'", "ignorearticle": true } }, "id": 1}'
+	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "'+MovieSort+'", "method": "'+MovieSortBy+'", "ignorearticle": true } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
 	movies = jsonobject["result"]["movies"]
-	
 
 if xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
-	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "plot", "rating", "originaltitle", "year", "mpaa", "imdbnumber"], "sort": { "order": "'+__addon__.getSetting('tsort_mode')+'", "method": "'+__addon__.getSetting('tsort_by')+'" } }, "id": 1}'
+	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "plot", "rating", "originaltitle", "year", "mpaa", "imdbnumber"], "sort": { "order": "'+TvSort+'", "method": "'+TvSortBy+'" } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)

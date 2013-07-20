@@ -8,15 +8,15 @@
 		
 		<setting id="includemovies" type="bool" label="30002" default="true"/>
 		<setting id="movieplot" type="bool" label="30010" subsetting="true" enable="eq(-1,true)" visible="eq(-1,true)" default="false"/>
-		<setting id="msort_by" type="labelenum" subsetting="true" label="30033" lvalues="30034|30035|30036|30037" enable="eq(-2,true)" visible="eq(-2,true)"/>
-		<setting id="msort_mode" type="labelenum" subsetting="true" label="30030" lvalues="30031|30032" enable="eq(-3,true)" visible="eq(-3,true)"/>
+		<setting id="msort_by" type="enum" subsetting="true" label="30033" lvalues="30034|30035|30036|30037" default="0" enable="eq(-2,true)" visible="eq(-2,true)"/>
+		<setting id="msort_mode" type="enum" subsetting="true" label="30030" lvalues="30031|30032" default="0" enable="eq(-3,true)" visible="eq(-3,true)"/>
 		<setting type="sep" />
 		
 		<setting id="includetvshows" type="bool" label="30003" default="true"/>		
 		<setting id="tvshowplot" type="bool" label="30010" subsetting="true" enable="eq(-1,true)" visible="eq(-1,true)" default="false"/>
 		<setting id="episodes" type="bool" label="30011" subsetting="true" enable="eq(-2,true)" visible="eq(-2,true)" default="false"/>
-		<setting id="tsort_by" type="labelenum" subsetting="true" label="30033" lvalues="30034|30035|30036|30038" enable="eq(-3,true)" visible="eq(-3,true)"/>
-		<setting id="tsort_mode" type="labelenum" subsetting="true" label="30030" lvalues="30031|30032" enable="eq(-4,true)" visible="eq(-4,true)"/>
+		<setting id="tsort_by" type="enum" subsetting="true" label="30033" lvalues="30034|30035|30036|30038" default="0" enable="eq(-3,true)" visible="eq(-3,true)"/>
+		<setting id="tsort_mode" type="enum" subsetting="true" label="30030" lvalues="30031|30032" default="0" enable="eq(-4,true)" visible="eq(-4,true)"/>
 	</category>
 	<category label="30020">
 		<setting id="Enable_ftp" type="bool" label="30021" default="false"/>	
