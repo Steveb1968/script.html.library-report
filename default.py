@@ -30,7 +30,7 @@ xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 	
 #data
 if xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
-	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "label", "ignorearticle": true } }, "id": 1}'
+	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "'+__addon__.getSetting('msort_mode')+'", "method": "'+__addon__.getSetting('msort_by')+'", "ignorearticle": true } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
@@ -38,7 +38,7 @@ if xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
 	
 
 if xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
-	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "plot", "rating", "originaltitle", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
+	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "plot", "rating", "originaltitle", "year", "mpaa", "imdbnumber"], "sort": { "order": "'+__addon__.getSetting('tsort_mode')+'", "method": "'+__addon__.getSetting('tsort_by')+'" } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
@@ -51,11 +51,11 @@ if xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 	episodes = jsonobject["result"]["episodes"]
 	
 #create html output
-f = codecs.open(os.path.join(file_path,str(file_name)+'.html'),'wt', "utf-8")
+f = codecs.open(os.path.join(file_path,str(file_name)),'wt', "utf-8")
 f.write('<!DOCTYPE html>\n')
 f.write('<head>\n')
 f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
-f.write('<title>'+__language__(30012)+' ('+time.strftime('%d %B %Y')+')</title>\n')
+f.write('<title>'+__language__(30007)+' ('+time.strftime('%d %B %Y')+')</title>\n')
 f.write('<style type="text/css">\n')
 f.write("body {background-color:#000000;margin: 0;padding: 0;background-attachment:fixed;}\n")
 f.write('h1 {font-weight:bold;color:gold;text-shadow:1px 1px black;text-align:center;font-family:Verdana, Geneva, sans-serif;}\n')
@@ -279,15 +279,15 @@ f.close()
 
 xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 time.sleep(1)
-xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30005),__language__(30006)+str(file_path)+str(file_name)+".html")
+xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30005),__language__(30006)+str(file_path)+str(file_name))
 
 # ftp file transfer
 if (__addon__.getSetting('Enable_ftp') == 'true'):
 	try:
 		session = ftplib.FTP(__addon__.getSetting('server'),__addon__.getSetting('user'),__addon__.getSetting('password'))
 		xbmc.executebuiltin( "ActivateWindow(busydialog)" )
-		file = open(str(file_path)+str(file_name)+".html",'rb')# file to send
-		session.storbinary('STOR ' + str(file_name)+".html", file)# send the file
+		file = open(str(file_path)+str(file_name),'rb')# file to send
+		session.storbinary('STOR ' + str(file_name), file)# send the file
 		file.close()# close file and FTP
 		session.quit()
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )

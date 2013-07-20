@@ -12,8 +12,8 @@
 	<string id="30009">File Name:</string>
 	<string id="30010">Include Plot</string>
 	<string id="30011">Include Episodes Titles</string>
-	<string id="30012">XBMC Library Report</string>
-	
+	<string id="30012">XBMC Library Report.html</string>
+
 	<string id="30020">FTP Upload</string>
 	<string id="30021">Enable FTP File Upload</string>
 	<string id="30022">Host:</string>
@@ -21,4 +21,18 @@
 	<string id="30024">Password:</string>
 	<string id="30025">FTP File Transfer Successful.</string>
 	<string id="30026">FTP File Transfer FAILED.</string>
+	
+	<string id="30030">Sort:</string>
+	<string id="30031">ascending</string>
+	<string id="30032">descending</string>	
+	<string id="30033">Sort By:</string>
+	<string id="30034">title</string>
+	<string id="30035">year</string>
+	<string id="30036">rating</string>
+	<string id="30037">dateadded</string>
+	<string id="30038">totalepisodes</string>
+	
+	
+	
+	
 </strings>
