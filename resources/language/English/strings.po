@@ -1,0 +1,143 @@
+# XBMC Media Center language file
+# Addon Name: HTML Library Report
+# Addon id: script.html.library-report
+# Addon version: 0.2.1
+# Addon Provider: steveb
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC-Addons\n"
+"Report-Msgid-Bugs-To: alanwww1@xbmc.org\n"
+"POT-Creation-Date: 2013-07-23 01:45+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgctxt "Addon Summary"
+msgid "Create a HTML file summary of all the movies and tv shows in your library."
+msgstr ""
+
+msgctxt "Addon Description"
+msgid "Create a HTML file summary of all the movies and tv shows in your library."
+msgstr ""
+
+
+msgctxt "#30000"
+msgid "General"
+msgstr ""
+
+msgctxt "#30001"
+msgid "File Output Directory:"
+msgstr ""
+
+msgctxt "#30002"
+msgid "List Movies"
+msgstr ""
+
+msgctxt "#30003"
+msgid "List TvShows"
+msgstr ""
+
+msgctxt "#30004"
+msgid "Please Select Output Directory."
+msgstr ""
+
+msgctxt "#30005"
+msgid "HTML File Complete."
+msgstr ""
+
+msgctxt "#30006"
+msgid "Path: "
+msgstr ""
+
+msgctxt "#30007"
+msgid "Library Report"
+msgstr ""
+
+msgctxt "#30008"
+msgid "Custom File Name [COLOR gold][I] *Note: Include file extention(.html/.htm/.php)* [/I][/COLOR]"
+msgstr ""
+
+msgctxt "#30009"
+msgid "File Name:"
+msgstr ""
+
+msgctxt "#30010"
+msgid "Include Plot"
+msgstr ""
+
+msgctxt "#30011"
+msgid "Include Episodes Titles"
+msgstr ""
+
+msgctxt "#30012"
+msgid "XBMC Library Report.html"
+msgstr ""
+
+#empty strings from id 30013 to 30019
+
+msgctxt "#30020"
+msgid "FTP Upload"
+msgstr ""
+
+msgctxt "#30021"
+msgid "Enable FTP File Upload"
+msgstr ""
+
+msgctxt "#30022"
+msgid "Host:"
+msgstr ""
+
+msgctxt "#30023"
+msgid "User:"
+msgstr ""
+
+msgctxt "#30024"
+msgid "Password:"
+msgstr ""
+
+msgctxt "#30025"
+msgid "FTP File Transfer Successful."
+msgstr ""
+
+msgctxt "#30026"
+msgid "FTP File Transfer FAILED."
+msgstr ""
+
+#empty strings from id 30027 to 30029
+
+msgctxt "#30030"
+msgid "Sort:"
+msgstr ""
+
+msgctxt "#30031"
+msgid "Ascending"
+msgstr ""
+
+msgctxt "#30032"
+msgid "Descending"
+msgstr ""
+
+msgctxt "#30033"
+msgid "Sort By:"
+msgstr ""
+
+msgctxt "#30034"
+msgid "Title"
+msgstr ""
+
+msgctxt "#30035"
+msgid "Year"
+msgstr ""
+
+msgctxt "#30036"
+msgid "Rating"
+msgstr ""
+
+msgctxt "#30037"
+msgid "Date Added"
+msgstr ""
