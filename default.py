@@ -27,29 +27,19 @@ else:
 	file_name = __language__(30012)
 
 #sort order	
-movie_sort_by = {}
-movie_sort_by['0'] = 'title'            
-movie_sort_by['1'] = 'year'          
-movie_sort_by['2'] = 'rating'            
-movie_sort_by['3'] = 'dateadded'
-MovieSortBy = str(movie_sort_by[__addon__.getSetting('msort_by')])
+sort_by = {}
+sort_by['0'] = 'title'            
+sort_by['1'] = 'year'          
+sort_by['2'] = 'rating'            
+sort_by['3'] = 'dateadded'
+MovieSortBy = str(sort_by[__addon__.getSetting('msort_by')])
+TvSortBy = str(sort_by[__addon__.getSetting('tsort_by')])
 
-movie_sort = {}
-movie_sort['0'] = 'ascending'            
-movie_sort['1'] = 'descending'          
-MovieSort = str(movie_sort[__addon__.getSetting('msort_mode')])
-
-tv_sort_by = {}
-tv_sort_by['0'] = 'title'            
-tv_sort_by['1'] = 'year'          
-tv_sort_by['2'] = 'rating'            
-tv_sort_by['3'] = 'totalepisodes'
-TvSortBy = str(tv_sort_by[__addon__.getSetting('tsort_by')])
-
-tv_sort = {}
-tv_sort['0'] = 'ascending'            
-tv_sort['1'] = 'descending'          
-TvSort = str(tv_sort[__addon__.getSetting('tsort_mode')])
+sort = {}
+sort['0'] = 'ascending'            
+sort['1'] = 'descending'
+MovieSort = str(sort[__addon__.getSetting('msort_mode')])        
+TvSort = str(sort[__addon__.getSetting('tsort_mode')])
 
 xbmc.executebuiltin( "ActivateWindow(busydialog)" )	
 	
@@ -76,6 +66,8 @@ if xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 	
 #create html output
 f = codecs.open(os.path.join(file_path,str(file_name)),'wt', "utf-8")
+#password_protect
+#f.write('<?php include("/data/www//password_protect.php"); ?>\n')
 f.write('<!DOCTYPE html>\n')
 f.write('<head>\n')
 f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
@@ -138,6 +130,8 @@ f.write('<body background="http://images.wikia.com/monobook/images/7/7d/Binding_
 f.write('<div id="header" style="height:95px;width:90%;position : fixed;background-color:#333333;margin-left: 5%;margin-right: auto ;">\n')
 f.write('<div id="Date" style="height:95px;width:20%;float:right;padding-right:1%;padding-top:15px;">\n')
 f.write('<p class="date">Last Updated: '+time.strftime('%d %B %Y')+'</p>\n')
+#password_protect logout
+#f.write('<form style="float:right;padding-top:30px;" method="get" action="password_protect.php" /><input type="submit" value="Logout" /><input type="hidden" name="logout" value="1" /></form>\n')
 f.write('</div>\n')
 f.write('<div id="Search" style="height:95px;width:20%;float:left;padding-left:1%;padding-top:15px;">\n')
 f.write("<iframe id="+'"srchform2" '+'src="'+"javascript:'<html><body style=margin:0px;><form action="+"\\'javascript:void();\\' onSubmit=if(this.t1.value!=\\'\\')parent.findString(this.t1.value);return(false);><input type=text id=t1 name=t1 size=20><input type=submit name=b1 value=Find></form></body></html>'"+'"'+" width=220 height=34 border=0 frameborder=0 scrolling=no></iframe>\n")
