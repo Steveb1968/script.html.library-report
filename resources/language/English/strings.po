@@ -1,13 +1,13 @@
 # XBMC Media Center language file
 # Addon Name: HTML Library Report
 # Addon id: script.html.library-report
-# Addon version: 0.2.1
+# Addon version: 0.2.2
 # Addon Provider: steveb
 msgid ""
 msgstr ""
 "Project-Id-Version: XBMC-Addons\n"
 "Report-Msgid-Bugs-To: alanwww1@xbmc.org\n"
-"POT-Creation-Date: 2013-07-23 01:45+0000\n"
+"POT-Creation-Date: 2013-07-25 05:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE\n"
@@ -108,7 +108,17 @@ msgctxt "#30026"
 msgid "FTP File Transfer FAILED."
 msgstr ""
 
-#empty strings from id 30027 to 30029
+msgctxt "#30027"
+msgid "Use settings below to change from the ftp root directory."
+msgstr ""
+
+msgctxt "#30028"
+msgid "Create custom or use existing server directory structure."
+msgstr ""
+
+msgctxt "#30029"
+msgid "Directory:"
+msgstr ""
 
 msgctxt "#30030"
 msgid "Sort:"
@@ -140,4 +150,12 @@ msgstr ""
 
 msgctxt "#30037"
 msgid "Date Added"
+msgstr ""
+
+msgctxt "#30038"
+msgid "Note: If the Directory structure dose not exist it will be created."
+msgstr ""
+
+msgctxt "#30039"
+msgid "Use '/' to descend into directory.  Example: LibraryReport/UserName"
 msgstr ""

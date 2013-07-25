@@ -1,4 +1,7 @@
-﻿[B]Version 0.2.1[/B]
+﻿B]Version 0.2.2[/B]
+- Added option to change ftp directory structure.
+
+[B]Version 0.2.1[/B]
 - Added option to change list sort order.
 
 [B]Version 0.2.0[/B]

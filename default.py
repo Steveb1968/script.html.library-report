@@ -301,11 +301,38 @@ time.sleep(1)
 xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30005),__language__(30006)+str(file_path)+str(file_name))
 
 # ftp file transfer
+session = ftplib.FTP(__addon__.getSetting('server'),__addon__.getSetting('user'),__addon__.getSetting('password'))
+directory = __addon__.getSetting('ftp_dir')
+	
+def chdir(session, directory):
+    ch_dir_rec(session,directory.split('/'))
+
+# Check if directory exists (in current location)
+def directory_exists(session, directory):
+    filelist = []
+    session.retrlines('LIST',filelist.append)
+    for f in filelist:
+        if f.split()[-1] == directory:
+            return True
+    return False
+
+def ch_dir_rec(session, descending_path_split):
+    if len(descending_path_split) == 0:
+        return
+
+    next_level_directory = descending_path_split.pop(0)
+
+    if not directory_exists(session,next_level_directory):
+        session.mkd(next_level_directory)
+    session.cwd(next_level_directory)
+    ch_dir_rec(session,descending_path_split)
+
 if (__addon__.getSetting('Enable_ftp') == 'true'):
-	try:
-		session = ftplib.FTP(__addon__.getSetting('server'),__addon__.getSetting('user'),__addon__.getSetting('password'))
-		xbmc.executebuiltin( "ActivateWindow(busydialog)" )
+	try:		
+		xbmc.executebuiltin( "ActivateWindow(busydialog)" )				
 		file = open(str(file_path)+str(file_name),'rb')# file to send
+		if (__addon__.getSetting('enable_ftp_dir') == 'true') and directory != "":
+			chdir(session, directory)
 		session.storbinary('STOR ' + str(file_name), file)# send the file
 		file.close()# close file and FTP
 		session.quit()
