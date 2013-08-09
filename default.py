@@ -41,8 +41,11 @@ sort['1'] = 'descending'
 MovieSort = str(sort[__addon__.getSetting('msort_mode')])        
 TvSort = str(sort[__addon__.getSetting('tsort_mode')])
 
-xbmc.executebuiltin( "ActivateWindow(busydialog)" )	
-	
+progress = xbmcgui.DialogProgress()
+movie_count = 0
+tv_count = 0
+top250count = 0
+
 #data
 if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "'+MovieSort+'", "method": "'+MovieSortBy+'", "ignorearticle": true } }, "id": 1}'
@@ -50,6 +53,15 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
 	movies = jsonobject["result"]["movies"]
+	progress.create(__addon__.getAddonInfo('name'), __language__(30013))	
+	for movie in movies:
+		if int(movie['top250']) > 0:
+			top250count += 1
+		movie_count += 1
+		percent = int( float( movie_count * 100 ) / len(movies) )
+		progress.update( percent )
+		xbmc.sleep(10)
+	progress.close()
 
 if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "plot", "rating", "originaltitle", "year", "mpaa", "imdbnumber"], "sort": { "order": "'+TvSort+'", "method": "'+TvSortBy+'" } }, "id": 1}'
@@ -57,13 +69,20 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
 	tvshows = jsonobject["result"]["tvshows"]
-
+	progress.create(__addon__.getAddonInfo('name'), __language__(30014))	
+	for tvshow in tvshows:
+		tv_count += 1
+		percent = int( float( tv_count * 100 ) / len(tvshows) )
+		progress.update( percent )
+		xbmc.sleep(10)
+	progress.close()
+	
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["tvshowid", "episode", "originaltitle", "season", "streamdetails", "runtime"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
 	episodes = jsonobject["result"]["episodes"]
-	
+		
 #create html output
 def basic_list():
 	f = codecs.open(os.path.join(file_path,str(file_name)),'wt', "utf-8")
@@ -148,10 +167,6 @@ def basic_list():
 	if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
 		f.write('<a class="anchor" id="movie_link">anchor</a>\n')
 		f.write('<hr width="90%">\n')
-		top250count = 0
-		for movie in movies:
-			if int(movie['top250']) > 0:
-				top250count += 1
 		f.write('<h2>MOVIES: ('+str(len(movies))+' Total / '+str(top250count)+ ' Top250)</h2>\n')
 		f.write('<hr width="90%">\n')
 		f.write('&nbsp;\n')
@@ -206,7 +221,7 @@ def basic_list():
 				f.write('<p class="plot">'+movie['plot']+'</p>\n')
 				f.write('&nbsp;\n')
 			else:
-				f.write('&nbsp;\n')		
+				f.write('&nbsp;\n')	
 		
 	if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 		f.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
@@ -296,8 +311,6 @@ def basic_list():
 	f.write('</body>\n')
 	f.write('</html>')
 	f.close()
-
-	xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 	time.sleep(1)
 	xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30005),__language__(30006)+str(file_path)+str(file_name))
 

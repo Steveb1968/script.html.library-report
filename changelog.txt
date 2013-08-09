@@ -1,4 +1,7 @@
-﻿[B]Version 0.2.2[/B]
+﻿[B]Version 0.2.3[/B]
+- Added Progress dialog.
+
+[B]Version 0.2.2[/B]
 - Added option to change ftp directory structure.
 
 [B]Version 0.2.1[/B]

@@ -78,7 +78,15 @@ msgctxt "#30012"
 msgid "XBMC Library Report.html"
 msgstr ""
 
-#empty strings from id 30013 to 30019
+msgctxt "#30013"
+msgid "Processing Movie List"
+msgstr ""
+
+msgctxt "#30014"
+msgid "Processing TvShow List"
+msgstr ""
+
+#empty strings from id 30015 to 30019
 
 msgctxt "#30020"
 msgid "FTP Upload"
