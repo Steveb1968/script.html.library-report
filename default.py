@@ -12,6 +12,9 @@ else:
 
 __addon__     = xbmcaddon.Addon(id='script.html.library-report')
 __language__  = __addon__.getLocalizedString
+__icon__      = __addon__.getAddonInfo('icon')
+
+xbmc.executebuiltin( "ActivateWindow(busydialog)" )	
 
 #save path
 file_path = __addon__.getSetting('save_location')
@@ -44,6 +47,7 @@ TvSort = str(sort[__addon__.getSetting('tsort_mode')])
 progress = xbmcgui.DialogProgress()
 movie_count = 0
 tv_count = 0
+Ep_count = 0
 top250count = 0
 
 #data
@@ -60,7 +64,7 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 		movie_count += 1
 		percent = int( float( movie_count * 100 ) / len(movies) )
 		progress.update( percent )
-		xbmc.sleep(10)
+		xbmc.sleep(5)
 	progress.close()
 
 if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
@@ -82,12 +86,20 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
 	episodes = jsonobject["result"]["episodes"]
-		
+	if (__addon__.getSetting('episodes') == 'true'):
+		progress.create(__addon__.getAddonInfo('name'), __language__(30015))	
+		for episode in episodes:
+			Ep_count += 1
+			percent = int( float( Ep_count * 100 ) / len(episodes) )
+			progress.update( percent )
+			xbmc.sleep(1)
+		progress.close()
+	
 #create html output
-def basic_list():
+def basic_list():	
 	f = codecs.open(os.path.join(file_path,str(file_name)),'wt', "utf-8")
 	#password_protect
-	#f.write('<?php include("/data/www//password_protect.php"); ?>\n')
+	f.write('<?php include("/data/www/users.adam.com.au/ajbrown/password_protect.php"); ?>\n')
 	f.write('<!DOCTYPE html>\n')
 	f.write('<head>\n')
 	f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
@@ -151,7 +163,7 @@ def basic_list():
 	f.write('<div id="Date" style="height:95px;width:20%;float:right;padding-right:1%;padding-top:15px;">\n')
 	f.write('<p class="date">Last Updated: '+time.strftime('%d %B %Y')+'</p>\n')
 	#password_protect logout
-	#f.write('<form style="float:right;padding-top:30px;" method="get" action="password_protect.php" /><input type="submit" value="Logout" /><input type="hidden" name="logout" value="1" /></form>\n')
+	f.write('<form style="float:right;padding-top:30px;" method="get" action="password_protect.php" /><input type="submit" value="Logout" /><input type="hidden" name="logout" value="1" /></form>\n')
 	f.write('</div>\n')
 	f.write('<div id="Search" style="height:95px;width:20%;float:left;padding-left:1%;padding-top:15px;">\n')
 	f.write("<iframe id="+'"srchform2" '+'src="'+"javascript:'<html><body style=margin:0px;><form action="+"\\'javascript:void();\\' onSubmit=if(this.t1.value!=\\'\\')parent.findString(this.t1.value);return(false);><input type=text id=t1 name=t1 size=20><input type=submit name=b1 value=Find></form></body></html>'"+'"'+" width=220 height=34 border=0 frameborder=0 scrolling=no></iframe>\n")
@@ -291,12 +303,12 @@ def basic_list():
 			#list episodes
 			if (__addon__.getSetting('episodes') == 'true'):
 				prev_season = None
-				for episode in episode_list:				
-					season = episode[0]		
+				for episode in episode_list:
+					season = episode[0]			
 					if season != prev_season:
 						f.write('<h3>Season '+str(season)+'</h3>\n')
 						prev_season = season
-					f.write('<p class="episode">'+episode[2]+'</p>\n')				
+					f.write('<p class="episode">'+episode[2]+'</p>\n')
 				f.write('&nbsp;\n')
 		if (__addon__.getSetting('episodes') == 'false'):	
 			f.write('&nbsp;\n')
@@ -311,8 +323,12 @@ def basic_list():
 	f.write('</body>\n')
 	f.write('</html>')
 	f.close()
-	time.sleep(1)
-	xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30005),__language__(30006)+str(file_path)+str(file_name))
+	
+if (__addon__.getSetting('Enable_ftp') == 'false'):
+	xbmc.executebuiltin( "Dialog.Close(busydialog)" )
+	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addon__.getAddonInfo('name'), __language__(30005), 4000, __icon__) )
+else:
+	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % ( __language__(30005), __language__(30006), 4000, __icon__) )
 
 # ftp file transfer
 def ftp():
@@ -342,24 +358,25 @@ def ftp():
 		session.cwd(next_level_directory)
 		ch_dir_rec(session,descending_path_split)
 
-	try:		
-		xbmc.executebuiltin( "ActivateWindow(busydialog)" )				
-		file = open(str(file_path)+str(file_name),'rb')# file to send
+	try:
+		file = open(str(file_path)+str(file_name),'rb')
 		if (__addon__.getSetting('enable_ftp_dir') == 'true') and directory != "":
 			chdir(session, directory)
-		session.storbinary('STOR ' + str(file_name), file)# send the file
-		file.close()# close file and FTP
+		session.storbinary('STOR ' + str(file_name), file)
+		file.close()
 		session.quit()
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
-		time.sleep(1)
-		xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30025))
+		xbmc.sleep(200)
+		xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addon__.getAddonInfo('name'),__language__(30025), 4000, __icon__) )
 	except:
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
-		time.sleep(1)
-		xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30026))
+		xbmc.sleep(200)
+		xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addon__.getAddonInfo('name'),__language__(30026), 4000, __icon__) )
+		
 		
 
-if ( __name__ == "__main__" ):
-	basic_list()
-	if (__addon__.getSetting('Enable_ftp') == 'true'):
+if ( __name__ == "__main__" ):	
+	basic_list()	
+	if (__addon__.getSetting('Enable_ftp') == 'true'):		
 		ftp()
+		
