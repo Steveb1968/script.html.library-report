@@ -99,7 +99,7 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 def basic_list():	
 	f = codecs.open(os.path.join(file_path,str(file_name)),'wt', "utf-8")
 	#password_protect
-	f.write('<?php include("/data/www/users.adam.com.au/ajbrown/password_protect.php"); ?>\n')
+	#f.write('<?php include("/data/www//password_protect.php"); ?>\n')
 	f.write('<!DOCTYPE html>\n')
 	f.write('<head>\n')
 	f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
@@ -163,7 +163,7 @@ def basic_list():
 	f.write('<div id="Date" style="height:95px;width:20%;float:right;padding-right:1%;padding-top:15px;">\n')
 	f.write('<p class="date">Last Updated: '+time.strftime('%d %B %Y')+'</p>\n')
 	#password_protect logout
-	f.write('<form style="float:right;padding-top:30px;" method="get" action="password_protect.php" /><input type="submit" value="Logout" /><input type="hidden" name="logout" value="1" /></form>\n')
+	#f.write('<form style="float:right;padding-top:30px;" method="get" action="password_protect.php" /><input type="submit" value="Logout" /><input type="hidden" name="logout" value="1" /></form>\n')
 	f.write('</div>\n')
 	f.write('<div id="Search" style="height:95px;width:20%;float:left;padding-left:1%;padding-top:15px;">\n')
 	f.write("<iframe id="+'"srchform2" '+'src="'+"javascript:'<html><body style=margin:0px;><form action="+"\\'javascript:void();\\' onSubmit=if(this.t1.value!=\\'\\')parent.findString(this.t1.value);return(false);><input type=text id=t1 name=t1 size=20><input type=submit name=b1 value=Find></form></body></html>'"+'"'+" width=220 height=34 border=0 frameborder=0 scrolling=no></iframe>\n")
