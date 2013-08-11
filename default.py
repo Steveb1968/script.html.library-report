@@ -64,7 +64,7 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 		movie_count += 1
 		percent = int( float( movie_count * 100 ) / len(movies) )
 		progress.update( percent )
-		xbmc.sleep(5)
+		xbmc.sleep(10)
 	progress.close()
 
 if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
@@ -251,46 +251,48 @@ def basic_list():
 			episode_list = []
 			for episode in episodes:
 				episode_runtime = ' &bull; '+str(episode['runtime'] / 60)+' min'
-				if episode['streamdetails']['video'] != []:
-					videowidth = episode['streamdetails']['video'][0]['width']
-					videoheight = episode['streamdetails']['video'][0]['height']
-					if videowidth <= 720 and videoheight <= 480:
-						videoresolution = ' &bull; <span style="color:orange">480 SD</span>'
-					elif videowidth <= 768 and videoheight <= 576:
-						videoresolution = ' &bull; <span style="color:orange">576 SD</span>'
-					elif videowidth <= 960 and videoheight <= 544:
-						videoresolution = ' &bull; <span style="color:orange">540 SD</span>'
-					elif videowidth <= 1280 and videoheight <= 720:
-						videoresolution = ' &bull; <span style="color:deepskyblue">720 HD</span>'
+				if (__addon__.getSetting('episodes') == 'true'):					
+					if episode['streamdetails']['video'] != []:
+						videowidth = episode['streamdetails']['video'][0]['width']
+						videoheight = episode['streamdetails']['video'][0]['height']
+						if videowidth <= 720 and videoheight <= 480:
+							videoresolution = ' &bull; <span style="color:orange">480 SD</span>'
+						elif videowidth <= 768 and videoheight <= 576:
+							videoresolution = ' &bull; <span style="color:orange">576 SD</span>'
+						elif videowidth <= 960 and videoheight <= 544:
+							videoresolution = ' &bull; <span style="color:orange">540 SD</span>'
+						elif videowidth <= 1280 and videoheight <= 720:
+							videoresolution = ' &bull; <span style="color:deepskyblue">720 HD</span>'
+						else:
+							videoresolution = ' &bull; <span style="color:deepskyblue">1080 HD</span>'
 					else:
-						videoresolution = ' &bull; <span style="color:deepskyblue">1080 HD</span>'
-				else:
-					videoresolution = ''				
-				if episode['streamdetails']['audio'] != []:
-					audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
-					if audiochannels == 8:
-						channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 ch</span>'		
-					elif audiochannels == 6:
-						channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 ch</span>'
-					elif audiochannels == 2:
-						channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 ch</span>'
-					elif audiochannels == 1:
-						channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 ch</span>'
+						videoresolution = ''				
+					if episode['streamdetails']['audio'] != []:
+						audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
+						if audiochannels == 8:
+							channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 ch</span>'		
+						elif audiochannels == 6:
+							channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 ch</span>'
+						elif audiochannels == 2:
+							channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 ch</span>'
+						elif audiochannels == 1:
+							channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 ch</span>'
+						else:
+							channels = ''
 					else:
-						channels = ''
-				else:
-					channels = ''				
+						channels = ''				
 				if episode['tvshowid'] == tvshow['tvshowid']:
 					episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))
-			episode_list.sort()	
-			prev_season = None
-			seasoncount = 0
-			for episode in episode_list:
-				season = episode[0]		
-				if season != prev_season:
-					seasoncount += 1			
-					prev_season = season
-			f.write('<p class="episodecount">(Seasons ' +str(seasoncount)+' / '+str(len(episode_list))+' Episodes)</p>\n')		
+			episode_list.sort()
+			if (__addon__.getSetting('episodes') == 'false'):
+				prev_season = None
+				seasoncount = 0
+				for episode in episode_list:
+					season = episode[0]		
+					if season != prev_season:
+						seasoncount += 1			
+						prev_season = season
+				f.write('<p class="episodecount">(Seasons ' +str(seasoncount)+' / '+str(len(episode_list))+' Episodes)</p>\n')		
 			f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(tv_rating)+' &#9733;</span></p>\n')
 			#format tvshow mpaa
 			if str(tvshow['mpaa']) == "":
@@ -305,12 +307,12 @@ def basic_list():
 				prev_season = None
 				for episode in episode_list:
 					season = episode[0]			
-					if season != prev_season:
+					if season != prev_season:						
 						f.write('<h3>Season '+str(season)+'</h3>\n')
 						prev_season = season
 					f.write('<p class="episode">'+episode[2]+'</p>\n')
 				f.write('&nbsp;\n')
-		if (__addon__.getSetting('episodes') == 'false'):	
+		if (__addon__.getSetting('episodes') == 'false'):
 			f.write('&nbsp;\n')
 	f.write('</div>\n')
 	f.write('<div id="footer">\n')
@@ -375,8 +377,10 @@ def ftp():
 		
 		
 
-if ( __name__ == "__main__" ):	
+if ( __name__ == "__main__" ):
+	xbmc.log(__addon__.getAddonInfo('name')+": ## STARTED")
 	basic_list()	
-	if (__addon__.getSetting('Enable_ftp') == 'true'):		
+	if (__addon__.getSetting('Enable_ftp') == 'true'):
+		xbmc.log(__addon__.getAddonInfo('name')+": ## UPLOADING TO FTP HOST")
 		ftp()
-		
+	xbmc.log(__addon__.getAddonInfo('name')+": ## FINISHED")	
