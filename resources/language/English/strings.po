@@ -59,11 +59,11 @@ msgid "Library Report"
 msgstr ""
 
 msgctxt "#30008"
-msgid "Custom File Name [COLOR gold][I] *Note: Include file extention(.html/.htm/.php)* [/I][/COLOR]"
+msgid "Users webpage location url (needed for password protection)"
 msgstr ""
 
 msgctxt "#30009"
-msgid "File Name:"
+msgid "Example: myserver.com/root/*custom *(if custom dir structure used)"
 msgstr ""
 
 msgctxt "#30010"
@@ -90,7 +90,21 @@ msgctxt "#30015"
 msgid "Processing Episode List"
 msgstr ""
 
-#empty strings from id 30016 to 30019
+msgctxt "#30016"
+msgid "Password Protect"
+msgstr ""
+
+msgctxt "#30017"
+msgid "Enable Webpage Password Protection"
+msgstr ""
+
+msgctxt "#30018"
+msgid "Default:  User: admin password: admin"
+msgstr ""
+
+msgctxt "#30019"
+msgid "Define Logout Redirection URL"
+msgstr ""
 
 msgctxt "#30020"
 msgid "FTP Upload"
@@ -170,4 +184,8 @@ msgstr ""
 
 msgctxt "#30039"
 msgid "Use '/' to descend into directory.  Example: LibraryReport/UserName"
+msgstr ""
+
+msgctxt "#30040"
+msgid "Webpage Location URL"
 msgstr ""

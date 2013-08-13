@@ -13,23 +13,25 @@ else:
 __addon__     = xbmcaddon.Addon(id='script.html.library-report')
 __language__  = __addon__.getLocalizedString
 __icon__      = __addon__.getAddonInfo('icon')
-
-xbmc.executebuiltin( "ActivateWindow(busydialog)" )	
-
-#save path
+__resource__  = xbmc.translatePath( os.path.join( __addon__.getAddonInfo( "path" ), "resources" ) )
+	
+# save path
 file_path = __addon__.getSetting('save_location')
 while file_path=="":
 	xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30004))
 	__addon__.openSettings()
 	file_path = __addon__.getSetting('save_location')
+	
+xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 
-#file name	
-if (__addon__.getSetting('custom_file_name') == 'true'):
-	file_name = __addon__.getSetting('file_name')
+# file name	
+if (__addon__.getSetting('Enable_Password') == 'true'):
+	file_name = 'index.php'
+	password_file = 'password_protect.php'
 else:
-	file_name = __language__(30012)
+	file_name = 'index.html'
 
-#sort order	
+# sort order	
 sort_by = {}
 sort_by['0'] = 'title'            
 sort_by['1'] = 'year'          
@@ -50,7 +52,7 @@ tv_count = 0
 Ep_count = 0
 top250count = 0
 
-#data
+# data
 if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "'+MovieSort+'", "method": "'+MovieSortBy+'", "ignorearticle": true } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
@@ -95,11 +97,12 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 			xbmc.sleep(1)
 		progress.close()
 	
-#create html output
+# create html output
 def basic_list():	
 	f = codecs.open(os.path.join(file_path,str(file_name)),'wt', "utf-8")
-	#password_protect
-	#f.write('<?php include("/data/www//password_protect.php"); ?>\n')
+	# password_protect
+	if (__addon__.getSetting('Enable_Password') == 'true'):
+		f.write('<?php include("/data/www/'+__addon__.getSetting('webpage_location_php')+'/password_protect.php"); ?>\n')
 	f.write('<!DOCTYPE html>\n')
 	f.write('<head>\n')
 	f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
@@ -162,8 +165,9 @@ def basic_list():
 	f.write('<div id="header" style="height:95px;width:90%;position : fixed;background-color:#333333;margin-left: 5%;margin-right: auto ;">\n')
 	f.write('<div id="Date" style="height:95px;width:20%;float:right;padding-right:1%;padding-top:15px;">\n')
 	f.write('<p class="date">Last Updated: '+time.strftime('%d %B %Y')+'</p>\n')
-	#password_protect logout
-	#f.write('<form style="float:right;padding-top:30px;" method="get" action="password_protect.php" /><input type="submit" value="Logout" /><input type="hidden" name="logout" value="1" /></form>\n')
+	# password_protect logout
+	if (__addon__.getSetting('Enable_Password') == 'true'):
+		f.write('<form style="float:right;padding-top:30px;" method="get" action="password_protect.php" /><input type="submit" value="Logout" /><input type="hidden" name="logout" value="1" /></form>\n')
 	f.write('</div>\n')
 	f.write('<div id="Search" style="height:95px;width:20%;float:left;padding-left:1%;padding-top:15px;">\n')
 	f.write("<iframe id="+'"srchform2" '+'src="'+"javascript:'<html><body style=margin:0px;><form action="+"\\'javascript:void();\\' onSubmit=if(this.t1.value!=\\'\\')parent.findString(this.t1.value);return(false);><input type=text id=t1 name=t1 size=20><input type=submit name=b1 value=Find></form></body></html>'"+'"'+" width=220 height=34 border=0 frameborder=0 scrolling=no></iframe>\n")
@@ -221,14 +225,14 @@ def basic_list():
 				f.write('<span style="color:gold"> ('+str(movie['top250'])+'/Top250)</span>'+str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
 			else:
 				f.write(str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')		
-			#format movie mpaa
+			# format movie mpaa
 			if str(movie['mpaa']).startswith("Rated"):
 				f.write('<p class="mpaa">'+str(movie['mpaa'])+'</p>\n')
 			elif str(movie['mpaa']) == "":
 				f.write('<p class="mpaa">Rated NA</p>\n')
 			else:
 				f.write('<p class="mpaa">Rated '+str(movie['mpaa'])+'</p>\n')
-			#list plot
+			# list plot
 			if (__addon__.getSetting('movieplot') == 'true'):
 				f.write('<p class="plot">'+movie['plot']+'</p>\n')
 				f.write('&nbsp;\n')
@@ -294,15 +298,15 @@ def basic_list():
 						prev_season = season
 				f.write('<p class="episodecount">(Seasons ' +str(seasoncount)+' / '+str(len(episode_list))+' Episodes)</p>\n')		
 			f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(tv_rating)+' &#9733;</span></p>\n')
-			#format tvshow mpaa
+			# format tvshow mpaa
 			if str(tvshow['mpaa']) == "":
 				f.write('<p class="mpaa">Rated NA</p>\n')
 			else:
 				f.write('<p class="mpaa">Rated '+str(tvshow['mpaa'])+'</p>\n')
-			#list plot
+			# list plot
 			if (__addon__.getSetting('tvshowplot') == 'true'):
 				f.write('<p class="plot">'+tvshow['plot']+'</p>\n')	
-			#list episodes
+			# list episodes
 			if (__addon__.getSetting('episodes') == 'true'):
 				prev_season = None
 				for episode in episode_list:
@@ -332,6 +336,21 @@ if (__addon__.getSetting('Enable_ftp') == 'false'):
 else:
 	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % ( __language__(30005), __language__(30006), 4000, __icon__) )
 
+def password_protect():
+	if "win32" in sys.platform:
+		password_php = os.path.normpath( __resource__ + "\\php\\password_protect.php" )
+	elif "linux" in sys.platform or "darwin" in sys.platform:
+		password_php = os.path.normpath( '"' + __resource__ + '/php/password_protect.php"' )		
+	with codecs.open(password_php, "r", encoding="utf-8") as file:
+		data = file.readlines()
+	# change the selected lines
+	data[51] = "\t'"+__addon__.getSetting('web_user')+"' => '"+__addon__.getSetting('web_password')+"'\n"
+	data[58] = "define('LOGOUT_URL', 'http://"+__addon__.getSetting('logout_url')+"/');\n"
+	# write back
+	with codecs.open(password_php, "w", encoding="utf-8") as file:
+		file.writelines(data)
+		file.close()
+	
 # ftp file transfer
 def ftp():
 	session = ftplib.FTP(__addon__.getSetting('server'),__addon__.getSetting('user'),__addon__.getSetting('password'))
@@ -352,21 +371,26 @@ def ftp():
 	def ch_dir_rec(session, descending_path_split):
 		if len(descending_path_split) == 0:
 			return
-
 		next_level_directory = descending_path_split.pop(0)
-
 		if not directory_exists(session,next_level_directory):
 			session.mkd(next_level_directory)
 		session.cwd(next_level_directory)
 		ch_dir_rec(session,descending_path_split)
 
-	try:
-		file = open(str(file_path)+str(file_name),'rb')
+	try:		
 		if (__addon__.getSetting('enable_ftp_dir') == 'true') and directory != "":
 			chdir(session, directory)
-		session.storbinary('STOR ' + str(file_name), file)
-		file.close()
-		session.quit()
+		if (__addon__.getSetting('Enable_Password') == 'true'):
+			if "win32" in sys.platform:
+				filepass = open(os.path.normpath( __resource__ + "\\php\\password_protect.php" ),'rb')
+			elif "linux" in sys.platform or "darwin" in sys.platform:
+				filepass = open(os.path.normpath( '"' + __resource__ + '/php/password_protect.php"' ),'rb')			
+			session.storlines('STOR ' + str(password_file), filepass)
+			filepass.close()
+		file = open(str(file_path)+str(file_name),'rb')	
+		session.storlines('STOR ' + str(file_name), file)
+		file.close()		
+		session.quit()		
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 		xbmc.sleep(200)
 		xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addon__.getAddonInfo('name'),__language__(30025), 4000, __icon__) )
@@ -374,12 +398,12 @@ def ftp():
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 		xbmc.sleep(200)
 		xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addon__.getAddonInfo('name'),__language__(30026), 4000, __icon__) )
-		
-		
 
 if ( __name__ == "__main__" ):
 	xbmc.log(__addon__.getAddonInfo('name')+": ## STARTED")
-	basic_list()	
+	basic_list()
+	if (__addon__.getSetting('Enable_Password') == 'true'):
+		password_protect()
 	if (__addon__.getSetting('Enable_ftp') == 'true'):
 		xbmc.log(__addon__.getAddonInfo('name')+": ## UPLOADING TO FTP HOST")
 		ftp()

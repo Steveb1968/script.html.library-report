@@ -1,4 +1,7 @@
-﻿[B]Version 0.2.3[/B]
+﻿[B]Version 0.2.4[/B]
+- Added option to password protect webpage.
+
+[B]Version 0.2.3[/B]
 - Added Progress dialog.
 
 [B]Version 0.2.2[/B]
