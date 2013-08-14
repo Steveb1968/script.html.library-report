@@ -13,7 +13,8 @@ else:
 __addon__     = xbmcaddon.Addon(id='script.html.library-report')
 __language__  = __addon__.getLocalizedString
 __icon__      = __addon__.getAddonInfo('icon')
-__resource__  = xbmc.translatePath( os.path.join( __addon__.getAddonInfo( "path" ), "resources" ) )
+__cwd__       = __addon__.getAddonInfo('path').decode("utf-8")
+__resource__  = xbmc.translatePath( os.path.join( __cwd__, 'resources' ).encode("utf-8") ).decode("utf-8")
 	
 # save path
 file_path = __addon__.getSetting('save_location')
@@ -47,6 +48,7 @@ MovieSort = str(sort[__addon__.getSetting('msort_mode')])
 TvSort = str(sort[__addon__.getSetting('tsort_mode')])
 
 progress = xbmcgui.DialogProgress()
+directory = __addon__.getSetting('ftp_dir')
 movie_count = 0
 tv_count = 0
 Ep_count = 0
@@ -332,6 +334,7 @@ def basic_list():
 	
 if (__addon__.getSetting('Enable_ftp') == 'false'):
 	xbmc.executebuiltin( "Dialog.Close(busydialog)" )
+	xbmc.sleep(200)
 	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addon__.getAddonInfo('name'), __language__(30005), 4000, __icon__) )
 else:
 	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % ( __language__(30005), __language__(30006), 4000, __icon__) )
@@ -353,9 +356,7 @@ def password_protect():
 	
 # ftp file transfer
 def ftp():
-	session = ftplib.FTP(__addon__.getSetting('server'),__addon__.getSetting('user'),__addon__.getSetting('password'))
-	directory = __addon__.getSetting('ftp_dir')
-		
+
 	def chdir(session, directory):
 		ch_dir_rec(session,directory.split('/'))
 
@@ -377,7 +378,8 @@ def ftp():
 		session.cwd(next_level_directory)
 		ch_dir_rec(session,descending_path_split)
 
-	try:		
+	try:
+		session = ftplib.FTP(__addon__.getSetting('server'),__addon__.getSetting('user'),__addon__.getSetting('password'))
 		if (__addon__.getSetting('enable_ftp_dir') == 'true') and directory != "":
 			chdir(session, directory)
 		if (__addon__.getSetting('Enable_Password') == 'true'):
@@ -394,10 +396,10 @@ def ftp():
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 		xbmc.sleep(200)
 		xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addon__.getAddonInfo('name'),__language__(30025), 4000, __icon__) )
-	except:
+	except Exception,e:
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 		xbmc.sleep(200)
-		xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addon__.getAddonInfo('name'),__language__(30026), 4000, __icon__) )
+		xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__language__(30026),e, 4000, __icon__) )
 
 if ( __name__ == "__main__" ):
 	xbmc.log(__addon__.getAddonInfo('name')+": ## STARTED")
