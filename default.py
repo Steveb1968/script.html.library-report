@@ -177,7 +177,7 @@ def basic_list():
 		f.write('<p class="links"><a href="#movie_link">Movies</a>&nbsp;&nbsp;<a href="#tvshow_link">TvShows</a></p>\n')
 	f.write('</div>\n')
 	f.write('<div id="Heading" style="height:95px;width:80%;margin-left: auto;margin-right: auto ;">\n')
-	f.write('<h1><img src="http://wiki.xbmc.org/images/thumb/9/9b/XBMC_logo-solid_shadow.png/800px-XBMC_logo-solid_shadow.png" alt="XBMC" width="93" height="50" align="top"> '+__language__(30007)+'</h1>\n')
+	f.write('<h1><img src="http://xbmc.org/wp-content/themes/paradise/Paradise/images/logo.png" alt="XBMC" width="168" height="50" align="top"> '+__language__(30007)+'</h1>\n')
 	f.write('</div>\n')
 	f.write('</div>\n')
 	f.write('<div id="Body" style="width:100%;padding-top:75px;">\n')
