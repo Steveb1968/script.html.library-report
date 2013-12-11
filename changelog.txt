@@ -1,4 +1,4 @@
-﻿[B]Version 0.2.4[/B]
+[B]Version 0.2.4[/B]
 - Added option to password protect webpage.
 
 [B]Version 0.2.3[/B]
