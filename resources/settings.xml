@@ -15,9 +15,9 @@
 		<setting id="tsort_by" type="enum" subsetting="true" label="30033" lvalues="30034|30035|30036|30037" default="0" enable="eq(-3,true)" visible="eq(-3,true)"/>
 		<setting id="tsort_mode" type="enum" subsetting="true" label="30030" lvalues="30031|30032" default="0" enable="eq(-4,true)" visible="eq(-4,true)"/>
 	</category>
-	<category label="Customize Style">
+	<!--<category label="Customize Style">
 		<setting type="lsep" label="Coming Soon"/>
-	</category>
+	</category>-->
 	<category label="30020">
 		<setting id="Enable_ftp" type="bool" label="30021" default="false"/>	
 		<setting type="sep" />		
