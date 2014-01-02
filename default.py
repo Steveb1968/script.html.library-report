@@ -340,10 +340,7 @@ else:
 	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % ( __language__(30005), __language__(30006), 4000, __icon__) )
 
 def password_protect():
-	if "win32" in sys.platform:
-		password_php = os.path.normpath( __resource__ + "\\php\\password_protect.php" )
-	elif "linux" in sys.platform or "darwin" in sys.platform:
-		password_php = os.path.normpath( '"' + __resource__ + '/php/password_protect.php"' )		
+	password_php = xbmc.translatePath( os.path.join( __resource__, 'php', 'password_protect.php' ).encode("utf-8") ).decode("utf-8")		
 	with codecs.open(password_php, "r", encoding="utf-8") as file:
 		data = file.readlines()
 	# change the selected lines
@@ -383,10 +380,7 @@ def ftp():
 		if (__addon__.getSetting('enable_ftp_dir') == 'true') and directory != "":
 			chdir(session, directory)
 		if (__addon__.getSetting('Enable_Password') == 'true'):
-			if "win32" in sys.platform:
-				filepass = open(os.path.normpath( __resource__ + "\\php\\password_protect.php" ),'rb')
-			elif "linux" in sys.platform or "darwin" in sys.platform:
-				filepass = open(os.path.normpath( '"' + __resource__ + '/php/password_protect.php"' ),'rb')			
+			filepass = open( os.path.join( __resource__, 'php', 'password_protect.php' ),'rb')			
 			session.storlines('STOR ' + str(password_file), filepass)
 			filepass.close()
 		file = open(str(file_path)+str(file_name),'rb')	
