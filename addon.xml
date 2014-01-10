@@ -6,8 +6,8 @@
 	</requires>
 	<extension point="xbmc.python.script" library="default.py"/>
 	<extension point="xbmc.addon.metadata">
-		<summary lang="en">Create a HTML file summary of all the movies and tv shows in your library.</summary>
-		<description lang="en">Create a HTML file summary of all the movies and/or tvshows in your library. Upload the results to a server via FTP with the option to password protect the web-page.</description>
+		<summary lang="en">Create a HTML file summary of all the movies and/or tvshows in your library.</summary>
+		<description lang="en">Create a HTML file summary of all the movies and/or tvshows in your library. [CR]Option to upload the results to a server via FTP. [CR]Option to password protect the online web-page.</description>
 		<platform>all</platform>
 		<forum>http://forum.xbmc.org/showthread.php?tid=167632</forum>
 		<source>https://github.com/Steveb1968/script.html.library-report</source>
