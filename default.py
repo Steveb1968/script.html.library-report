@@ -87,7 +87,7 @@ def basic_list():
 	f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
 	f.write('<title>'+__language__(30007)+' ('+time.strftime('%d %B %Y')+')</title>\n')
 	f.write('<link rel="stylesheet" href="Basic_css.css">\n')	
-	f.write('<script language="JavaScript" src="SearchScript.js"></script>\n')	
+	f.write('<script language="JavaScript" charset="UTF-8" src="SearchScript.js"></script>\n')	
 	f.write("</head>\n")
 	f.write('<body background="http://images.wikia.com/monobook/images/7/7d/Binding_Dark.png">\n')
 	f.write('<div id="header" style="height:95px;width:90%;position : fixed;background-color:#333333;margin-left: 5%;margin-right: auto ;">\n')
