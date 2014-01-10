@@ -49,7 +49,6 @@ sort['1'] = 'descending'
 MovieSort = str(sort[__addon__.getSetting('msort_mode')])        
 TvSort = str(sort[__addon__.getSetting('tsort_mode')])
 
-progress = xbmcgui.DialogProgress()
 directory = __addon__.getSetting('ftp_dir')
 top250count = 0
 
@@ -115,7 +114,6 @@ def basic_list():
 		f.write('<h2>MOVIES: ('+str(len(movies))+' Total / '+str(top250count)+ ' Top250)</h2>\n')
 		f.write('<hr width="90%">\n')
 		f.write('&nbsp;\n')
-		progress.create(__addon__.getAddonInfo('name'), __language__(30013))
 		for movie in movies:
 			moviegenre = " / ".join(movie['genre'])
 			movie_rating = '<span style="color:white"> &bull; </span><span style="color:gold">'+str(round(float(movie['rating']),1))+' &#9733;</span>'

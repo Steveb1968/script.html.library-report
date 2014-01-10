@@ -78,15 +78,7 @@ msgctxt "#30012"
 msgid "XBMC Library Report.html"
 msgstr ""
 
-msgctxt "#30013"
-msgid "Processing Movie List"
-msgstr ""
-
-msgctxt "#30014"
-msgid "Processing TvShow List"
-msgstr ""
-
-#empty string with id 30015
+#empty strings from id 30013 to 30015
 
 msgctxt "#30016"
 msgid "Password Protect"
