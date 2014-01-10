@@ -86,9 +86,7 @@ msgctxt "#30014"
 msgid "Processing TvShow List"
 msgstr ""
 
-msgctxt "#30015"
-msgid "Processing Episode List"
-msgstr ""
+#empty string with id 30015
 
 msgctxt "#30016"
 msgid "Password Protect"

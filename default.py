@@ -62,44 +62,29 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
-	movies = jsonobject["result"]["movies"]
-	progress.create(__addon__.getAddonInfo('name'), __language__(30013))	
+	movies = jsonobject["result"]["movies"]	
 	for movie in movies:
 		if int(movie['top250']) > 0:
 			top250count += 1
 		movie_count += 1
-		percent = int( float( movie_count * 100 ) / len(movies) )
-		progress.update( percent )
-		xbmc.sleep(10)
-	progress.close()
 
 if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "plot", "rating", "originaltitle", "year", "mpaa", "imdbnumber"], "sort": { "order": "'+TvSort+'", "method": "'+TvSortBy+'" } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
-	tvshows = jsonobject["result"]["tvshows"]
-	progress.create(__addon__.getAddonInfo('name'), __language__(30014))	
+	tvshows = jsonobject["result"]["tvshows"]	
 	for tvshow in tvshows:
 		tv_count += 1
-		percent = int( float( tv_count * 100 ) / len(tvshows) )
-		progress.update( percent )
-		xbmc.sleep(10)
-	progress.close()
 	
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["tvshowid", "episode", "originaltitle", "season", "streamdetails", "runtime"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
 	episodes = jsonobject["result"]["episodes"]
-	if (__addon__.getSetting('episodes') == 'true'):
-		progress.create(__addon__.getAddonInfo('name'), __language__(30015))	
+	if (__addon__.getSetting('episodes') == 'true'):	
 		for episode in episodes:
 			Ep_count += 1
-			percent = int( float( Ep_count * 100 ) / len(episodes) )
-			progress.update( percent )
-			xbmc.sleep(1)
-		progress.close()
 	
 # create html output
 def basic_list():
@@ -139,7 +124,11 @@ def basic_list():
 		f.write('<h2>MOVIES: ('+str(len(movies))+' Total / '+str(top250count)+ ' Top250)</h2>\n')
 		f.write('<hr width="90%">\n')
 		f.write('&nbsp;\n')
+		progress.create(__addon__.getAddonInfo('name'), __language__(30013))
 		for movie in movies:
+			percent = int( float( movie_count * 100 ) / len(movies) )
+			progress.update( percent )
+			xbmc.sleep(1)
 			moviegenre = " / ".join(movie['genre'])
 			movie_rating = '<span style="color:white"> &bull; </span><span style="color:gold">'+str(round(float(movie['rating']),1))+' &#9733;</span>'
 			movie_runtime = '<span style="color:white"> &bull; '+str(movie['runtime'] / 60)+' min</span>' 
@@ -191,14 +180,19 @@ def basic_list():
 				f.write('&nbsp;\n')
 			else:
 				f.write('&nbsp;\n')	
-		
+		progress.close()
+	
 	if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 		f.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
 		f.write('<hr width="90%">\n')
 		f.write('<h2>TV SHOWS: ('+str(len(tvshows))+' Total / '+str(len(episodes))+' Episodes)</h2>\n')
 		if (__addon__.getSetting('episodes') == 'false'):
 			f.write('<hr width="90%">\n')
+		progress.create(__addon__.getAddonInfo('name'), __language__(30014))
 		for tvshow in tvshows:
+			percent = int( float( tv_count * 100 ) / len(tvshows) )
+			progress.update( percent )
+			xbmc.sleep(1)
 			tvgenre = " / ".join(tvshow['genre'])
 			tv_rating = str(round(float(tvshow['rating']),1))
 			if (__addon__.getSetting('episodes') == 'true'):
@@ -269,6 +263,7 @@ def basic_list():
 						prev_season = season
 					f.write('<p class="episode">'+episode[2]+'</p>\n')
 				f.write('&nbsp;\n')
+		progress.close()
 		if (__addon__.getSetting('episodes') == 'false'):
 			f.write('&nbsp;\n')
 	f.write('</div>\n')
