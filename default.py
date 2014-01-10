@@ -3,7 +3,7 @@ import xbmc
 import xbmcgui
 import xbmcaddon
 import time
-import codecs
+import codecs, shutil
 import ftplib
 if sys.version_info < (2, 7):
     import simplejson
@@ -15,6 +15,7 @@ __language__  = __addon__.getLocalizedString
 __icon__      = __addon__.getAddonInfo('icon')
 __cwd__       = __addon__.getAddonInfo('path').decode("utf-8")
 __resource__  = xbmc.translatePath( os.path.join( __cwd__, 'resources' ).encode("utf-8") ).decode("utf-8")
+__files__     = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'files' ).encode("utf-8") ).decode("utf-8")
 	
 # save path
 file_path = __addon__.getSetting('save_location')
@@ -31,6 +32,7 @@ if (__addon__.getSetting('Enable_Password') == 'true'):
 	password_file = 'password_protect.php'
 else:
 	file_name = 'index.html'
+
 
 # sort order	
 sort_by = {}
@@ -100,7 +102,7 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 		progress.close()
 	
 # create html output
-def basic_list():	
+def basic_list():
 	f = codecs.open(os.path.join(file_path,str(file_name)),'wt', "utf-8")
 	# password_protect
 	if (__addon__.getSetting('Enable_Password') == 'true'):
@@ -109,59 +111,8 @@ def basic_list():
 	f.write('<head>\n')
 	f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
 	f.write('<title>'+__language__(30007)+' ('+time.strftime('%d %B %Y')+')</title>\n')
-	f.write('<style type="text/css">\n')
-	f.write("body {background-color:#000000;margin: 0;padding: 0;background-attachment:fixed;}\n")
-	f.write('h1 {font-weight:bold;color:gold;text-shadow:1px 1px black;text-align:center;font-family:Verdana, Geneva, sans-serif;}\n')
-	f.write('h2 {font-weight:bold;color:white;text-shadow:1px 1px black;text-align:center;font-family:"Trebuchet MS", Helvetica, sans-serif;}\n')
-	f.write('h3 {font-weight:bold;color:slategrey;text-shadow:1px 1px black;text-align:center;text-decoration:underline;font-family:Arial, Helvetica, sans-serif;}\n')
-	f.write('p.mediatitle {font-size:1.5em;font-weight:bold;color:white;text-shadow:1px 1px black;text-align:center;font-family:"Times New Roman", Times, serif;margin:0;line-height:1.0;}\n')
-	f.write('p.episode {font-size:1.0em;color:white;text-align:center;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.3;}\n')
-	f.write('p.plot {font-size:1.0em;color:white;text-align:center;font-family:"Courier New", Courier, monospace;padding:0% 5% 0% 5%;}\n')
-	f.write('p.episodecount {font-size:0.9em;color:cyan;text-shadow:1px 1px black;text-align:center;font-family:Arial, Helvetica, sans-serif;margin:6px;line-height:1.2;}\n')
-	f.write('p.genre {font-size:1.0em;color:yellowgreen;text-shadow:1px 1px black;text-align:center;font-family:Arial, Helvetica, sans-serif;margin:7px;line-height:1.2;}\n')
-	f.write('p.mpaa {font-size:0.8em;color:white;text-shadow:1px 1px black;text-align:center;font-family:Arial, Helvetica, sans-serif;margin:6px;line-height:1.2;}\n')
-	f.write('p.date {font-size:0.9em;color:white;text-shadow:1px 1px black;text-align:right;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;}\n')
-	f.write('p.links {color:white;text-shadow:1px 1px black;margin: 0 ;padding-top:10px;font-family:Arial, Helvetica, sans-serif;}\n')
-	f.write('a.anchor{display: block; position: relative; top: -75px; visibility: hidden;}\n')
-	f.write('a:link {color:white;}\n')
-	f.write('a:visited {color:white;}\n')
-	f.write('a:hover {color:cyan;}\n')
-	f.write('a:active {color:yellowgreen;}\n')
-	f.write('a:focus {outline: none;}\n')
-	f.write('img {border:0;vertical-align:middle;}\n')
-	f.write('</style>\n')
-	f.write('<script language="JavaScript">\n')
-	f.write('var TRange=null;\n')
-	f.write('function findString (str) {\n')
-	f.write('\tif (parseInt(navigator.appVersion)<4) return;\n')
-	f.write('\tvar strFound;\n')
-	f.write('\tif (window.find) {\n')
-	f.write('\t\tstrFound=self.find(str);\n')
-	f.write('\t\tif (!strFound) {\n')
-	f.write('\t\t\tstrFound=self.find(str,0,1);\n')
-	f.write('\t\t\twhile (self.find(str,0,1)) continue;\n')
-	f.write('\t\t}\n')
-	f.write('\t}\n')
-	f.write('\t	else if (navigator.appName.indexOf("Microsoft")!=-1) {\n')
-	f.write('\t\tif (TRange!=null) {\n')
-	f.write('\t\t\tTRange.collapse(false);\n')
-	f.write('\t\t\tstrFound=TRange.findText(str);\n')
-	f.write('\t\t\tif (strFound) TRange.select();\n')
-	f.write('\t\t}\n')
-	f.write('\t\tif (TRange==null || strFound==0) {\n')
-	f.write('\t\t\tTRange=self.document.body.createTextRange();\n')
-	f.write('\t\t\tstrFound=TRange.findText(str);\n')
-	f.write('\t\t\tif (strFound) TRange.select();\n')
-	f.write('\t\t}\n')
-	f.write('\t}\n')
-	f.write('\telse if (navigator.appName=="Opera") {\n')
-	f.write('\t\talert ("Opera browsers not supported, sorry...")\n')
-	f.write('\t\treturn;\n')
-	f.write('\t}\n')
-	f.write('\tif (!strFound) alert ("String ''"+str+"'' not found!")\n')
-	f.write('\treturn;\n')
-	f.write('}\n')
-	f.write('</script>\n')
+	f.write('<link rel="stylesheet" href="Basic_css.css">\n')	
+	f.write('<script language="JavaScript" src="SearchScript.js"></script>\n')	
 	f.write("</head>\n")
 	f.write('<body background="http://images.wikia.com/monobook/images/7/7d/Binding_Dark.png">\n')
 	f.write('<div id="header" style="height:95px;width:90%;position : fixed;background-color:#333333;margin-left: 5%;margin-right: auto ;">\n')
@@ -338,6 +289,13 @@ if (__addon__.getSetting('Enable_ftp') == 'false'):
 	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addon__.getAddonInfo('name'), __language__(30005), 4000, __icon__) )
 else:
 	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % ( __language__(30005), __language__(30006), 4000, __icon__) )
+	
+def copy_files():	
+	web_files = os.listdir(__files__)
+	for file_name in web_files:
+		full_file_name = os.path.join(__files__, file_name)
+		if (os.path.isfile(full_file_name)):
+			shutil.copy(full_file_name, file_path)
 
 def password_protect():
 	password_php = xbmc.translatePath( os.path.join( __resource__, 'php', 'password_protect.php' ).encode("utf-8") ).decode("utf-8")		
@@ -386,6 +344,12 @@ def ftp():
 		file = open(str(file_path)+str(file_name),'rb')	
 		session.storlines('STOR ' + str(file_name), file)
 		file.close()		
+		file = open( os.path.join( __resource__, 'files', 'Basic_css.css' ),'rb')	
+		session.storlines('STOR ' + 'Basic_css.css', file)		
+		file.close()		
+		file = open( os.path.join( __resource__, 'files', 'SearchScript.js' ),'rb')	
+		session.storlines('STOR ' + 'SearchScript.js', file)		
+		file.close()		
 		session.quit()		
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 		xbmc.sleep(200)
@@ -398,6 +362,7 @@ def ftp():
 if ( __name__ == "__main__" ):
 	xbmc.log(__addon__.getAddonInfo('name')+": ## STARTED")
 	basic_list()
+	copy_files()
 	if (__addon__.getSetting('Enable_Password') == 'true'):
 		password_protect()
 	if (__addon__.getSetting('Enable_ftp') == 'true'):

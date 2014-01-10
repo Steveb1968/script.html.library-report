@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+body {
+	background-color:#000000;
+	margin: 0;
+	padding: 0;
+	background-attachment:fixed;
+}
+
+h1 {
+	font-weight:bold;
+	color:gold;
+	text-shadow:1px 1px black;
+	text-align:center;
+	font-family:Verdana, Geneva, sans-serif;
+}
+
+h2 {
+	font-weight:bold;
+	color:white;
+	text-shadow:1px 1px black;
+	text-align:center;
+	font-family:"Trebuchet MS", Helvetica, sans-serif;
+}
+
+h3 {
+	font-weight:bold;
+	color:slategrey;
+	text-shadow:1px 1px black;
+	text-align:center;
+	text-decoration:underline;
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+img {
+	border:0;
+	vertical-align:middle;
+}
+
+p.mediatitle {
+	font-size:1.5em;
+	font-weight:bold;
+	color:white;
+	text-shadow:1px 1px black;
+	text-align:center;
+	font-family:"Times New Roman", Times, serif;
+	margin:0;
+	line-height:1.0;
+}
+
+p.episode {
+	font-size:1.0em;
+	color:white;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	margin:0;
+	line-height:1.3;
+}
+
+p.plot {
+	font-size:1.0em;
+	color:white;
+	text-align:center;
+	font-family:"Courier New", Courier, monospace;
+	padding:0% 5% 0% 5%;
+}
+
+p.episodecount {
+	font-size:0.9em;
+	color:cyan;
+	text-shadow:1px 1px black;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	margin:6px;
+	line-height:1.2;
+}
+
+p.genre {
+	font-size:1.0em;
+	color:yellowgreen;
+	text-shadow:1px 1px black;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	margin:7px;
+	line-height:1.2;
+}
+
+p.mpaa {
+	font-size:0.8em;
+	color:white;
+	text-shadow:1px 1px black;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	margin:6px;
+	line-height:1.2;
+}
+
+p.date {
+	font-size:0.9em;
+	color:white;
+	text-shadow:1px 1px black;
+	text-align:right;
+	font-family:Arial, Helvetica, sans-serif;
+	margin:0;
+	line-height:1.2;
+}
+
+p.links {
+	color:white;
+	text-shadow:1px 1px black;
+	margin: 0 ;
+	padding-top:10px;
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+a.anchor{
+	display: block;
+	position: relative;
+	top: -75px;
+	visibility: hidden;
+}
+	
+a:link {color:white;}
+a:visited {color:white;}
+a:hover {color:cyan;}
+a:active {color:yellowgreen;}
+a:focus {outline: none;}
