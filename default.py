@@ -77,7 +77,7 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 	episodes = jsonobject["result"]["episodes"]
 	
 # create html output
-def basic_list():
+def default_list():
 	f = codecs.open(os.path.join(file_path,str(file_name)),'wt', "utf-8")
 	# password_protect
 	if (__addon__.getSetting('Enable_Password') == 'true'):
@@ -86,7 +86,7 @@ def basic_list():
 	f.write('<head>\n')
 	f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
 	f.write('<title>'+__language__(30007)+' ('+time.strftime('%d %B %Y')+')</title>\n')
-	f.write('<link rel="stylesheet" href="Basic_css.css">\n')	
+	f.write('<link rel="stylesheet" href="Default.css">\n')	
 	f.write('<script language="JavaScript" charset="UTF-8" src="SearchScript.js"></script>\n')	
 	f.write("</head>\n")
 	f.write('<body background="http://images.wikia.com/monobook/images/7/7d/Binding_Dark.png">\n')
@@ -319,8 +319,8 @@ def ftp():
 		file = open(str(file_path)+str(file_name),'rb')	
 		session.storlines('STOR ' + str(file_name), file)
 		file.close()		
-		file = open( os.path.join( __resource__, 'files', 'Basic_css.css' ),'rb')	
-		session.storlines('STOR ' + 'Basic_css.css', file)		
+		file = open( os.path.join( __resource__, 'files', 'Default.css' ),'rb')	
+		session.storlines('STOR ' + 'Default.css', file)		
 		file.close()		
 		file = open( os.path.join( __resource__, 'files', 'SearchScript.js' ),'rb')	
 		session.storlines('STOR ' + 'SearchScript.js', file)		
@@ -336,7 +336,7 @@ def ftp():
 
 if ( __name__ == "__main__" ):
 	xbmc.log(__addon__.getAddonInfo('name')+": ## STARTED")
-	basic_list()
+	default_list()
 	copy_files()
 	if (__addon__.getSetting('Enable_Password') == 'true'):
 		password_protect()
