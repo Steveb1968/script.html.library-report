@@ -18,11 +18,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 msgctxt "Addon Summary"
-msgid "Create a HTML file summary of all the movies and tv shows in your library."
+msgid "Create a HTML file summary of all the movies and/or tvshows in your library."
 msgstr ""
 
 msgctxt "Addon Description"
-msgid "Create a HTML file summary of all the movies and tv shows in your library."
+msgid "Create a HTML file summary of all the movies and/or tvshows in your library. Option to upload the results to a server via FTP. Option to password protect the online web-page."
 msgstr ""
 
 
@@ -63,7 +63,7 @@ msgid "Users webpage location url (needed for password protection)"
 msgstr ""
 
 msgctxt "#30009"
-msgid "Example: myserver.com/root/*custom *(if custom dir structure used)"
+msgid "Example: myserver.com/root*/custom *(if custom dir structure used)"
 msgstr ""
 
 msgctxt "#30010"
