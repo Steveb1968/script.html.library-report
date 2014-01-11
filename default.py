@@ -1,7 +1,5 @@
-import os
-import xbmc
-import xbmcgui
-import xbmcaddon
+import os, sys
+import xbmc, xbmcgui, xbmcaddon
 import time
 import codecs, shutil
 import ftplib
@@ -343,4 +341,5 @@ if ( __name__ == "__main__" ):
 	if (__addon__.getSetting('Enable_ftp') == 'true'):
 		xbmc.log(__addon__.getAddonInfo('name')+": ## UPLOADING TO FTP HOST")
 		ftp()
-	xbmc.log(__addon__.getAddonInfo('name')+": ## FINISHED")	
+	xbmc.log(__addon__.getAddonInfo('name')+": ## FINISHED")
+	sys.modules.clear()
