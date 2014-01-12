@@ -9,6 +9,7 @@ else:
     import json as simplejson
 
 __addon__     = xbmcaddon.Addon(id='script.html.library-report')
+__addonname__ = __addon__.getAddonInfo('name')
 __language__  = __addon__.getLocalizedString
 __icon__      = __addon__.getAddonInfo('icon')
 __cwd__       = __addon__.getAddonInfo('path').decode("utf-8")
@@ -18,7 +19,7 @@ __files__     = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'files' 
 # save path
 file_path = __addon__.getSetting('save_location')
 while file_path=="":
-	xbmcgui.Dialog().ok(__addon__.getAddonInfo('name'),__language__(30004))
+	xbmcgui.Dialog().ok(__addonname__,__language__(30004))
 	__addon__.openSettings()
 	file_path = __addon__.getSetting('save_location')
 	
@@ -259,7 +260,7 @@ def default_list():
 if (__addon__.getSetting('Enable_ftp') == 'false'):
 	xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 	xbmc.sleep(200)
-	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addon__.getAddonInfo('name'), __language__(30005), 4000, __icon__) )
+	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addonname__, __language__(30005), 4000, __icon__) )
 else:
 	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % ( __language__(30005), __language__(30006), 4000, __icon__) )
 	
@@ -326,20 +327,20 @@ def ftp():
 		session.quit()		
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 		xbmc.sleep(200)
-		xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addon__.getAddonInfo('name'),__language__(30025), 4000, __icon__) )
+		xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addonname__,__language__(30025), 4000, __icon__) )
 	except Exception,e:
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 		xbmc.sleep(200)
 		xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__language__(30026),e, 4000, __icon__) )
 
 if ( __name__ == "__main__" ):
-	xbmc.log(__addon__.getAddonInfo('name')+": ## STARTED")
+	xbmc.log(__addonname__+": ## STARTED")
 	default_list()
 	copy_files()
 	if (__addon__.getSetting('Enable_Password') == 'true'):
 		password_protect()
 	if (__addon__.getSetting('Enable_ftp') == 'true'):
-		xbmc.log(__addon__.getAddonInfo('name')+": ## UPLOADING TO FTP HOST")
+		xbmc.log(__addonname__+": ## UPLOADING TO FTP HOST")
 		ftp()
-	xbmc.log(__addon__.getAddonInfo('name')+": ## FINISHED")
+	xbmc.log(__addonname__+": ## FINISHED")
 	sys.modules.clear()
