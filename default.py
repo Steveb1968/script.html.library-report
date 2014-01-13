@@ -77,7 +77,7 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 	
 # create html output
 def default_list():
-	f = codecs.open(os.path.join(file_path,str(file_name)),'wt', "utf-8")
+	f = codecs.open(os.path.join(file_path,str(file_name)), "w", encoding="utf-8")
 	# password_protect
 	if (__addon__.getSetting('Enable_Password') == 'true'):
 		f.write('<?php include("/data/www/'+__addon__.getSetting('webpage_location_php')+'/password_protect.php"); ?>\n')
