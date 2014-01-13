@@ -343,4 +343,3 @@ if ( __name__ == "__main__" ):
 		xbmc.log(__addonname__+": ## UPLOADING TO FTP HOST")
 		ftp()
 	xbmc.log(__addonname__+": ## FINISHED")
-	sys.modules.clear()
