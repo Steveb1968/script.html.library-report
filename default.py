@@ -214,7 +214,6 @@ def default_list():
 						channels = ''				
 				if episode['tvshowid'] == tvshow['tvshowid']:
 					episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))
-			episode_list.sort()
 			if (__addon__.getSetting('episodes') == 'false'):
 				prev_season = None
 				seasoncount = 0
