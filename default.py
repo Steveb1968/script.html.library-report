@@ -14,7 +14,7 @@ __language__  = __addon__.getLocalizedString
 __icon__      = __addon__.getAddonInfo('icon')
 __cwd__       = __addon__.getAddonInfo('path').decode("utf-8")
 __resource__  = xbmc.translatePath( os.path.join( __cwd__, 'resources' ).encode("utf-8") ).decode("utf-8")
-__files__     = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'files' ).encode("utf-8") ).decode("utf-8")
+__data__     = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'data' ).encode("utf-8") ).decode("utf-8")
 	
 # save path
 file_path = __addon__.getSetting('save_location')
@@ -263,15 +263,15 @@ if (__addon__.getSetting('Enable_ftp') == 'false'):
 else:
 	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % ( __language__(30005), __language__(30006), 4000, __icon__) )
 	
-def copy_files():	
-	web_files = os.listdir(__files__)
-	for file_name in web_files:
-		full_file_name = os.path.join(__files__, file_name)
+def copy_files_local():	
+	data_files = os.listdir(__data__)
+	for file_name in data_files:
+		full_file_name = os.path.join(__data__, file_name)
 		if (os.path.isfile(full_file_name)):
 			shutil.copy(full_file_name, file_path)
 
 def password_protect():
-	password_php = xbmc.translatePath( os.path.join( __resource__, 'php', 'password_protect.php' ).encode("utf-8") ).decode("utf-8")		
+	password_php = xbmc.translatePath( os.path.join( __data__, 'password_protect.php' ).encode("utf-8") ).decode("utf-8")		
 	with codecs.open(password_php, "r", encoding="utf-8") as file:
 		data = file.readlines()
 	# change the selected lines
@@ -305,24 +305,25 @@ def ftp():
 			session.mkd(next_level_directory)
 		session.cwd(next_level_directory)
 		ch_dir_rec(session,descending_path_split)
+		
 
 	try:
 		session = ftplib.FTP(__addon__.getSetting('server'),__addon__.getSetting('user'),__addon__.getSetting('password'))
 		if (__addon__.getSetting('enable_ftp_dir') == 'true') and directory != "":
 			chdir(session, directory)
 		if (__addon__.getSetting('Enable_Password') == 'true'):
-			filepass = open( os.path.join( __resource__, 'php', 'password_protect.php' ),'rb')			
+			filepass = open( os.path.join( __data__, 'password_protect.php' ),'rb')			
 			session.storlines('STOR ' + str(password_file), filepass)
 			filepass.close()
 		file = open(str(file_path)+str(file_name),'rb')	
 		session.storlines('STOR ' + str(file_name), file)
 		file.close()		
-		file = open( os.path.join( __resource__, 'files', 'Default.css' ),'rb')	
+		file = open( os.path.join( __data__, 'Default.css' ),'rb')	
 		session.storlines('STOR ' + 'Default.css', file)		
 		file.close()		
-		file = open( os.path.join( __resource__, 'files', 'SearchScript.js' ),'rb')	
-		session.storlines('STOR ' + 'SearchScript.js', file)		
-		file.close()		
+		file = open( os.path.join( __data__, 'SearchScript.js' ),'rb')	
+		session.storlines('STOR ' + 'SearchScript.js', file)
+		file.close()
 		session.quit()		
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 		xbmc.sleep(200)
@@ -335,7 +336,7 @@ def ftp():
 if ( __name__ == "__main__" ):
 	xbmc.log(__addonname__+": ## STARTED")
 	default_list()
-	copy_files()
+	copy_files_local()
 	if (__addon__.getSetting('Enable_Password') == 'true'):
 		password_protect()
 	if (__addon__.getSetting('Enable_ftp') == 'true'):
