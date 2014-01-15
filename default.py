@@ -16,36 +16,52 @@ __cwd__       = __addon__.getAddonInfo('path').decode("utf-8")
 __resource__  = xbmc.translatePath( os.path.join( __cwd__, 'resources' ).encode("utf-8") ).decode("utf-8")
 __data__     = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'data' ).encode("utf-8") ).decode("utf-8")
 	
-# save path
+# get addon settings
 file_path = __addon__.getSetting('save_location')
+web_password = __addon__.getSetting('Enable_Password')
+include_movies = __addon__.getSetting('includemovies')
+plot_movies = __addon__.getSetting('movieplot')
+include_tvshows = __addon__.getSetting('includetvshows')
+plot_tvshows = __addon__.getSetting('tvshowplot')
+list_episodes = __addon__.getSetting('episodes')
+enable_ftp = __addon__.getSetting('Enable_ftp')
+host = __addon__.getSetting('server')
+user = __addon__.getSetting('user')
+password = __addon__.getSetting('password')
+change_ftp_dir = __addon__.getSetting('enable_ftp_dir')
+directory = __addon__.getSetting('ftp_dir')
+web_user = __addon__.getSetting('web_user')
+web_password = __addon__.getSetting('web_password')
+Password_only = __addon__.getSetting('Password_only')
+logout = __addon__.getSetting('logout_url')
+	
+# save path
 while file_path=="":
 	xbmcgui.Dialog().ok(__addonname__,__language__(30004))
 	__addon__.openSettings()
-	file_path = __addon__.getSetting('save_location')
+	file_path = file_path
 	
 xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 
 # file name	
-if (__addon__.getSetting('Enable_Password') == 'true'):
+if (web_password == 'true'):
 	file_name = 'index.php'
 else:
 	file_name = 'index.html'
-
-directory = __addon__.getSetting('ftp_dir')
-top250count = 0
-
+	
 # data
-if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
+if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "title", "ignorearticle": true } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
-	movies = jsonobject["result"]["movies"]	
+	movies = jsonobject["result"]["movies"]
+	top250count = 0
 	for movie in movies:
 		if int(movie['top250']) > 0:
 			top250count += 1
 
-if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
+if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "plot", "rating", "originaltitle", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
@@ -62,7 +78,7 @@ if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility
 def default_list():
 	f = codecs.open(os.path.join(file_path,str(file_name)), "w", encoding="utf-8")
 	# password_protect
-	if (__addon__.getSetting('Enable_Password') == 'true'):
+	if (web_password == 'true'):
 		f.write('\n')
 	f.write('<!DOCTYPE html>\n')
 	f.write('<head>\n')
@@ -76,12 +92,12 @@ def default_list():
 	f.write('<div id="Date" style="height:95px;width:20%;float:right;padding-right:1%;padding-top:15px;">\n')
 	f.write('<p class="date">Last Updated: '+time.strftime('%d %B %Y')+'</p>\n')
 	# password_protect logout
-	if (__addon__.getSetting('Enable_Password') == 'true'):
+	if (web_password == 'true'):
 		f.write('<form style="float:right;padding-top:30px;" method="get" action="password_protect.php" /><input type="submit" value="Logout" /><input type="hidden" name="logout" value="1" /></form>\n')
 	f.write('</div>\n')
 	f.write('<div id="Search" style="height:95px;width:20%;float:left;padding-left:1%;padding-top:15px;">\n')
 	f.write("<iframe id="+'"srchform2" '+'src="'+"javascript:'<html><body style=margin:0px;><form action="+"\\'javascript:void();\\' onSubmit=if(this.t1.value!=\\'\\')parent.findString(this.t1.value);return(false);><input type=text id=t1 name=t1 size=20><input type=submit name=b1 value=Find></form></body></html>'"+'"'+" width=220 height=34 border=0 frameborder=0 scrolling=no></iframe>\n")
-	if (__addon__.getSetting('includemovies') == 'true') and (__addon__.getSetting('includetvshows') == 'true'):
+	if (include_movies == 'true') and (include_tvshows == 'true'):
 		f.write('<p class="links"><a href="#movie_link">Movies</a>&nbsp;&nbsp;<a href="#tvshow_link">TvShows</a></p>\n')
 	f.write('</div>\n')
 	f.write('<div id="Heading" style="height:95px;width:80%;margin-left: auto;margin-right: auto ;">\n')
@@ -90,7 +106,7 @@ def default_list():
 	f.write('</div>\n')
 	f.write('<div id="Body" style="width:100%;padding-top:75px;">\n')
 
-	if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
+	if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
 		f.write('<a class="anchor" id="movie_link">anchor</a>\n')
 		f.write('<hr width="90%">\n')
 		f.write('<h2>MOVIES: ('+str(len(movies))+' Total / '+str(top250count)+ ' Top250)</h2>\n')
@@ -143,29 +159,29 @@ def default_list():
 			else:
 				f.write('<p class="mpaa">Rated '+str(movie['mpaa'])+'</p>\n')
 			# list plot
-			if (__addon__.getSetting('movieplot') == 'true'):
+			if (plot_movies == 'true'):
 				f.write('<p class="plot">'+movie['plot']+'</p>\n')
 				f.write('&nbsp;\n')
 			else:
 				f.write('&nbsp;\n')	
 	
-	if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
+	if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 		f.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
 		f.write('<hr width="90%">\n')
 		f.write('<h2>TV SHOWS: ('+str(len(tvshows))+' Total / '+str(len(episodes))+' Episodes)</h2>\n')
-		if (__addon__.getSetting('episodes') == 'false'):
+		if (list_episodes == 'false'):
 			f.write('<hr width="90%">\n')
 		for tvshow in tvshows:
 			tvgenre = " / ".join(tvshow['genre'])
 			tv_rating = str(round(float(tvshow['rating']),1))
-			if (__addon__.getSetting('episodes') == 'true'):
+			if (list_episodes == 'true'):
 				f.write('<hr width="90%">\n')
 			f.write('&nbsp;\n')
 			f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="http://home.comcast.net/~krkweb/xbmc/thetvdb_logo_onblack.jpg" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')			
 			episode_list = []
 			for episode in episodes:
 				episode_runtime = ' &bull; '+str(episode['runtime'] / 60)+' min'
-				if (__addon__.getSetting('episodes') == 'true'):					
+				if (list_episodes == 'true'):					
 					if episode['streamdetails']['video'] != []:
 						videowidth = episode['streamdetails']['video'][0]['width']
 						videoheight = episode['streamdetails']['video'][0]['height']
@@ -197,7 +213,7 @@ def default_list():
 						channels = ''				
 				if episode['tvshowid'] == tvshow['tvshowid']:
 					episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))
-			if (__addon__.getSetting('episodes') == 'false'):
+			if (list_episodes == 'false'):
 				prev_season = None
 				seasoncount = 0
 				for episode in episode_list:
@@ -213,10 +229,10 @@ def default_list():
 			else:
 				f.write('<p class="mpaa">Rated '+str(tvshow['mpaa'])+'</p>\n')
 			# list plot
-			if (__addon__.getSetting('tvshowplot') == 'true'):
+			if (plot_tvshows == 'true'):
 				f.write('<p class="plot">'+tvshow['plot']+'</p>\n')	
 			# list episodes
-			if (__addon__.getSetting('episodes') == 'true'):
+			if (list_episodes == 'true'):
 				prev_season = None
 				for episode in episode_list:
 					season = episode[0]			
@@ -225,7 +241,7 @@ def default_list():
 						prev_season = season
 					f.write('<p class="episode">'+episode[2]+'</p>\n')
 				f.write('&nbsp;\n')
-		if (__addon__.getSetting('episodes') == 'false'):
+		if (list_episodes == 'false'):
 			f.write('&nbsp;\n')
 	f.write('</div>\n')
 	f.write('<div id="footer">\n')
@@ -239,7 +255,7 @@ def default_list():
 	f.write('</html>')
 	f.close()
 	
-if (__addon__.getSetting('Enable_ftp') == 'false'):
+if (enable_ftp == 'false'):
 	xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 	xbmc.sleep(200)
 	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addonname__, __language__(30005), 4000, __icon__) )
@@ -258,9 +274,9 @@ def password_protect():
 	with codecs.open(password_php, "r", encoding="utf-8") as file:
 		data = file.readlines()
 	# change the selected lines
-	data[51] = "\t'"+__addon__.getSetting('web_user')+"' => '"+__addon__.getSetting('web_password')+"'\n"
-	data[58] = "define('LOGOUT_URL', 'http://"+__addon__.getSetting('logout_url')+"/');\n"
-	if (__addon__.getSetting('Password_only') == 'true'):
+	data[51] = "\t'"+web_user+"' => '"+web_password+"'\n"
+	data[58] = "define('LOGOUT_URL', 'http://"+logout+"/');\n"
+	if (Password_only == 'true'):
 		data[55] = "define('USE_USERNAME', false);\n"
 	else:
 		data[55] = "define('USE_USERNAME', true);\n"
@@ -273,10 +289,10 @@ def insert_php_header():
 	with codecs.open(str(file_path)+str(file_name), "r", encoding="utf-8") as file:
 		data = file.readlines()
 	# change the selected line
-	if (__addon__.getSetting('enable_ftp_dir') == 'true') and directory != "":
-		data[0] = '<?php include("/data/www/'+__addon__.getSetting('server')+'/'+__addon__.getSetting('user')+'/'+str(directory)+'/password_protect.php"); ?>\n'
+	if (change_ftp_dir == 'true') and directory != "":
+		data[0] = '<?php include("/data/www/'+host+'/'+user+'/'+directory+'/password_protect.php"); ?>\n'
 	else:
-		data[0] = '<?php include("/data/www/'+__addon__.getSetting('server')+'/'+__addon__.getSetting('user')+'/password_protect.php"); ?>\n'
+		data[0] = '<?php include("/data/www/'+host+'/'+user+'/password_protect.php"); ?>\n'
 	# write back
 	with codecs.open(str(file_path)+str(file_name), "w", encoding="utf-8") as file:
 		file.writelines(data)
@@ -308,25 +324,25 @@ def ftp():
 		
 	def remove_files():
 		filelist = []
-		if (__addon__.getSetting('Enable_Password') == 'false'):
+		if (web_password == 'false'):
 			session.retrlines('NLST',filelist.append)			
 			for f in filelist:
 				if "index.php" in f:
 					session.delete('index.php')
 				if "password_protect.php" in f:
 					session.delete('password_protect.php')
-		elif (__addon__.getSetting('Enable_Password') == 'true'):
+		elif (web_password == 'true'):
 			session.retrlines('NLST',filelist.append)
 			for f in filelist:
 				if "index.html" in f:
 					session.delete('index.html')
 		
 	try:
-		session = ftplib.FTP(__addon__.getSetting('server'),__addon__.getSetting('user'),__addon__.getSetting('password'))
-		if (__addon__.getSetting('enable_ftp_dir') == 'true') and directory != "":
+		session = ftplib.FTP(host,user,password)
+		if (change_ftp_dir == 'true') and directory != "":
 			chdir(session, directory)
 		remove_files()
-		if (__addon__.getSetting('Enable_Password') == 'true'):
+		if (web_password == 'true'):
 			file = open( os.path.join( __data__, 'password_protect.php' ),'rb')			
 			session.storlines('STOR ' + 'password_protect.php', file)
 			file.close()
@@ -351,10 +367,10 @@ def ftp():
 if ( __name__ == "__main__" ):
 	xbmc.log(__addonname__+": ## STARTED")
 	default_list()	
-	if (__addon__.getSetting('Enable_Password') == 'true'):
+	if (web_password == 'true'):
 		password_protect()
 		insert_php_header()
-	if (__addon__.getSetting('Enable_ftp') == 'true'):
+	if (enable_ftp == 'true'):
 		xbmc.log(__addonname__+": ## UPLOADING TO FTP HOST")
 		ftp()
 	copy_files_local()
