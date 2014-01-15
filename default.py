@@ -18,7 +18,7 @@ __data__     = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'data' ).
 	
 # get addon settings
 file_path = __addon__.getSetting('save_location')
-web_password = __addon__.getSetting('Enable_Password')
+enable_password = __addon__.getSetting('Enable_Password')
 include_movies = __addon__.getSetting('includemovies')
 plot_movies = __addon__.getSetting('movieplot')
 include_tvshows = __addon__.getSetting('includetvshows')
@@ -44,7 +44,7 @@ while file_path=="":
 xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 
 # file name	
-if (web_password == 'true'):
+if (enable_password == 'true'):
 	file_name = 'index.php'
 else:
 	file_name = 'index.html'
@@ -78,7 +78,7 @@ if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(T
 def default_list():
 	f = codecs.open(os.path.join(file_path,str(file_name)), "w", encoding="utf-8")
 	# password_protect
-	if (web_password == 'true'):
+	if (enable_password == 'true'):
 		f.write('\n')
 	f.write('<!DOCTYPE html>\n')
 	f.write('<head>\n')
@@ -92,7 +92,7 @@ def default_list():
 	f.write('<div id="Date" style="height:95px;width:20%;float:right;padding-right:1%;padding-top:15px;">\n')
 	f.write('<p class="date">Last Updated: '+time.strftime('%d %B %Y')+'</p>\n')
 	# password_protect logout
-	if (web_password == 'true'):
+	if (enable_password == 'true'):
 		f.write('<form style="float:right;padding-top:30px;" method="get" action="password_protect.php" /><input type="submit" value="Logout" /><input type="hidden" name="logout" value="1" /></form>\n')
 	f.write('</div>\n')
 	f.write('<div id="Search" style="height:95px;width:20%;float:left;padding-left:1%;padding-top:15px;">\n')
@@ -324,14 +324,14 @@ def ftp():
 		
 	def remove_files():
 		filelist = []
-		if (web_password == 'false'):
+		if (enable_password == 'false'):
 			session.retrlines('NLST',filelist.append)			
 			for f in filelist:
 				if "index.php" in f:
 					session.delete('index.php')
 				if "password_protect.php" in f:
 					session.delete('password_protect.php')
-		elif (web_password == 'true'):
+		elif (enable_password == 'true'):
 			session.retrlines('NLST',filelist.append)
 			for f in filelist:
 				if "index.html" in f:
@@ -342,7 +342,7 @@ def ftp():
 		if (change_ftp_dir == 'true') and directory != "":
 			chdir(session, directory)
 		remove_files()
-		if (web_password == 'true'):
+		if (enable_password == 'true'):
 			file = open( os.path.join( __data__, 'password_protect.php' ),'rb')			
 			session.storlines('STOR ' + 'password_protect.php', file)
 			file.close()
@@ -367,7 +367,7 @@ def ftp():
 if ( __name__ == "__main__" ):
 	xbmc.log(__addonname__+": ## STARTED")
 	default_list()	
-	if (web_password == 'true'):
+	if (enable_password == 'true'):
 		password_protect()
 		insert_php_header()
 	if (enable_ftp == 'true'):
