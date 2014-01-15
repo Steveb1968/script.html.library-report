@@ -28,32 +28,15 @@ xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 # file name	
 if (__addon__.getSetting('Enable_Password') == 'true'):
 	file_name = 'index.php'
-	password_file = 'password_protect.php'
 else:
 	file_name = 'index.html'
-
-
-# sort order	
-sort_by = {}
-sort_by['0'] = 'title'            
-sort_by['1'] = 'year'          
-sort_by['2'] = 'rating'            
-sort_by['3'] = 'dateadded'
-MovieSortBy = str(sort_by[__addon__.getSetting('msort_by')])
-TvSortBy = str(sort_by[__addon__.getSetting('tsort_by')])
-
-sort = {}
-sort['0'] = 'ascending'            
-sort['1'] = 'descending'
-MovieSort = str(sort[__addon__.getSetting('msort_mode')])        
-TvSort = str(sort[__addon__.getSetting('tsort_mode')])
 
 directory = __addon__.getSetting('ftp_dir')
 top250count = 0
 
 # data
 if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
-	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "'+MovieSort+'", "method": "'+MovieSortBy+'", "ignorearticle": true } }, "id": 1}'
+	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "title", "ignorearticle": true } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
@@ -63,7 +46,7 @@ if (__addon__.getSetting('includemovies') == 'true') and xbmc.getCondVisibility(
 			top250count += 1
 
 if (__addon__.getSetting('includetvshows') == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
-	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "plot", "rating", "originaltitle", "year", "mpaa", "imdbnumber"], "sort": { "order": "'+TvSort+'", "method": "'+TvSortBy+'" } }, "id": 1}'
+	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "plot", "rating", "originaltitle", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
@@ -80,7 +63,7 @@ def default_list():
 	f = codecs.open(os.path.join(file_path,str(file_name)), "w", encoding="utf-8")
 	# password_protect
 	if (__addon__.getSetting('Enable_Password') == 'true'):
-		f.write('<?php include("/data/www/'+__addon__.getSetting('webpage_location_php')+'/password_protect.php"); ?>\n')
+		f.write('\n')
 	f.write('<!DOCTYPE html>\n')
 	f.write('<head>\n')
 	f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
@@ -277,11 +260,28 @@ def password_protect():
 	# change the selected lines
 	data[51] = "\t'"+__addon__.getSetting('web_user')+"' => '"+__addon__.getSetting('web_password')+"'\n"
 	data[58] = "define('LOGOUT_URL', 'http://"+__addon__.getSetting('logout_url')+"/');\n"
+	if (__addon__.getSetting('Password_only') == 'true'):
+		data[55] = "define('USE_USERNAME', false);\n"
+	else:
+		data[55] = "define('USE_USERNAME', true);\n"
 	# write back
 	with codecs.open(password_php, "w", encoding="utf-8") as file:
 		file.writelines(data)
 		file.close()
-	
+		
+def insert_php_header():	
+	with codecs.open(str(file_path)+str(file_name), "r", encoding="utf-8") as file:
+		data = file.readlines()
+	# change the selected line
+	if (__addon__.getSetting('enable_ftp_dir') == 'true') and directory != "":
+		data[0] = '<?php include("/data/www/'+__addon__.getSetting('server')+'/'+__addon__.getSetting('user')+'/'+str(directory)+'/password_protect.php"); ?>\n'
+	else:
+		data[0] = '<?php include("/data/www/'+__addon__.getSetting('server')+'/'+__addon__.getSetting('user')+'/password_protect.php"); ?>\n'
+	# write back
+	with codecs.open(str(file_path)+str(file_name), "w", encoding="utf-8") as file:
+		file.writelines(data)
+		file.close()
+
 # ftp file transfer
 def ftp():
 
@@ -290,9 +290,9 @@ def ftp():
 
 	# Check if directory exists (in current location)
 	def directory_exists(session, directory):
-		filelist = []
-		session.retrlines('LIST',filelist.append)
-		for f in filelist:
+		dirlist = []
+		session.retrlines('LIST',dirlist.append)
+		for f in dirlist:
 			if f.split()[-1] == directory:
 				return True
 		return False
@@ -306,15 +306,30 @@ def ftp():
 		session.cwd(next_level_directory)
 		ch_dir_rec(session,descending_path_split)
 		
-
+	def remove_files():
+		filelist = []
+		if (__addon__.getSetting('Enable_Password') == 'false'):
+			session.retrlines('NLST',filelist.append)			
+			for f in filelist:
+				if "index.php" in f:
+					session.delete('index.php')
+				if "password_protect.php" in f:
+					session.delete('password_protect.php')
+		elif (__addon__.getSetting('Enable_Password') == 'true'):
+			session.retrlines('NLST',filelist.append)
+			for f in filelist:
+				if "index.html" in f:
+					session.delete('index.html')
+		
 	try:
 		session = ftplib.FTP(__addon__.getSetting('server'),__addon__.getSetting('user'),__addon__.getSetting('password'))
 		if (__addon__.getSetting('enable_ftp_dir') == 'true') and directory != "":
 			chdir(session, directory)
+		remove_files()
 		if (__addon__.getSetting('Enable_Password') == 'true'):
-			filepass = open( os.path.join( __data__, 'password_protect.php' ),'rb')			
-			session.storlines('STOR ' + str(password_file), filepass)
-			filepass.close()
+			file = open( os.path.join( __data__, 'password_protect.php' ),'rb')			
+			session.storlines('STOR ' + 'password_protect.php', file)
+			file.close()
 		file = open(str(file_path)+str(file_name),'rb')	
 		session.storlines('STOR ' + str(file_name), file)
 		file.close()		
@@ -335,11 +350,12 @@ def ftp():
 
 if ( __name__ == "__main__" ):
 	xbmc.log(__addonname__+": ## STARTED")
-	default_list()
-	copy_files_local()
+	default_list()	
 	if (__addon__.getSetting('Enable_Password') == 'true'):
 		password_protect()
+		insert_php_header()
 	if (__addon__.getSetting('Enable_ftp') == 'true'):
 		xbmc.log(__addonname__+": ## UPLOADING TO FTP HOST")
 		ftp()
+	copy_files_local()
 	xbmc.log(__addonname__+": ## FINISHED")

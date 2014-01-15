@@ -59,11 +59,11 @@ msgid "Library Report"
 msgstr ""
 
 msgctxt "#30008"
-msgid "Users webpage location url (needed for password protection)"
+msgid "Default:  password: admin"
 msgstr ""
 
 msgctxt "#30009"
-msgid "Example: myserver.com/root*/custom *(if custom dir structure used)"
+msgid "Only use Password"
 msgstr ""
 
 msgctxt "#30010"
@@ -71,7 +71,7 @@ msgid "Include Plot"
 msgstr ""
 
 msgctxt "#30011"
-msgid "Include Episodes Titles"
+msgid "Include Episode List"
 msgstr ""
 
 #empty strings from id 30012 to 30015
@@ -132,37 +132,7 @@ msgctxt "#30029"
 msgid "Directory:"
 msgstr ""
 
-msgctxt "#30030"
-msgid "Sort:"
-msgstr ""
-
-msgctxt "#30031"
-msgid "Ascending"
-msgstr ""
-
-msgctxt "#30032"
-msgid "Descending"
-msgstr ""
-
-msgctxt "#30033"
-msgid "Sort By:"
-msgstr ""
-
-msgctxt "#30034"
-msgid "Title"
-msgstr ""
-
-msgctxt "#30035"
-msgid "Year"
-msgstr ""
-
-msgctxt "#30036"
-msgid "Rating"
-msgstr ""
-
-msgctxt "#30037"
-msgid "Date Added"
-msgstr ""
+#empty strings from id 30030 to 30037
 
 msgctxt "#30038"
 msgid "Note: If the Directory structure dose not exist it will be created."
@@ -170,8 +140,4 @@ msgstr ""
 
 msgctxt "#30039"
 msgid "Use '/' to descend into directory.  Example: LibraryReport/UserName"
-msgstr ""
-
-msgctxt "#30040"
-msgid "Webpage Location URL"
 msgstr ""
