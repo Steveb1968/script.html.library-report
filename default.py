@@ -162,6 +162,9 @@ def default_list():
 			if (plot_movies == 'true'):
 				f.write('<p class="plot">'+movie['plot']+'</p>\n')
 				f.write('&nbsp;\n')
+				if movie != movies[-1]:
+					f.write('<hr width="90%">\n')
+					f.write('&nbsp;\n')
 			else:
 				f.write('&nbsp;\n')	
 	
@@ -169,13 +172,10 @@ def default_list():
 		f.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
 		f.write('<hr width="90%">\n')
 		f.write('<h2>TV SHOWS: ('+str(len(tvshows))+' Total / '+str(len(episodes))+' Episodes)</h2>\n')
-		if (list_episodes == 'false'):
-			f.write('<hr width="90%">\n')
+		f.write('<hr width="90%">\n')
 		for tvshow in tvshows:
 			tvgenre = " / ".join(tvshow['genre'])
 			tv_rating = str(round(float(tvshow['rating']),1))
-			if (list_episodes == 'true'):
-				f.write('<hr width="90%">\n')
 			f.write('&nbsp;\n')
 			f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="http://home.comcast.net/~krkweb/xbmc/thetvdb_logo_onblack.jpg" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')			
 			episode_list = []
@@ -213,15 +213,14 @@ def default_list():
 						channels = ''				
 				if episode['tvshowid'] == tvshow['tvshowid']:
 					episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))
-			if (list_episodes == 'false'):
-				prev_season = None
-				seasoncount = 0
-				for episode in episode_list:
-					season = episode[0]		
-					if season != prev_season:
-						seasoncount += 1			
-						prev_season = season
-				f.write('<p class="episodecount">(Seasons ' +str(seasoncount)+' / '+str(len(episode_list))+' Episodes)</p>\n')		
+			prev_season = None
+			seasoncount = 0
+			for episode in episode_list:
+				season = episode[0]		
+				if season != prev_season:
+					seasoncount += 1			
+					prev_season = season
+			f.write('<p class="episodecount">(Seasons ' +str(seasoncount)+' / '+str(len(episode_list))+' Episodes)</p>\n')		
 			f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(tv_rating)+' &#9733;</span></p>\n')
 			# format tvshow mpaa
 			if str(tvshow['mpaa']) == "":
@@ -230,7 +229,11 @@ def default_list():
 				f.write('<p class="mpaa">Rated '+str(tvshow['mpaa'])+'</p>\n')
 			# list plot
 			if (plot_tvshows == 'true'):
-				f.write('<p class="plot">'+tvshow['plot']+'</p>\n')	
+				f.write('<p class="plot">'+tvshow['plot']+'</p>\n')
+				if tvshow != tvshows[-1] and (list_episodes == 'false'):
+					f.write('&nbsp;\n')
+					f.write('<hr width="90%">\n')
+					f.write('&nbsp;\n')
 			# list episodes
 			if (list_episodes == 'true'):
 				prev_season = None
@@ -241,8 +244,9 @@ def default_list():
 						prev_season = season
 					f.write('<p class="episode">'+episode[2]+'</p>\n')
 				f.write('&nbsp;\n')
-		if (list_episodes == 'false'):
-			f.write('&nbsp;\n')
+				if tvshow != tvshows[-1]:
+					f.write('<hr width="90%">\n')
+		f.write('&nbsp;\n')
 	f.write('</div>\n')
 	f.write('<div id="footer">\n')
 	f.write('<hr width="90%">\n')
