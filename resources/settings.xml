@@ -21,8 +21,8 @@
 		<setting id="enable_ftp_dir" type="bool" label="30028" default="false" enable="eq(-7,true)"/>
 		<setting id="ftp_dir" type="text" label="30029" default="" subsetting="true" enable="eq(-1,true) + eq(-8,true)"/>
 		<setting type="sep" />
-		<setting type="lsep" label="30038"/>
-		<setting type="lsep" label="30039"/>
+		<setting type="lsep" label="30031"/>
+		<setting type="lsep" label="30032"/>
 	</category>
 	<category label="30016">
 		<setting id="Enable_Password" type="bool" label="30017" default="false"/>

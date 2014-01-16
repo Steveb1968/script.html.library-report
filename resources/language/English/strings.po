@@ -74,7 +74,21 @@ msgctxt "#30011"
 msgid "Include Episode List"
 msgstr ""
 
-#empty strings from id 30012 to 30015
+msgctxt "#30012"
+msgid "Last Updated: "
+msgstr ""
+
+msgctxt "#30013"
+msgid "Top250"
+msgstr ""
+
+msgctxt "#30014"
+msgid "Rated"
+msgstr ""
+
+msgctxt "#30015"
+msgid "Help/Support: "
+msgstr ""
 
 msgctxt "#30016"
 msgid "Password Protect"
@@ -132,12 +146,14 @@ msgctxt "#30029"
 msgid "Directory:"
 msgstr ""
 
-#empty strings from id 30030 to 30037
+msgctxt "#30030"
+msgid "Created using: "
+msgstr ""
 
-msgctxt "#30038"
+msgctxt "#30031"
 msgid "Note: If the Directory structure dose not exist it will be created."
 msgstr ""
 
-msgctxt "#30039"
+msgctxt "#30032"
 msgid "Use '/' to descend into directory.  Example: LibraryReport/UserName"
 msgstr ""
