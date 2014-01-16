@@ -34,20 +34,21 @@ web_user = __addon__.getSetting('web_user')
 web_password = __addon__.getSetting('web_password')
 Password_only = __addon__.getSetting('Password_only')
 logout = __addon__.getSetting('logout_url')
+session = ftplib.FTP(host,user,password)
 	
 # save path
 while file_path=="":
 	xbmcgui.Dialog().ok(__addonname__,__language__(30004))
 	__addon__.openSettings()
 	file_path = file_path
-	
-xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 
 # file name	
 if (enable_password == 'true'):
 	file_name = 'index.php'
 else:
 	file_name = 'index.html'
+	
+xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 	
 # data
 if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
@@ -342,7 +343,6 @@ def ftp():
 					session.delete('index.html')
 		
 	try:
-		session = ftplib.FTP(host,user,password)
 		if (change_ftp_dir == 'true') and directory != "":
 			chdir(session, directory)
 		remove_files()
