@@ -13,8 +13,8 @@ __addonname__ = __addon__.getAddonInfo('name')
 __language__  = __addon__.getLocalizedString
 __icon__      = __addon__.getAddonInfo('icon')
 __cwd__       = __addon__.getAddonInfo('path').decode("utf-8")
-__resource__  = xbmc.translatePath( os.path.join( __cwd__, 'resources' ).encode("utf-8") ).decode("utf-8")
-__data__      = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'data' ).encode("utf-8") ).decode("utf-8")
+__resource__  = xbmc.translatePath( os.path.join( __cwd__, 'resources' ) ).decode("utf-8")
+__data__      = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'data' ) ).decode("utf-8")
 	
 # get addon settings
 file_path = __addon__.getSetting('save_location')
@@ -116,7 +116,7 @@ def default_list():
 		for movie in movies:
 			moviegenre = " / ".join(movie['genre'])
 			movie_rating = '<span style="color:white"> &bull; </span><span style="color:gold">'+str(round(float(movie['rating']),1))+' &#9733;</span>'
-			movie_runtime = '<span style="color:white"> &bull; '+str(movie['runtime'] / 60)+' min</span>' 
+			movie_runtime = '<span style="color:white"> &bull; %s min' % str(movie['runtime'] / 60)+'</span>' 
 			if movie['streamdetails']['video'] != []:
 				videowidth = movie['streamdetails']['video'][0]['width']
 				videoheight = movie['streamdetails']['video'][0]['height']
@@ -181,7 +181,7 @@ def default_list():
 			f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="http://home.comcast.net/~krkweb/xbmc/thetvdb_logo_onblack.jpg" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')			
 			episode_list = []
 			for episode in episodes:
-				episode_runtime = ' &bull; '+str(episode['runtime'] / 60)+' min'
+				episode_runtime = ' &bull; %s min' % str(episode['runtime'] / 60)
 				if (list_episodes == 'true'):					
 					if episode['streamdetails']['video'] != []:
 						videowidth = episode['streamdetails']['video'][0]['width']
@@ -379,3 +379,5 @@ if ( __name__ == "__main__" ):
 		ftp()
 	copy_files_local()
 	xbmc.log(__addonname__+": ## FINISHED")
+	
+sys.modules.clear()

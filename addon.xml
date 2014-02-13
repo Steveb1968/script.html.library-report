@@ -2,7 +2,6 @@
 <addon id="script.html.library-report" name="HTML Library Report" version="0.2.4" provider-name="steveb">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0"/>
-		<import addon="xbmc.gui" version="4.0.0"/>
 	</requires>
 	<extension point="xbmc.python.script" library="default.py"/>
 	<extension point="xbmc.addon.metadata">
