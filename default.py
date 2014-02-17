@@ -336,11 +336,15 @@ def ftp():
 					session.delete('index.php')
 				if "password_protect.php" in f:
 					session.delete('password_protect.php')
+				else:
+					pass
 		elif (enable_password == 'true'):
 			session.retrlines('NLST',filelist.append)
 			for f in filelist:
 				if "index.html" in f:
 					session.delete('index.html')
+				else:
+					pass
 		
 	try:
 		if (change_ftp_dir == 'true') and directory != "":
