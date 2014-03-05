@@ -40,7 +40,7 @@ session = ftplib.FTP(host,user,password)
 while file_path=="":
 	xbmcgui.Dialog().ok(__addonname__,__language__(30004))
 	__addon__.openSettings()
-	file_path = file_path
+	file_path = xbmc.translatePath(file_path).decode("utf-8")
 
 # file name	
 if (enable_password == 'true'):
