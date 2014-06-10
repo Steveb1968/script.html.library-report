@@ -14,7 +14,9 @@ __language__  = __addon__.getLocalizedString
 __icon__      = __addon__.getAddonInfo('icon')
 __cwd__       = __addon__.getAddonInfo('path').decode("utf-8")
 __resource__  = xbmc.translatePath( os.path.join( __cwd__, 'resources' ) ).decode("utf-8")
-__data__      = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'data' ) ).decode("utf-8")
+__data__      = xbmc.translatePath( os.path.join( __resource__, 'data' ) ).decode("utf-8")
+__image__     = xbmc.translatePath( os.path.join( __resource__, 'images' ) ).decode("utf-8")
+
 	
 # get addon settings
 file_path = __addon__.getSetting('save_location')
@@ -88,7 +90,7 @@ def default_list():
 	f.write('<link rel="stylesheet" href="Default.css">\n')	
 	f.write('<script language="JavaScript" charset="UTF-8" src="SearchScript.js"></script>\n')	
 	f.write("</head>\n")
-	f.write('<body background="http://images.wikia.com/monobook/images/7/7d/Binding_Dark.png">\n')
+	f.write('<body background="images/bg.png">\n')
 	f.write('<div id="header" style="height:95px;width:90%;position : fixed;background-color:#333333;margin-left: 5%;margin-right: auto ;">\n')
 	f.write('<div id="Date" style="height:95px;width:20%;float:right;padding-right:1%;padding-top:15px;">\n')
 	f.write('<p class="date">'+__language__(30012)+time.strftime('%d %B %Y')+'</p>\n')
@@ -102,7 +104,7 @@ def default_list():
 		f.write('<p class="links"><a href="#movie_link">'+xbmc.getLocalizedString(342)+'</a>&nbsp;&nbsp;<a href="#tvshow_link">'+xbmc.getLocalizedString(20343)+'</a></p>\n')
 	f.write('</div>\n')
 	f.write('<div id="Heading" style="height:95px;width:80%;margin-left: auto;margin-right: auto ;">\n')
-	f.write('<h1><img src="http://xbmc.org/wp-content/themes/paradise/Paradise/images/logo.png" alt="XBMC" width="168" height="50" align="top"> '+__language__(30007)+'</h1>\n')
+	f.write('<h1><img src="images/logo.png" alt="XBMC" width="168" height="50" align="top"> '+__language__(30007)+'</h1>\n')
 	f.write('</div>\n')
 	f.write('</div>\n')
 	f.write('<div id="Body" style="width:100%;padding-top:75px;">\n')
@@ -145,8 +147,8 @@ def default_list():
 				else:
 					channels = ''
 			else:
-				channels = ''			
-			f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/35/IMDb_logo.svg/200px-IMDb_logo.svg.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')	
+				channels = ''
+			f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="images/imdb_logo.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')	
 			f.write('<p class="genre">'+str(moviegenre)+str(movie_rating))
 			if int(movie['top250']) > 0:	
 				f.write('<span style="color:gold"> ('+str(movie['top250'])+'/'+__language__(30013)+')</span>'+str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
@@ -178,11 +180,11 @@ def default_list():
 			tvgenre = " / ".join(tvshow['genre'])
 			tv_rating = str(round(float(tvshow['rating']),1))
 			f.write('&nbsp;\n')
-			f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="http://home.comcast.net/~krkweb/xbmc/thetvdb_logo_onblack.jpg" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')			
+			f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="images/tvdb_logo.jpg" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')			
 			episode_list = []
 			for episode in episodes:
 				episode_runtime = ' &bull; %s min' % str(episode['runtime'] / 60)
-				if (list_episodes == 'true'):					
+				if (list_episodes == 'true'):
 					if episode['streamdetails']['video'] != []:
 						videowidth = episode['streamdetails']['video'][0]['width']
 						videoheight = episode['streamdetails']['video'][0]['height']
@@ -197,7 +199,7 @@ def default_list():
 						else:
 							videoresolution = ' &bull; <span style="color:deepskyblue">1080 HD</span>'
 					else:
-						videoresolution = ''				
+						videoresolution = ''
 					if episode['streamdetails']['audio'] != []:
 						audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
 						if audiochannels == 8:
@@ -211,15 +213,15 @@ def default_list():
 						else:
 							channels = ''
 					else:
-						channels = ''				
+						channels = ''
 				if episode['tvshowid'] == tvshow['tvshowid']:
 					episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))
 			prev_season = None
 			seasoncount = 0
 			for episode in episode_list:
-				season = episode[0]		
+				season = episode[0]
 				if season != prev_season:
-					seasoncount += 1			
+					seasoncount += 1
 					prev_season = season
 			f.write('<p class="episodecount">('+xbmc.getLocalizedString(33054)+' ' +str(seasoncount)+' / '+str(len(episode_list))+' '+xbmc.getLocalizedString(20360)+')</p>\n')		
 			f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(tv_rating)+' &#9733;</span></p>\n')
@@ -239,8 +241,8 @@ def default_list():
 			if (list_episodes == 'true'):
 				prev_season = None
 				for episode in episode_list:
-					season = episode[0]			
-					if season != prev_season:						
+					season = episode[0]
+					if season != prev_season:
 						f.write('<h3>'+xbmc.getLocalizedString(20373)+' '+str(season)+'</h3>\n')
 						prev_season = season
 					f.write('<p class="episode">'+episode[2]+'</p>\n')
@@ -269,13 +271,24 @@ else:
 	
 def copy_files_local():	
 	data_files = os.listdir(__data__)
+	image_files = os.listdir(__image__)
+	image_dest = os.path.join(file_path, 'images')
 	for file_name in data_files:
 		full_file_name = os.path.join(__data__, file_name)
-		if (os.path.isfile(full_file_name)):
+		if not(os.path.isfile(file_path + '/' + file_name)):
 			shutil.copy(full_file_name, file_path)
+	
+	if not os.path.exists(image_dest):
+		os.makedirs(image_dest)
+
+	for file_name in image_files:
+		full_file_name = os.path.join(__image__, file_name)
+		if not(os.path.isfile(image_dest + '/' + file_name)):
+			shutil.copy(full_file_name, image_dest)
+
 
 def password_protect():
-	password_php = xbmc.translatePath( os.path.join( __data__, 'password_protect.php' ).encode("utf-8") ).decode("utf-8")		
+	password_php = xbmc.translatePath( os.path.join( __data__, 'password_protect.php' ).encode("utf-8") ).decode("utf-8")
 	with codecs.open(password_php, "r", encoding="utf-8") as file:
 		data = file.readlines()
 	# change the selected lines
@@ -290,7 +303,7 @@ def password_protect():
 		file.writelines(data)
 		file.close()
 		
-def insert_php_header():	
+def insert_php_header():
 	with codecs.open(str(file_path)+str(file_name), "r", encoding="utf-8") as file:
 		data = file.readlines()
 	# change the selected line
@@ -330,7 +343,7 @@ def ftp():
 	def remove_files():
 		filelist = []
 		if (enable_password == 'false'):
-			session.retrlines('NLST',filelist.append)			
+			session.retrlines('NLST',filelist.append)
 			for f in filelist:
 				if "index.php" in f:
 					session.delete('index.php')
@@ -345,25 +358,38 @@ def ftp():
 					session.delete('index.html')
 				else:
 					pass
+
+	def copy_images():
+		image_files = os.listdir(__image__)
+		if 'images' in session.nlst():
+			pass
+		else:
+			session.mkd('images')
+			session.cwd('images')
+		for file_name in image_files:
+			file = open( os.path.join( __image__, file_name ),'rb')
+			session.storbinary('STOR ' + file_name, file)
+			file.close()
 		
 	try:
 		if (change_ftp_dir == 'true') and directory != "":
 			chdir(session, directory)
 		remove_files()
 		if (enable_password == 'true'):
-			file = open( os.path.join( __data__, 'password_protect.php' ),'rb')			
+			file = open( os.path.join( __data__, 'password_protect.php' ),'rb')
 			session.storlines('STOR ' + 'password_protect.php', file)
 			file.close()
 		file = open(str(file_path)+str(file_name),'rb')	
 		session.storlines('STOR ' + str(file_name), file)
-		file.close()		
-		file = open( os.path.join( __data__, 'Default.css' ),'rb')	
-		session.storlines('STOR ' + 'Default.css', file)		
-		file.close()		
-		file = open( os.path.join( __data__, 'SearchScript.js' ),'rb')	
+		file.close()
+		file = open( os.path.join( __data__, 'Default.css' ),'rb')
+		session.storlines('STOR ' + 'Default.css', file)
+		file.close()
+		file = open( os.path.join( __data__, 'SearchScript.js' ),'rb')
 		session.storlines('STOR ' + 'SearchScript.js', file)
 		file.close()
-		session.quit()		
+		copy_images()
+		session.quit()
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 		xbmc.sleep(200)
 		xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addonname__,__language__(30025), 4000, __icon__) )
@@ -383,5 +409,3 @@ if ( __name__ == "__main__" ):
 		ftp()
 	copy_files_local()
 	xbmc.log(__addonname__+": ## FINISHED")
-	
-sys.modules.clear()

@@ -100,7 +100,7 @@ function showLoginPasswordProtect($error_msg) {
   <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
   <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
 </head>
-<body style="background-image:url('http://images.wikia.com/monobook/images/7/7d/Binding_Dark.png');background-color:#000000;">
+<body style="background-image:url('images/bg.png');background-color:#000000;">
   <style>
     input { border: 1px solid black; }
   </style>
