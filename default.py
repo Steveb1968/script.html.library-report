@@ -117,7 +117,7 @@ def default_list():
 		f.write('&nbsp;\n')
 		for movie in movies:
 			moviegenre = " / ".join(movie['genre'])
-			movie_rating = '<span style="color:white"> &bull; </span><span style="color:gold">'+str(round(float(movie['rating']),1))+' &#9733;</span>'
+			movie_rating = '<span style="color:white"> &bull; </span><span style="color:GoldenRod">'+str(round(float(movie['rating']),1))+' &#9733;</span>'
 			movie_runtime = '<span style="color:white"> &bull; <span style="color:darkgrey">%s min</span>' % str(movie['runtime'] / 60)+'</span>' 
 			if movie['streamdetails']['video'] != []:
 				videowidth = movie['streamdetails']['video'][0]['width']
@@ -151,7 +151,7 @@ def default_list():
 			f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="images/imdb_logo.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')
 			f.write('<p class="genre">'+str(moviegenre)+str(movie_rating))
 			if int(movie['top250']) > 0:
-				f.write('<span style="color:gold"> ('+str(movie['top250'])+'/'+__language__(30013)+')</span>'+str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
+				f.write('<span style="color:GoldenRod"> ('+str(movie['top250'])+'/'+__language__(30013)+')</span>'+str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
 			else:
 				f.write(str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
 			# format movie mpaa
@@ -224,7 +224,7 @@ def default_list():
 					seasoncount += 1
 					prev_season = season
 			f.write('<p class="episodecount">('+xbmc.getLocalizedString(33054)+' ' +str(seasoncount)+' / '+str(len(episode_list))+' '+xbmc.getLocalizedString(20360)+')</p>\n')
-			f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(tv_rating)+' &#9733;</span></p>\n')
+			f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:GoldenRod"> '+str(tv_rating)+' &#9733;</span></p>\n')
 			# format tvshow mpaa
 			if str(tvshow['mpaa']) == "":
 				f.write('<p class="mpaa">'+__language__(30014)+' NA</p>\n')
