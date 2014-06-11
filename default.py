@@ -69,7 +69,7 @@ if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(T
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
-	tvshows = jsonobject["result"]["tvshows"]	
+	tvshows = jsonobject["result"]["tvshows"]
 	
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["tvshowid", "episode", "originaltitle", "season", "streamdetails", "runtime"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
@@ -88,7 +88,7 @@ def default_list():
 	f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
 	f.write('<title>'+__language__(30007)+' ('+time.strftime('%d %B %Y')+')</title>\n')
 	f.write('<link rel="stylesheet" href="Default.css">\n')	
-	f.write('<script language="JavaScript" charset="UTF-8" src="SearchScript.js"></script>\n')	
+	f.write('<script language="JavaScript" charset="UTF-8" src="SearchScript.js"></script>\n')
 	f.write("</head>\n")
 	f.write('<body background="images/bg.png">\n')
 	f.write('<div id="header" style="height:95px;width:90%;position : fixed;background-color:#333333;margin-left: 5%;margin-right: auto ;">\n')
@@ -118,7 +118,7 @@ def default_list():
 		for movie in movies:
 			moviegenre = " / ".join(movie['genre'])
 			movie_rating = '<span style="color:white"> &bull; </span><span style="color:gold">'+str(round(float(movie['rating']),1))+' &#9733;</span>'
-			movie_runtime = '<span style="color:white"> &bull; %s min' % str(movie['runtime'] / 60)+'</span>' 
+			movie_runtime = '<span style="color:white"> &bull; <span style="color:darkgrey">%s min</span>' % str(movie['runtime'] / 60)+'</span>' 
 			if movie['streamdetails']['video'] != []:
 				videowidth = movie['streamdetails']['video'][0]['width']
 				videoheight = movie['streamdetails']['video'][0]['height']
@@ -137,7 +137,7 @@ def default_list():
 			if movie['streamdetails']['audio'] != []:
 				audiochannels = int(movie['streamdetails']['audio'][0]['channels'])
 				if audiochannels == 8:
-					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 ch</span>'		
+					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 ch</span>'
 				elif audiochannels == 6:
 					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 ch</span>'
 				elif audiochannels == 2:
@@ -148,12 +148,12 @@ def default_list():
 					channels = ''
 			else:
 				channels = ''
-			f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="images/imdb_logo.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')	
+			f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="images/imdb_logo.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')
 			f.write('<p class="genre">'+str(moviegenre)+str(movie_rating))
-			if int(movie['top250']) > 0:	
+			if int(movie['top250']) > 0:
 				f.write('<span style="color:gold"> ('+str(movie['top250'])+'/'+__language__(30013)+')</span>'+str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
 			else:
-				f.write(str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')		
+				f.write(str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
 			# format movie mpaa
 			if str(movie['mpaa']).startswith(__language__(30014)):
 				f.write('<p class="mpaa">'+str(movie['mpaa'])+'</p>\n')
@@ -169,7 +169,7 @@ def default_list():
 					f.write('<hr width="90%">\n')
 					f.write('&nbsp;\n')
 			else:
-				f.write('&nbsp;\n')	
+				f.write('&nbsp;\n')
 	
 	if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 		f.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
@@ -180,7 +180,7 @@ def default_list():
 			tvgenre = " / ".join(tvshow['genre'])
 			tv_rating = str(round(float(tvshow['rating']),1))
 			f.write('&nbsp;\n')
-			f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="images/tvdb_logo.jpg" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')			
+			f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="images/tvdb_logo.jpg" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')
 			episode_list = []
 			for episode in episodes:
 				episode_runtime = ' &bull; %s min' % str(episode['runtime'] / 60)
@@ -203,7 +203,7 @@ def default_list():
 					if episode['streamdetails']['audio'] != []:
 						audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
 						if audiochannels == 8:
-							channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 ch</span>'		
+							channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 ch</span>'
 						elif audiochannels == 6:
 							channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 ch</span>'
 						elif audiochannels == 2:
@@ -223,7 +223,7 @@ def default_list():
 				if season != prev_season:
 					seasoncount += 1
 					prev_season = season
-			f.write('<p class="episodecount">('+xbmc.getLocalizedString(33054)+' ' +str(seasoncount)+' / '+str(len(episode_list))+' '+xbmc.getLocalizedString(20360)+')</p>\n')		
+			f.write('<p class="episodecount">('+xbmc.getLocalizedString(33054)+' ' +str(seasoncount)+' / '+str(len(episode_list))+' '+xbmc.getLocalizedString(20360)+')</p>\n')
 			f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:gold"> '+str(tv_rating)+' &#9733;</span></p>\n')
 			# format tvshow mpaa
 			if str(tvshow['mpaa']) == "":
@@ -269,7 +269,7 @@ if (enable_ftp == 'false'):
 else:
 	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % ( __language__(30005), __language__(30006), 4000, __icon__) )
 	
-def copy_files_local():	
+def copy_files_local():
 	data_files = os.listdir(__data__)
 	image_files = os.listdir(__image__)
 	image_dest = os.path.join(file_path, 'images')
@@ -379,7 +379,7 @@ def ftp():
 			file = open( os.path.join( __data__, 'password_protect.php' ),'rb')
 			session.storlines('STOR ' + 'password_protect.php', file)
 			file.close()
-		file = open(str(file_path)+str(file_name),'rb')	
+		file = open(str(file_path)+str(file_name),'rb')
 		session.storlines('STOR ' + str(file_name), file)
 		file.close()
 		file = open( os.path.join( __data__, 'Default.css' ),'rb')
@@ -400,7 +400,7 @@ def ftp():
 
 if ( __name__ == "__main__" ):
 	xbmc.log(__addonname__+": ## STARTED")
-	default_list()	
+	default_list()
 	if (enable_password == 'true'):
 		password_protect()
 		insert_php_header()
