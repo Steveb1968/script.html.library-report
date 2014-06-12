@@ -63,7 +63,7 @@ msgid "Default:  password: admin"
 msgstr ""
 
 msgctxt "#30009"
-msgid "Only use Password"
+msgid "Use Password only"
 msgstr ""
 
 msgctxt "#30010"
@@ -90,9 +90,7 @@ msgctxt "#30015"
 msgid "Help/Support: "
 msgstr ""
 
-msgctxt "#30016"
-msgid "Password Protect"
-msgstr ""
+#empty string with id 30016
 
 msgctxt "#30017"
 msgid "Enable Webpage Password Protection"
@@ -135,7 +133,7 @@ msgid "FTP File Transfer FAILED."
 msgstr ""
 
 msgctxt "#30027"
-msgid "Use settings below to change from the ftp root directory."
+msgid "Use setting below to change from the ftp root directory."
 msgstr ""
 
 msgctxt "#30028"
@@ -148,12 +146,4 @@ msgstr ""
 
 msgctxt "#30030"
 msgid "Created using: "
-msgstr ""
-
-msgctxt "#30031"
-msgid "Note: If the Directory structure dose not exist it will be created."
-msgstr ""
-
-msgctxt "#30032"
-msgid "Use '/' to descend into directory.  Example: LibraryReport/UserName"
 msgstr ""
