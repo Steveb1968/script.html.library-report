@@ -45,10 +45,7 @@ while file_path=="":
 	file_path = xbmc.translatePath(file_path).decode("utf-8")
 
 # file name	
-if (enable_password == 'true'):
-	file_name = 'index.php'
-else:
-	file_name = 'index.html'
+file_name = 'index.html'
 	
 xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 	
@@ -273,17 +270,19 @@ def copy_files_local():
 	data_files = os.listdir(__data__)
 	image_files = os.listdir(__image__)
 	image_dest = os.path.join(file_path, 'images')
-	for file_name in data_files:
-		full_file_name = os.path.join(__data__, file_name)
-		if not(os.path.isfile(file_path + '/' + file_name)):
+	for f in data_files:
+		full_file_name = os.path.join(__data__, f)
+		if f == 'password_protect.php':
+			pass
+		else:
 			shutil.copy(full_file_name, file_path)
 	
 	if not os.path.exists(image_dest):
 		os.makedirs(image_dest)
 
-	for file_name in image_files:
-		full_file_name = os.path.join(__image__, file_name)
-		if not(os.path.isfile(image_dest + '/' + file_name)):
+	for f in image_files:
+		full_file_name = os.path.join(__image__, f)
+		if not(os.path.isfile(image_dest + '/' + f)):
 			shutil.copy(full_file_name, image_dest)
 
 
@@ -345,17 +344,8 @@ def ftp():
 		if (enable_password == 'false'):
 			session.retrlines('NLST',filelist.append)
 			for f in filelist:
-				if "index.php" in f:
-					session.delete('index.php')
 				if "password_protect.php" in f:
 					session.delete('password_protect.php')
-				else:
-					pass
-		elif (enable_password == 'true'):
-			session.retrlines('NLST',filelist.append)
-			for f in filelist:
-				if "index.html" in f:
-					session.delete('index.html')
 				else:
 					pass
 
@@ -366,21 +356,21 @@ def ftp():
 		else:
 			session.mkd('images')
 			session.cwd('images')
-		for file_name in image_files:
-			file = open( os.path.join( __image__, file_name ),'rb')
-			session.storbinary('STOR ' + file_name, file)
-			file.close()
+			for f in image_files:
+				file = open( os.path.join( __image__, f ),'rb')
+				session.storbinary('STOR ' + f, file)
+				file.close()
 		
 	try:
 		if (change_ftp_dir == 'true') and directory != "":
 			chdir(session, directory)
-		remove_files()
 		if (enable_password == 'true'):
 			file = open( os.path.join( __data__, 'password_protect.php' ),'rb')
 			session.storlines('STOR ' + 'password_protect.php', file)
 			file.close()
+		remove_files()
 		file = open(str(file_path)+str(file_name),'rb')
-		session.storlines('STOR ' + str(file_name), file)
+		session.storlines('STOR ' + str('index.php'), file)
 		file.close()
 		file = open( os.path.join( __data__, 'Default.css' ),'rb')
 		session.storlines('STOR ' + 'Default.css', file)
