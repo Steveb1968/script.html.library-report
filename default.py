@@ -120,11 +120,11 @@ def default_list():
 				videowidth = movie['streamdetails']['video'][0]['width']
 				videoheight = movie['streamdetails']['video'][0]['height']
 				if videowidth <= 720 and videoheight <= 480:
-					videoresolution = '<span style="color:white"> &bull; </span><span style="color:orange">480 SD</span>'
+					videoresolution = '<span style="color:white"> &bull; </span><span style="color:Crimson">480 SD</span>'
 				elif videowidth <= 768 and videoheight <= 576:
-					videoresolution = '<span style="color:white"> &bull; </span><span style="color:orange">576 SD</span>'
+					videoresolution = '<span style="color:white"> &bull; </span><span style="color:Crimson">576 SD</span>'
 				elif videowidth <= 960 and videoheight <= 544:
-					videoresolution = '<span style="color:white"> &bull; </span><span style="color:orange">540 SD</span>'
+					videoresolution = '<span style="color:white"> &bull; </span><span style="color:Crimson">540 SD</span>'
 				elif videowidth <= 1280 and videoheight <= 720:
 					videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">720 HD</span>'
 				else:
@@ -186,11 +186,11 @@ def default_list():
 						videowidth = episode['streamdetails']['video'][0]['width']
 						videoheight = episode['streamdetails']['video'][0]['height']
 						if videowidth <= 720 and videoheight <= 480:
-							videoresolution = ' &bull; <span style="color:orange">480 SD</span>'
+							videoresolution = ' &bull; <span style="color:Crimson">480 SD</span>'
 						elif videowidth <= 768 and videoheight <= 576:
-							videoresolution = ' &bull; <span style="color:orange">576 SD</span>'
+							videoresolution = ' &bull; <span style="color:Crimson">576 SD</span>'
 						elif videowidth <= 960 and videoheight <= 544:
-							videoresolution = ' &bull; <span style="color:orange">540 SD</span>'
+							videoresolution = ' &bull; <span style="color:Crimson">540 SD</span>'
 						elif videowidth <= 1280 and videoheight <= 720:
 							videoresolution = ' &bull; <span style="color:deepskyblue">720 HD</span>'
 						else:
