@@ -19,7 +19,7 @@ __image__     = xbmc.translatePath( os.path.join( __resource__, 'images' ) ).dec
 
 	
 # get addon settings
-file_path = __addon__.getSetting('save_location')
+file_path = __addon__.getSetting('save_location') 
 enable_password = __addon__.getSetting('Enable_Password')
 include_movies = __addon__.getSetting('includemovies')
 plot_movies = __addon__.getSetting('movieplot')
@@ -42,7 +42,7 @@ session = ftplib.FTP(host,user,password)
 while file_path=="":
 	xbmcgui.Dialog().ok(__addonname__,__language__(30004))
 	__addon__.openSettings()
-	file_path = xbmc.translatePath(file_path).decode("utf-8")
+	file_path = __addon__.getSetting('save_location')
 
 # file name	
 file_name = 'index.html'
