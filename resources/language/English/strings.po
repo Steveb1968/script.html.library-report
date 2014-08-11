@@ -111,7 +111,9 @@ msgctxt "#30022"
 msgid "Host:"
 msgstr ""
 
-#empty string with id 30023
+msgctxt "#30023"
+msgid "User:"
+msgstr ""
 
 msgctxt "#30024"
 msgid "Password:"
