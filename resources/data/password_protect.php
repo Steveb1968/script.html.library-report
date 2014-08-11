@@ -49,11 +49,11 @@ $LOGIN_INFORMATION = array(
 // Add login/password pairs below, like described above
 // NOTE: all rows except last must have comma "," at the end of line
 $LOGIN_INFORMATION = array(
-	'admin' => 'admin'
+	'admin'
 );
 
 // request login? true - show login and password boxes, false - password box only
-define('USE_USERNAME', true);
+define('USE_USERNAME', false);
 
 // User will be redirected to this page after logout
 define('LOGOUT_URL', 'http://www.google.com/');

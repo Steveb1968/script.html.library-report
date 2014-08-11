@@ -32,9 +32,7 @@ user = __addon__.getSetting('user')
 password = __addon__.getSetting('password')
 change_ftp_dir = __addon__.getSetting('enable_ftp_dir')
 directory = __addon__.getSetting('ftp_dir')
-web_user = __addon__.getSetting('web_user')
 web_password = __addon__.getSetting('web_password')
-Password_only = __addon__.getSetting('Password_only')
 logout = __addon__.getSetting('logout_url')
 session = ftplib.FTP(host,user,password)
 image_files = os.listdir(__image__)
@@ -149,7 +147,7 @@ def default_list():
 			f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="images/imdb_logo.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')
 			f.write('<p class="genre">'+str(moviegenre)+str(movie_rating))
 			if int(movie['top250']) > 0:
-				f.write('<span style="color:GoldenRod"> ('+str(movie['top250'])+'/'+__language__(30013)+')</span>'+str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
+				f.write('<span style="color:GoldenRod"> (#'+str(movie['top250'])+')</span>'+str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
 			else:
 				f.write(str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
 			# format movie mpaa
@@ -292,12 +290,8 @@ def password_protect():
 	with codecs.open(password_php, "r", encoding="utf-8") as file:
 		data = file.readlines()
 	# change the selected lines
-	data[51] = "\t'"+web_user+"' => '"+web_password+"'\n"
+	data[51] = "\t'"+web_password+"'\n"
 	data[58] = "define('LOGOUT_URL', 'http://"+logout+"/');\n"
-	if (Password_only == 'true'):
-		data[55] = "define('USE_USERNAME', false);\n"
-	else:
-		data[55] = "define('USE_USERNAME', true);\n"
 	# write back
 	with codecs.open(password_php, "w", encoding="utf-8") as file:
 		file.writelines(data)

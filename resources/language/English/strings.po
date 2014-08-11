@@ -25,7 +25,6 @@ msgctxt "Addon Description"
 msgid "Create a HTML file summary of all the movies and/or tvshows in your library. Option to upload the results to a server via FTP. Option to password protect the online web-page."
 msgstr ""
 
-
 msgctxt "#30000"
 msgid "General"
 msgstr ""
@@ -62,9 +61,7 @@ msgctxt "#30008"
 msgid "Default:  password: admin"
 msgstr ""
 
-msgctxt "#30009"
-msgid "Use Password only"
-msgstr ""
+#empty string with id 30009
 
 msgctxt "#30010"
 msgid "Include Plot"
@@ -96,9 +93,7 @@ msgctxt "#30017"
 msgid "Enable Webpage Password Protection"
 msgstr ""
 
-msgctxt "#30018"
-msgid "Default:  User: admin password: admin"
-msgstr ""
+#empty string with id 30018
 
 msgctxt "#30019"
 msgid "Define Logout Redirection URL"
@@ -116,9 +111,7 @@ msgctxt "#30022"
 msgid "Host:"
 msgstr ""
 
-msgctxt "#30023"
-msgid "User:"
-msgstr ""
+#empty string with id 30023
 
 msgctxt "#30024"
 msgid "Password:"
