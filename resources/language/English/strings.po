@@ -1,7 +1,7 @@
 # XBMC Media Center language file
 # Addon Name: HTML Library Report
 # Addon id: script.html.library-report
-# Addon version: 0.2.5
+# Addon version: 0.2.6
 # Addon Provider: steveb
 msgid ""
 msgstr ""
@@ -58,7 +58,7 @@ msgid "Library Report"
 msgstr ""
 
 msgctxt "#30008"
-msgid "Default:  password: admin"
+msgid "Default password: admin"
 msgstr ""
 
 #empty string with id 30009
