@@ -37,6 +37,7 @@ web_password = __addon__.getSetting('web_password')
 Password_only = __addon__.getSetting('Password_only')
 logout = __addon__.getSetting('logout_url')
 session = ftplib.FTP(host,user,password)
+image_files = os.listdir(__image__)
 	
 # save path
 while file_path=="":
@@ -115,32 +116,32 @@ def default_list():
 		for movie in movies:
 			moviegenre = " / ".join(movie['genre'])
 			movie_rating = '<span style="color:white"> &bull; </span><span style="color:GoldenRod">'+str(round(float(movie['rating']),1))+' &#9733;</span>'
-			movie_runtime = '<span style="color:white"> &bull; <span style="color:darkgrey">%s min</span>' % str(movie['runtime'] / 60)+'</span>' 
+			movie_runtime = '<span style="color:white"> &bull; </span><span style="color:darkgrey">%s min</span>' % str(movie['runtime'] / 60)+'</span>' 
 			if movie['streamdetails']['video'] != []:
 				videowidth = movie['streamdetails']['video'][0]['width']
 				videoheight = movie['streamdetails']['video'][0]['height']
 				if videowidth <= 720 and videoheight <= 480:
-					videoresolution = '<span style="color:white"> &bull; </span><span style="color:Crimson">480 SD</span>'
+					videoresolution = '&nbsp;<img src="images/sd.png" width="23" height="15" style="padding:4px">'
 				elif videowidth <= 768 and videoheight <= 576:
-					videoresolution = '<span style="color:white"> &bull; </span><span style="color:Crimson">576 SD</span>'
+					videoresolution = '&nbsp;<img src="images/sd.png" width="23" height="15" style="padding:4px">'
 				elif videowidth <= 960 and videoheight <= 544:
-					videoresolution = '<span style="color:white"> &bull; </span><span style="color:Crimson">540 SD</span>'
+					videoresolution = '&nbsp;<img src="images/sd.png" width="23" height="15" style="padding:4px">'
 				elif videowidth <= 1280 and videoheight <= 720:
-					videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">720 HD</span>'
+					videoresolution = '&nbsp;<img src="images/hd.png" width="23" height="15" style="padding:4px">'
 				else:
-					videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">1080 HD</span>'
+					videoresolution = '&nbsp;<img src="images/hd.png" width="23" height="15" style="padding:4px">'
 			else:
 				videoresolution = ''
 			if movie['streamdetails']['audio'] != []:
 				audiochannels = int(movie['streamdetails']['audio'][0]['channels'])
 				if audiochannels == 8:
-					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 ch</span>'
+					channels = '<img src="images/8ch.png" width="44" height="16">'
 				elif audiochannels == 6:
-					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 ch</span>'
+					channels = '<img src="images/6ch.png" width="44" height="16">'
 				elif audiochannels == 2:
-					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 ch</span>'
+					channels = '<img src="images/2ch.png" width="44" height="16">'
 				elif audiochannels == 1:
-					channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 ch</span>'
+					channels = '<img src="images/1ch.png" width="44" height="16">'
 				else:
 					channels = ''
 			else:
@@ -180,33 +181,33 @@ def default_list():
 			f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="images/tvdb_logo.jpg" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')
 			episode_list = []
 			for episode in episodes:
-				episode_runtime = ' &bull; %s min' % str(episode['runtime'] / 60)
+				episode_runtime = '<span style="color:white"> &bull; </span><span style="color:darkgrey">%s min' % str(episode['runtime'] / 60) +'</span>'
 				if (list_episodes == 'true'):
 					if episode['streamdetails']['video'] != []:
 						videowidth = episode['streamdetails']['video'][0]['width']
 						videoheight = episode['streamdetails']['video'][0]['height']
 						if videowidth <= 720 and videoheight <= 480:
-							videoresolution = ' &bull; <span style="color:Crimson">480 SD</span>'
+							videoresolution = '&nbsp;<img src="images/sd.png" width="23" height="15" style="padding:4px">'
 						elif videowidth <= 768 and videoheight <= 576:
-							videoresolution = ' &bull; <span style="color:Crimson">576 SD</span>'
+							videoresolution = '&nbsp;<img src="images/sd.png" width="23" height="15" style="padding:4px">'
 						elif videowidth <= 960 and videoheight <= 544:
-							videoresolution = ' &bull; <span style="color:Crimson">540 SD</span>'
+							videoresolution = '&nbsp;<img src="images/sd.png" width="23" height="15" style="padding:4px">'
 						elif videowidth <= 1280 and videoheight <= 720:
-							videoresolution = ' &bull; <span style="color:deepskyblue">720 HD</span>'
+							videoresolution = '&nbsp;<img src="images/hd.png" width="23" height="15" style="padding:4px">'
 						else:
-							videoresolution = ' &bull; <span style="color:deepskyblue">1080 HD</span>'
+							videoresolution = '&nbsp;<img src="images/hd.png" width="23" height="15" style="padding:4px">'
 					else:
 						videoresolution = ''
 					if episode['streamdetails']['audio'] != []:
 						audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
 						if audiochannels == 8:
-							channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">7.1 ch</span>'
+							channels = '<img src="images/8ch.png" width="44" height="16">'
 						elif audiochannels == 6:
-							channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">5.1 ch</span>'
+							channels = '<img src="images/6ch.png" width="44" height="16">'
 						elif audiochannels == 2:
-							channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">2.0 ch</span>'
+							channels = '<img src="images/2ch.png" width="44" height="16">'
 						elif audiochannels == 1:
-							channels = '<span style="color:white"> &bull; </span><span style="color:darkgrey">1.0 ch</span>'
+							channels = '<img src="images/1ch.png" width="44" height="16">'
 						else:
 							channels = ''
 					else:
@@ -350,13 +351,11 @@ def ftp():
 					pass
 
 	def copy_images():
-		image_files = os.listdir(__image__)
-		if 'images' in session.nlst():
-			pass
-		else:
+		if not 'images' in session.nlst():
 			session.mkd('images')
-			session.cwd('images')
-			for f in image_files:
+		session.cwd('images')
+		for f in image_files:
+			if not f in session.nlst():
 				file = open( os.path.join( __image__, f ),'rb')
 				session.storbinary('STOR ' + f, file)
 				file.close()
