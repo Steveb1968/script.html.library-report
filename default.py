@@ -17,7 +17,6 @@ __resource__  = xbmc.translatePath( os.path.join( __cwd__, 'resources' ) ).decod
 __data__      = xbmc.translatePath( os.path.join( __resource__, 'data' ) ).decode("utf-8")
 __image__     = xbmc.translatePath( os.path.join( __resource__, 'images' ) ).decode("utf-8")
 
-	
 # get addon settings
 file_path = __addon__.getSetting('save_location') 
 enable_password = __addon__.getSetting('Enable_Password')
@@ -36,18 +35,20 @@ web_password = __addon__.getSetting('web_password')
 logout = __addon__.getSetting('logout_url')
 session = ftplib.FTP(host,user,password)
 image_files = os.listdir(__image__)
-	
-# save path
+
+# file locations/names & paths
 while file_path=="":
 	xbmcgui.Dialog().ok(__addonname__,__language__(30004))
 	__addon__.openSettings()
 	file_path = __addon__.getSetting('save_location')
 
-# file name	
 file_name = 'index.html'
-	
+data_files = os.listdir(__data__)
+image_files = os.listdir(__image__)
+image_dest = os.path.join(file_path, 'images')
+
 xbmc.executebuiltin( "ActivateWindow(busydialog)" )
-	
+
 # data
 if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "title", "ignorearticle": true } }, "id": 1}'
@@ -119,27 +120,29 @@ def default_list():
 				videowidth = movie['streamdetails']['video'][0]['width']
 				videoheight = movie['streamdetails']['video'][0]['height']
 				if videowidth <= 720 and videoheight <= 480:
-					videoresolution = '&nbsp;<img src="images/sd.png" width="23" height="15" style="padding:4px">'
+					videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" width="24" height="15">'
 				elif videowidth <= 768 and videoheight <= 576:
-					videoresolution = '&nbsp;<img src="images/sd.png" width="23" height="15" style="padding:4px">'
+					videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" width="24" height="15">'
 				elif videowidth <= 960 and videoheight <= 544:
-					videoresolution = '&nbsp;<img src="images/sd.png" width="23" height="15" style="padding:4px">'
+					videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" width="24" height="15">'
 				elif videowidth <= 1280 and videoheight <= 720:
-					videoresolution = '&nbsp;<img src="images/hd.png" width="23" height="15" style="padding:4px">'
+					videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" width="24" height="15">'
 				else:
-					videoresolution = '&nbsp;<img src="images/hd.png" width="23" height="15" style="padding:4px">'
+					videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" width="24" height="15">'
 			else:
 				videoresolution = ''
 			if movie['streamdetails']['audio'] != []:
 				audiochannels = int(movie['streamdetails']['audio'][0]['channels'])
 				if audiochannels == 8:
-					channels = '<img src="images/8ch.png" width="44" height="16">'
+					channels = '<img src="images/8ch.png" width="44" height="16" style="padding:4px">'
 				elif audiochannels == 6:
-					channels = '<img src="images/6ch.png" width="44" height="16">'
+					channels = '<img src="images/6ch.png" width="44" height="16" style="padding:4px">'
+				elif audiochannels == 4:
+					channels = '<img src="images/4ch.png" width="44" height="16" style="padding:4px">'
 				elif audiochannels == 2:
-					channels = '<img src="images/2ch.png" width="44" height="16">'
+					channels = '<img src="images/2ch.png" width="44" height="16" style="padding:4px">'
 				elif audiochannels == 1:
-					channels = '<img src="images/1ch.png" width="44" height="16">'
+					channels = '<img src="images/1ch.png" width="44" height="16" style="padding:4px">'
 				else:
 					channels = ''
 			else:
@@ -166,7 +169,7 @@ def default_list():
 					f.write('&nbsp;\n')
 			else:
 				f.write('&nbsp;\n')
-	
+
 	if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
 		f.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
 		f.write('<hr width="90%">\n')
@@ -185,27 +188,29 @@ def default_list():
 						videowidth = episode['streamdetails']['video'][0]['width']
 						videoheight = episode['streamdetails']['video'][0]['height']
 						if videowidth <= 720 and videoheight <= 480:
-							videoresolution = '&nbsp;<img src="images/sd.png" width="23" height="15" style="padding:4px">'
+							videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" width="24" height="15">'
 						elif videowidth <= 768 and videoheight <= 576:
-							videoresolution = '&nbsp;<img src="images/sd.png" width="23" height="15" style="padding:4px">'
+							videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" width="24" height="15">'
 						elif videowidth <= 960 and videoheight <= 544:
-							videoresolution = '&nbsp;<img src="images/sd.png" width="23" height="15" style="padding:4px">'
+							videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" width="24" height="15">'
 						elif videowidth <= 1280 and videoheight <= 720:
-							videoresolution = '&nbsp;<img src="images/hd.png" width="23" height="15" style="padding:4px">'
+							videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" width="24" height="15">'
 						else:
-							videoresolution = '&nbsp;<img src="images/hd.png" width="23" height="15" style="padding:4px">'
+							videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" width="24" height="15">'
 					else:
 						videoresolution = ''
 					if episode['streamdetails']['audio'] != []:
 						audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
 						if audiochannels == 8:
-							channels = '<img src="images/8ch.png" width="44" height="16">'
+							channels = '<img src="images/8ch.png" width="44" height="16" style="padding:4px">'
 						elif audiochannels == 6:
-							channels = '<img src="images/6ch.png" width="44" height="16">'
+							channels = '<img src="images/6ch.png" width="44" height="16" style="padding:4px">'
+						elif audiochannels == 4:
+							channels = '<img src="images/4ch.png" width="44" height="16" style="padding:4px">'
 						elif audiochannels == 2:
-							channels = '<img src="images/2ch.png" width="44" height="16">'
+							channels = '<img src="images/2ch.png" width="44" height="16" style="padding:4px">'
 						elif audiochannels == 1:
-							channels = '<img src="images/1ch.png" width="44" height="16">'
+							channels = '<img src="images/1ch.png" width="44" height="16" style="padding:4px">'
 						else:
 							channels = ''
 					else:
@@ -264,18 +269,15 @@ if (enable_ftp == 'false'):
 	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addonname__, __language__(30005), 4000, __icon__) )
 else:
 	xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % ( __language__(30005), __language__(30006), 4000, __icon__) )
-	
+
 def copy_files_local():
-	data_files = os.listdir(__data__)
-	image_files = os.listdir(__image__)
-	image_dest = os.path.join(file_path, 'images')
 	for f in data_files:
 		full_file_name = os.path.join(__data__, f)
 		if f == 'password_protect.php':
 			pass
 		else:
 			shutil.copy(full_file_name, file_path)
-	
+
 	if not os.path.exists(image_dest):
 		os.makedirs(image_dest)
 
@@ -296,8 +298,7 @@ def password_protect():
 	with codecs.open(password_php, "w", encoding="utf-8") as file:
 		file.writelines(data)
 		file.close()
-		
-def insert_php_header():
+
 	with codecs.open(str(file_path)+str(file_name), "r", encoding="utf-8") as file:
 		data = file.readlines()
 	# change the selected line
@@ -315,7 +316,6 @@ def ftp():
 
 	def chdir(session, directory):
 		ch_dir_rec(session,directory.split('/'))
-
 	# Check if directory exists (in current location)
 	def directory_exists(session, directory):
 		dirlist = []
@@ -324,7 +324,6 @@ def ftp():
 			if f.split()[-1] == directory:
 				return True
 		return False
-
 	def ch_dir_rec(session, descending_path_split):
 		if len(descending_path_split) == 0:
 			return
@@ -333,18 +332,17 @@ def ftp():
 			session.mkd(next_level_directory)
 		session.cwd(next_level_directory)
 		ch_dir_rec(session,descending_path_split)
-		
-	def remove_files():
-		filelist = []
-		if (enable_password == 'false'):
-			session.retrlines('NLST',filelist.append)
-			for f in filelist:
-				if "password_protect.php" in f:
-					session.delete('password_protect.php')
-				else:
-					pass
 
-	def copy_images():
+	def ftp_files():
+		file = open(str(file_path)+str(file_name),'rb')
+		session.storlines('STOR ' + str('index.php'), file)
+		file.close()
+		for f in data_files:
+			file = open( os.path.join( __data__, f ),'rb')
+			session.storlines('STOR ' + f, file)
+			file.close()
+		if (enable_password == 'false') and 'password_protect.php' in session.nlst():
+			session.delete('password_protect.php')
 		if not 'images' in session.nlst():
 			session.mkd('images')
 		session.cwd('images')
@@ -353,25 +351,11 @@ def ftp():
 				file = open( os.path.join( __image__, f ),'rb')
 				session.storbinary('STOR ' + f, file)
 				file.close()
-		
+
 	try:
 		if (change_ftp_dir == 'true') and directory != "":
 			chdir(session, directory)
-		if (enable_password == 'true'):
-			file = open( os.path.join( __data__, 'password_protect.php' ),'rb')
-			session.storlines('STOR ' + 'password_protect.php', file)
-			file.close()
-		remove_files()
-		file = open(str(file_path)+str(file_name),'rb')
-		session.storlines('STOR ' + str('index.php'), file)
-		file.close()
-		file = open( os.path.join( __data__, 'Default.css' ),'rb')
-		session.storlines('STOR ' + 'Default.css', file)
-		file.close()
-		file = open( os.path.join( __data__, 'SearchScript.js' ),'rb')
-		session.storlines('STOR ' + 'SearchScript.js', file)
-		file.close()
-		copy_images()
+		ftp_files()
 		session.quit()
 		xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 		xbmc.sleep(200)
@@ -386,7 +370,6 @@ if ( __name__ == "__main__" ):
 	default_list()
 	if (enable_password == 'true'):
 		password_protect()
-		insert_php_header()
 	if (enable_ftp == 'true'):
 		xbmc.log(__addonname__+": ## UPLOADING TO FTP HOST")
 		ftp()
