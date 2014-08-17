@@ -83,7 +83,8 @@ def default_list():
 	f.write('<!DOCTYPE html>\n')
 	f.write('<head>\n')
 	f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
-	f.write('<title>'+__language__(30007)+' ('+time.strftime('%d %B %Y')+')</title>\n')
+	f.write('<link rel="shortcut icon" href="http://xbmc.org/favicon.ico" type="image/x-ico; charset=binary">\n')
+	f.write('<title>XBMC '+__language__(30007)+'</title>\n')
 	f.write('<link rel="stylesheet" href="Default.css">\n')	
 	f.write('<script language="JavaScript" charset="UTF-8" src="SearchScript.js"></script>\n')
 	f.write("</head>\n")
@@ -139,6 +140,8 @@ def default_list():
 					channels = '<img src="images/6ch.png" width="44" height="16" style="padding:4px">'
 				elif audiochannels == 4:
 					channels = '<img src="images/4ch.png" width="44" height="16" style="padding:4px">'
+				elif audiochannels == 3:
+					channels = '<img src="images/3ch.png" width="44" height="16" style="padding:4px">'
 				elif audiochannels == 2:
 					channels = '<img src="images/2ch.png" width="44" height="16" style="padding:4px">'
 				elif audiochannels == 1:
@@ -207,6 +210,8 @@ def default_list():
 							channels = '<img src="images/6ch.png" width="44" height="16" style="padding:4px">'
 						elif audiochannels == 4:
 							channels = '<img src="images/4ch.png" width="44" height="16" style="padding:4px">'
+						elif audiochannels == 3:
+							channels = '<img src="images/3ch.png" width="44" height="16" style="padding:4px">'
 						elif audiochannels == 2:
 							channels = '<img src="images/2ch.png" width="44" height="16" style="padding:4px">'
 						elif audiochannels == 1:
