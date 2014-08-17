@@ -83,7 +83,7 @@ def default_list():
 	f.write('<!DOCTYPE html>\n')
 	f.write('<head>\n')
 	f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
-	f.write('<link rel="shortcut icon" href="images/favicon.ico" charset=binary">\n')
+	f.write('<link rel="shortcut icon" href="images/favicon.ico">\n')
 	f.write('<title>XBMC '+__language__(30007)+'</title>\n')
 	f.write('<link rel="stylesheet" href="Default.css">\n')	
 	f.write('<script language="JavaScript" charset="UTF-8" src="SearchScript.js"></script>\n')
