@@ -135,17 +135,17 @@ def default_list():
 			if movie['streamdetails']['audio'] != []:
 				audiochannels = int(movie['streamdetails']['audio'][0]['channels'])
 				if audiochannels == 8:
-					channels = '<img src="images/8ch.png" alt="7.1ch" width="44" height="16" style="padding:4px">'
+					channels = '<img src="images/8ch.png" alt="7.1ch" width="40" height="16" style="PADDING-LEFT: 6px">'
 				elif audiochannels == 6:
-					channels = '<img src="images/6ch.png" alt="5.1ch" width="44" height="16" style="padding:4px">'
+					channels = '<img src="images/6ch.png" alt="5.1ch" width="40" height="16" style="PADDING-LEFT: 6px">'
 				elif audiochannels == 4:
-					channels = '<img src="images/4ch.png" alt="4.0ch" width="44" height="16" style="padding:4px">'
+					channels = '<img src="images/4ch.png" alt="4.0ch" width="40" height="16" style="PADDING-LEFT: 6px">'
 				elif audiochannels == 3:
-					channels = '<img src="images/3ch.png" alt="2.1ch" width="44" height="16" style="padding:4px">'
+					channels = '<img src="images/3ch.png" alt="2.1ch" width="40" height="16" style="PADDING-LEFT: 6px">'
 				elif audiochannels == 2:
-					channels = '<img src="images/2ch.png" alt="2.0ch" width="44" height="16" style="padding:4px">'
+					channels = '<img src="images/2ch.png" alt="2.0ch" width="40" height="16" style="PADDING-LEFT: 6px">'
 				elif audiochannels == 1:
-					channels = '<img src="images/1ch.png" alt="1.0ch" width="44" height="16" style="padding:4px">'
+					channels = '<img src="images/1ch.png" alt="1.0ch" width="40" height="16" style="PADDING-LEFT: 6px">'
 				else:
 					channels = ''
 			else:
@@ -205,17 +205,17 @@ def default_list():
 					if episode['streamdetails']['audio'] != []:
 						audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
 						if audiochannels == 8:
-							channels = '<img src="images/8ch.png" alt="7.1ch" width="44" height="16" style="padding:4px">'
+							channels = '<img src="images/8ch.png" alt="7.1ch" width="40" height="16" style="PADDING-LEFT: 6px">'
 						elif audiochannels == 6:
-							channels = '<img src="images/6ch.png" alt="5.1ch" width="44" height="16" style="padding:4px">'
+							channels = '<img src="images/6ch.png" alt="5.1ch" width="40" height="16" style="PADDING-LEFT: 6px">'
 						elif audiochannels == 4:
-							channels = '<img src="images/4ch.png" alt="4.0ch" width="44" height="16" style="padding:4px">'
+							channels = '<img src="images/4ch.png" alt="4.0ch" width="40" height="16" style="PADDING-LEFT: 6px">'
 						elif audiochannels == 3:
-							channels = '<img src="images/3ch.png" alt="2.1ch" width="44" height="16" style="padding:4px">'
+							channels = '<img src="images/3ch.png" alt="2.1ch" width="40" height="16" style="PADDING-LEFT: 6px">'
 						elif audiochannels == 2:
-							channels = '<img src="images/2ch.png" alt="2.0ch" width="44" height="16" style="padding:4px">'
+							channels = '<img src="images/2ch.png" alt="2.0ch" width="40" height="16" style="PADDING-LEFT: 6px">'
 						elif audiochannels == 1:
-							channels = '<img src="images/1ch.png" alt="1.0ch" width="44" height="16" style="padding:4px">'
+							channels = '<img src="images/1ch.png" alt="1.0ch" width="40" height="16" style="PADDING-LEFT: 6px">'
 						else:
 							channels = ''
 					else:
