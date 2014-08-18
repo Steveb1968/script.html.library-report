@@ -25,7 +25,8 @@ h2 {
 
 h3 {
 	font-weight:bold;
-	color:slategrey;
+	font-style:italic;
+	color:wheat;
 	text-shadow:1px 1px black;
 	text-align:center;
 	text-decoration:underline;
@@ -77,7 +78,7 @@ p.episodecount {
 
 p.genre {
 	font-size:1.0em;
-	color:darkgrey;
+	color:LightSteelBlue;
 	text-shadow:1px 1px black;
 	text-align:center;
 	font-family:Arial, Helvetica, sans-serif;

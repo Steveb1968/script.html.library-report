@@ -96,7 +96,7 @@ function showLoginPasswordProtect($error_msg) {
 ?>
 <html>
 <head>
-  <title>Please enter password to access this page</title>
+  <title>Library Report Login</title>
   <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
   <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
   <link rel="shortcut icon" href="images/favicon.ico">
@@ -107,7 +107,7 @@ function showLoginPasswordProtect($error_msg) {
   </style>
   <div style="width:500px; margin-left:auto; margin-right:auto; text-align:center">
   <form method="post">
-    <h3 style="color:white;">Library Report Login</h3>
+    <h3 style="color:white;">Please enter password to access this page</h3>
     <font color="red"><?php echo $error_msg; ?></font><br />
 <?php if (USE_USERNAME) echo '<font color="white">Login:</font><br /><input type="input" name="access_login" /><br /><font color="white">Password:</font><br />'; ?>
     <input type="password" name="access_password" /><p></p><input type="submit" name="Submit" value="Submit" />
