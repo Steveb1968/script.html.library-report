@@ -84,6 +84,7 @@ def default_list():
 	f.write('<head>\n')
 	f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
 	f.write('<link rel="shortcut icon" href="images/favicon.ico">\n')
+	f.write('<link rel="icon" sizes="16x16 32x32 64x64" href="images/favicon.ico">\n')
 	f.write('<title>XBMC '+__language__(30007)+'</title>\n')
 	f.write('<link rel="stylesheet" href="Default.css">\n')	
 	f.write('<script language="JavaScript" charset="UTF-8" src="SearchScript.js"></script>\n')
@@ -184,43 +185,44 @@ def default_list():
 			f.write('&nbsp;\n')
 			f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="images/tvdb_logo.png" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')
 			episode_list = []
-			for episode in episodes:
-				episode_runtime = '<span style="color:white"> &bull; </span><span style="color:darkgrey">%s min' % str(episode['runtime'] / 60) +'</span>'
-				if episode['streamdetails']['video'] != []:
-					videowidth = episode['streamdetails']['video'][0]['width']
-					videoheight = episode['streamdetails']['video'][0]['height']
-					if videowidth <= 720 and videoheight <= 480:
-						videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" alt="SD" width="24" height="15">'
-					elif videowidth <= 768 and videoheight <= 576:
-						videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" alt="SD" width="24" height="15">'
-					elif videowidth <= 960 and videoheight <= 544:
-						videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" alt="SD" width="24" height="15">'
-					elif videowidth <= 1280 and videoheight <= 720:
-						videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" alt="HD" width="24" height="15">'
+			if (list_episodes == 'true'):
+				for episode in episodes:
+					episode_runtime = '<span style="color:white"> &bull; </span><span style="color:darkgrey">%s min' % str(episode['runtime'] / 60) +'</span>'
+					if episode['streamdetails']['video'] != []:
+						videowidth = episode['streamdetails']['video'][0]['width']
+						videoheight = episode['streamdetails']['video'][0]['height']
+						if videowidth <= 720 and videoheight <= 480:
+							videoresolution = '<span style="color:white"> &bull; </span><span style="color:salmon">SD</span>'
+						elif videowidth <= 768 and videoheight <= 576:
+							videoresolution = '<span style="color:white"> &bull; </span><span style="color:salmon">SD</span>'
+						elif videowidth <= 960 and videoheight <= 544:
+							videoresolution = '<span style="color:white"> &bull; </span><span style="color:salmon">SD</span>'
+						elif videowidth <= 1280 and videoheight <= 720:
+							videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">HD</span>'
+						else:
+							videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">HD</span>'
 					else:
-						videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" alt="HD" width="24" height="15">'
-				else:
-					videoresolution = ''
-				if episode['streamdetails']['audio'] != []:
-					audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
-					if audiochannels == 8:
-						channels = '<img src="images/8ch.png" alt="7.1ch" width="40" height="16" style="PADDING-LEFT: 6px">'
-					elif audiochannels == 6:
-						channels = '<img src="images/6ch.png" alt="5.1ch" width="40" height="16" style="PADDING-LEFT: 6px">'
-					elif audiochannels == 4:
-						channels = '<img src="images/4ch.png" alt="4.0ch" width="40" height="16" style="PADDING-LEFT: 6px">'
-					elif audiochannels == 3:
-						channels = '<img src="images/3ch.png" alt="2.1ch" width="40" height="16" style="PADDING-LEFT: 6px">'
-					elif audiochannels == 2:
-						channels = '<img src="images/2ch.png" alt="2.0ch" width="40" height="16" style="PADDING-LEFT: 6px">'
-					elif audiochannels == 1:
-						channels = '<img src="images/1ch.png" alt="1.0ch" width="40" height="16" style="PADDING-LEFT: 6px">'
+						videoresolution = ''
+					if episode['streamdetails']['audio'] != []:
+						audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
+						if audiochannels == 8:
+							channels = '&nbsp;7.1 ch'
+						elif audiochannels == 6:
+							channels = '&nbsp;5.1 ch'
+						elif audiochannels == 4:
+							channels = '&nbsp;4.0 ch'
+						elif audiochannels == 3:
+							channels = '&nbsp;2.1 ch'
+						elif audiochannels == 2:
+							channels = '&nbsp;2.0 ch'
+						elif audiochannels == 1:
+							channels = '&nbsp;1.0 ch'
+						else:
+							channels = ''
 					else:
 						channels = ''
-				else:
-					channels = ''
-				if episode['tvshowid'] == tvshow['tvshowid']:
-					episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))
+					if episode['tvshowid'] == tvshow['tvshowid']:
+						episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))
 			prev_season = None
 			seasoncount = 0
 			for episode in episode_list:

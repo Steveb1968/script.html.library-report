@@ -100,6 +100,7 @@ function showLoginPasswordProtect($error_msg) {
   <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
   <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
   <link rel="shortcut icon" href="images/favicon.ico">
+  <link rel="icon" sizes="16x16 32x32 64x64" href="images/favicon.ico">
 </head>
 <body style="background-image:url('images/bg.png');background-color:#000000;">
   <style>
