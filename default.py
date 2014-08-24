@@ -185,44 +185,43 @@ def default_list():
 			f.write('&nbsp;\n')
 			f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="images/tvdb_logo.png" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')
 			episode_list = []
-			if (list_episodes == 'true'):
-				for episode in episodes:
-					episode_runtime = '<span style="color:white"> &bull; </span><span style="color:darkgrey">%s min' % str(episode['runtime'] / 60) +'</span>'
-					if episode['streamdetails']['video'] != []:
-						videowidth = episode['streamdetails']['video'][0]['width']
-						videoheight = episode['streamdetails']['video'][0]['height']
-						if videowidth <= 720 and videoheight <= 480:
-							videoresolution = '<span style="color:white"> &bull; </span><span style="color:salmon">SD</span>'
-						elif videowidth <= 768 and videoheight <= 576:
-							videoresolution = '<span style="color:white"> &bull; </span><span style="color:salmon">SD</span>'
-						elif videowidth <= 960 and videoheight <= 544:
-							videoresolution = '<span style="color:white"> &bull; </span><span style="color:salmon">SD</span>'
-						elif videowidth <= 1280 and videoheight <= 720:
-							videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">HD</span>'
-						else:
-							videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">HD</span>'
+			for episode in episodes:
+				episode_runtime = '<span style="color:white"> &bull; </span><span style="color:darkgrey">%s min' % str(episode['runtime'] / 60) +'</span>'
+				if episode['streamdetails']['video'] != []:
+					videowidth = episode['streamdetails']['video'][0]['width']
+					videoheight = episode['streamdetails']['video'][0]['height']
+					if videowidth <= 720 and videoheight <= 480:
+						videoresolution = '<span style="color:white"> &bull; </span><span style="color:salmon">SD</span>'
+					elif videowidth <= 768 and videoheight <= 576:
+						videoresolution = '<span style="color:white"> &bull; </span><span style="color:salmon">SD</span>'
+					elif videowidth <= 960 and videoheight <= 544:
+						videoresolution = '<span style="color:white"> &bull; </span><span style="color:salmon">SD</span>'
+					elif videowidth <= 1280 and videoheight <= 720:
+						videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">HD</span>'
 					else:
-						videoresolution = ''
-					if episode['streamdetails']['audio'] != []:
-						audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
-						if audiochannels == 8:
-							channels = '&nbsp;7.1 ch'
-						elif audiochannels == 6:
-							channels = '&nbsp;5.1 ch'
-						elif audiochannels == 4:
-							channels = '&nbsp;4.0 ch'
-						elif audiochannels == 3:
-							channels = '&nbsp;2.1 ch'
-						elif audiochannels == 2:
-							channels = '&nbsp;2.0 ch'
-						elif audiochannels == 1:
-							channels = '&nbsp;1.0 ch'
-						else:
-							channels = ''
+						videoresolution = '<span style="color:white"> &bull; </span><span style="color:deepskyblue">HD</span>'
+				else:
+					videoresolution = ''
+				if episode['streamdetails']['audio'] != []:
+					audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
+					if audiochannels == 8:
+						channels = '&nbsp;7.1 ch'
+					elif audiochannels == 6:
+						channels = '&nbsp;5.1 ch'
+					elif audiochannels == 4:
+						channels = '&nbsp;4.0 ch'
+					elif audiochannels == 3:
+						channels = '&nbsp;2.1 ch'
+					elif audiochannels == 2:
+						channels = '&nbsp;2.0 ch'
+					elif audiochannels == 1:
+						channels = '&nbsp;1.0 ch'
 					else:
 						channels = ''
-					if episode['tvshowid'] == tvshow['tvshowid']:
-						episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))
+				else:
+					channels = ''
+				if episode['tvshowid'] == tvshow['tvshowid']:
+					episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))
 			prev_season = None
 			seasoncount = 0
 			for episode in episode_list:
