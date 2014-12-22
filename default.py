@@ -151,7 +151,7 @@ def default_list():
 					channels = ''
 			else:
 				channels = ''
-			f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="images/imdb_logo.png" alt="IMDB" width="30" height="14" align="bottom"></a></p>\n')
+			f.write('<p class="mediatitle">'+movie['label']+' ('+str(movie['year'])+')&nbsp;&nbsp;<a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank"><img src="images/imdb_logo.png" alt="IMDB" width="32" height="16" align="bottom"></a></p>\n')
 			f.write('<p class="genre">'+str(moviegenre)+str(movie_rating))
 			if int(movie['top250']) > 0:
 				f.write('<span style="color:GoldenRod"> (#'+str(movie['top250'])+')</span>'+str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
@@ -183,7 +183,7 @@ def default_list():
 			tvgenre = " / ".join(tvshow['genre'])
 			tv_rating = str(round(float(tvshow['rating']),1))
 			f.write('&nbsp;\n')
-			f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="images/tvdb_logo.png" alt="TVDB" width="30" height="14" align="bottom"></a></p>\n')
+			f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="images/tvdb_logo.png" alt="TVDB" width="32" height="16" align="bottom"></a></p>\n')
 			episode_list = []
 			for episode in episodes:
 				episode_runtime = '<span style="color:white"> &bull; </span><span style="color:darkgrey">%s min' % str(episode['runtime'] / 60) +'</span>'
