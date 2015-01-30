@@ -67,7 +67,7 @@ if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(T
 	result = unicode(result, 'utf-8', errors='ignore')
 	jsonobject = simplejson.loads(result)
 	tvshows = jsonobject["result"]["tvshows"]
-	
+
 	command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["tvshowid", "episode", "originaltitle", "season", "streamdetails", "runtime"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
 	result = xbmc.executeJSONRPC( command )
 	result = unicode(result, 'utf-8', errors='ignore')
@@ -166,7 +166,10 @@ def default_list():
 				f.write('<p class="mpaa">'+__language__(30014)+' '+str(movie['mpaa'])+'</p>\n')
 			# list plot
 			if (plot_movies == 'true'):
-				f.write('<p class="plot">'+movie['plot']+'</p>\n')
+				if str(movie['plotoutline']) != "":
+					f.write('<p class="plot">'+movie['plotoutline']+'</p>\n')
+				else:
+					f.write('<p class="plot">'+movie['plot']+'</p>\n')
 				f.write('&nbsp;\n')
 				if movie != movies[-1]:
 					f.write('<hr width="90%">\n')
@@ -267,7 +270,7 @@ def default_list():
 	f.write('</body>\n')
 	f.write('</html>')
 	f.close()
-	
+
 if (enable_ftp == 'false'):
 	xbmc.executebuiltin( "Dialog.Close(busydialog)" )
 	xbmc.sleep(200)
