@@ -100,7 +100,7 @@ def default_list():
     f.write('<div id="Search" style="height:95px;width:20%;float:left;padding-left:1%;padding-top:15px;">\n')
     f.write("<iframe id="+'"srchform2" '+'src="'+"javascript:'<html><body style=margin:0px;><form action="+"\\'javascript:void();\\' onSubmit=if(this.t1.value!=\\'\\')parent.findString(this.t1.value);return(false);><input type=text id=t1 name=t1 size=20><input type=submit name=b1 value=Find></form></body></html>'"+'"'+" width=220 height=34 border=0 frameborder=0 scrolling=no></iframe>\n")
     if ((include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" )) and ((include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" )):
-        f.write('<p class="links"><a href="#movie_link">'+xbmc.getLocalizedString(342)+'</a>&nbsp;&nbsp;<a href="#tvshow_link">'+xbmc.getLocalizedString(20343)+'</a></p>\n')
+        f.write('<p class="links"><a href="#movie_link">'+xbmc.getLocalizedString(342)+' ('+str(len(movies))+')'+'</a>&nbsp;&nbsp;<a href="#tvshow_link">'+xbmc.getLocalizedString(20343)+' ('+str(len(tvshows))+')'+'</a></p>\n')
     f.write('</div>\n')
     f.write('<div id="Heading" style="height:95px;width:80%;margin-left: auto;margin-right: auto ;">\n')
     f.write('<h1><img src="images/logo.png" alt="Kodi" width="150" height="52" align="center"> '+__language__(30007)+'</h1>\n')
