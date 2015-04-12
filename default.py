@@ -51,7 +51,7 @@ xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 
 # data
 if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
-    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "title", "ignorearticle": true } }, "id": 1}'
+    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "studio", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "title", "ignorearticle": true } }, "id": 1}'
     result = xbmc.executeJSONRPC( command )
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
@@ -62,13 +62,13 @@ if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Mo
             top250count += 1
 
 if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
-    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "plot", "rating", "originaltitle", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
+    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "studio", "plot", "rating", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
     result = xbmc.executeJSONRPC( command )
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
     tvshows = jsonobject["result"]["tvshows"]
 
-    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["tvshowid", "episode", "originaltitle", "season", "streamdetails", "runtime"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
+    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["tvshowid", "episode", "season", "streamdetails", "runtime"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
     result = xbmc.executeJSONRPC( command )
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
@@ -110,12 +110,13 @@ def default_list():
 
     if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
         f.write('<a class="anchor" id="movie_link">anchor</a>\n')
-        f.write('<hr width="90%">\n')
+        f.write('<hr width="90%" color="#12b2e7">\n')
         f.write('<h2><span style="text-transform: uppercase">'+xbmc.getLocalizedString(342)+':</span> ('+str(len(movies))+' '+xbmc.getLocalizedString(20161)+' / '+str(top250count)+' '+__language__(30013)+')</h2>\n')
-        f.write('<hr width="90%">\n')
+        f.write('<hr width="90%" color="#12b2e7">\n')
         f.write('&nbsp;\n')
         for movie in movies:
             moviegenre = " / ".join(movie['genre'])
+            moviestudio = " / ".join(movie['studio'])
             movie_rating = '<span style="color:white"> &bull; </span><span style="color:GoldenRod">'+str(round(float(movie['rating']),1))+' &#9733;</span>'
             movie_runtime = '<span style="color:white"> &bull; </span><span style="color:darkgrey">%s min</span>' % str(movie['runtime'] / 60)+'</span>' 
             if movie['streamdetails']['video'] != []:
@@ -157,6 +158,7 @@ def default_list():
                 f.write('<span style="color:GoldenRod"> (#'+str(movie['top250'])+')</span>'+str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
             else:
                 f.write(str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
+            f.write('<p class="studio">'+str(moviestudio)+'</p>\n')
             # format movie mpaa
             if str(movie['mpaa']).startswith(__language__(30014)):
                 f.write('<p class="mpaa">'+str(movie['mpaa'])+'</p>\n')
@@ -179,11 +181,12 @@ def default_list():
 
     if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
         f.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
-        f.write('<hr width="90%">\n')
+        f.write('<hr width="90%" color="#12b2e7">\n')
         f.write('<h2><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+' '+xbmc.getLocalizedString(20161)+' / '+str(len(episodes))+' '+xbmc.getLocalizedString(20360)+')</h2>\n')
-        f.write('<hr width="90%">\n')
+        f.write('<hr width="90%" color="#12b2e7">\n')
         for tvshow in tvshows:
             tvgenre = " / ".join(tvshow['genre'])
+            tvstudio = " / ".join(tvshow['studio'])
             tv_rating = str(round(float(tvshow['rating']),1))
             f.write('&nbsp;\n')
             f.write('<p class="mediatitle">' + tvshow['label']+' ('+str(tvshow['year'])+')&nbsp;&nbsp;<a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank"><img src="images/tvdb_logo.png" alt="TVDB" width="32" height="16" align="bottom"></a></p>\n')
@@ -231,9 +234,10 @@ def default_list():
                 season = episode[0]
                 if season != prev_season:
                     seasoncount += 1
-                    prev_season = season
-            f.write('<p class="episodecount">('+xbmc.getLocalizedString(33054)+' ' +str(seasoncount)+' / '+str(len(episode_list))+' '+xbmc.getLocalizedString(20360)+')</p>\n')
-            f.write('<p class="genre">'+str(tvgenre)+' <span style="color:white">&bull;</span> <span style="color:GoldenRod"> '+str(tv_rating)+' &#9733;</span></p>\n')
+                    prev_season = season            
+            f.write('<p class="episodecount">('+xbmc.getLocalizedString(33054)+' ' +str(seasoncount)+' / '+str(len(episode_list))+' '+xbmc.getLocalizedString(20360)+')</p>\n')            
+            f.write('<p class="genre">'+str(tvgenre)+'<span style="color:white"> &bull; </span><span style="color:GoldenRod">'+str(tv_rating)+' &#9733;</span></p>\n')
+            f.write('<p class="studio">'+str(tvstudio)+'</p>\n')
             # format tvshow mpaa
             if str(tvshow['mpaa']) == "":
                 f.write('<p class="mpaa">'+__language__(30014)+' NA</p>\n')
