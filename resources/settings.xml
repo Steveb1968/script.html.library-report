@@ -3,6 +3,8 @@
 	<category label="30000">
 		<setting id="save_location" type="folder" source="files" label="30001" default=""/>
 		<setting type="sep" />
+		<setting id="listtype" type="enum" label="List Type" values="Basic|Table" default="0"/>
+		<setting type="sep" />
 		<setting id="includemovies" type="bool" label="30002" default="true" enable="Library.HasContent(movies)"/>
 		<setting id="movieplot" type="bool" label="30010" subsetting="true" enable="eq(-1,true)" visible="Library.HasContent(movies)" default="false"/>
 		<setting type="sep" />
@@ -11,7 +13,7 @@
 		<setting id="episodes" type="bool" label="30011" subsetting="true" enable="eq(-2,true)" visible="Library.HasContent(tvshows)" default="false"/>
 	</category>
 	<category label="30020">
-		<setting id="Enable_ftp" type="bool" label="30021" default="false"/>	
+		<setting id="Enable_ftp" type="bool" label="30021" default="false"/>
 		<setting type="sep" />
 		<setting id="server" type="text" label="30022" subsetting="true" enable="eq(-2,true)" default=""/>
 		<setting id="user" type="text" label="30023" subsetting="true" enable="eq(-3,true)" default=""/>
