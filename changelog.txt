@@ -1,3 +1,6 @@
+[B]Version 0.2.7[/B]
+- Added Table list
+
 [B]Version 0.2.6[/B]
 - Added video Res & aduio channel images
 - Settings cleanup

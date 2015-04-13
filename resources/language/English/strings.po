@@ -1,7 +1,7 @@
 # XBMC Media Center language file
 # Addon Name: HTML Library Report
 # Addon id: script.html.library-report
-# Addon version: 0.2.6
+# Addon version: 0.2.7
 # Addon Provider: steveb
 msgid ""
 msgstr ""
@@ -61,7 +61,9 @@ msgctxt "#30008"
 msgid "Default password: admin"
 msgstr ""
 
-#empty string with id 30009
+msgctxt "#30009"
+msgid "List Type"
+msgstr ""
 
 msgctxt "#30010"
 msgid "Include Plot"
@@ -87,13 +89,17 @@ msgctxt "#30015"
 msgid "Help/Support: "
 msgstr ""
 
-#empty string with id 30016
+msgctxt "#30016"
+msgid "Basic"
+msgstr ""
 
 msgctxt "#30017"
 msgid "Enable Webpage Password Protection"
 msgstr ""
 
-#empty string with id 30018
+msgctxt "#30018"
+msgid "Table"
+msgstr ""
 
 msgctxt "#30019"
 msgid "Define Logout Redirection URL"
