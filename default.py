@@ -312,14 +312,14 @@ def table_list():
                     videoresolution = '<img src="images/hd.png" alt="HD" width="24" height="15">'
             else:
                 videoresolution = ''
-            f.write('<tr>\n')
+            f.write('<tr class="table">\n')
             f.write('<td width="30%">\n')
             f.write('<div style="float:left;width:95%;"><b><a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank">'+movie['label']+'</a></b> ('+str(movie['year'])+')</div>\n')
             f.write('<div style="float:right;width:5%;">'+str(videoresolution)+'</div>\n')
             f.write('</td>\n')
             f.write('<td width="4%" align="center">'+str(movie_rating)+'</td>\n')
-            f.write('<td width="4%" align="center">'+str(movie_runtime)+'</td>\n')
-            f.write('<td width="26%">'+str(moviegenre)+'</td>\n')
+            f.write('<td width="5%" align="center">'+str(movie_runtime)+'</td>\n')
+            f.write('<td width="25%">'+str(moviegenre)+'</td>\n')
             f.write('<td width="15%">'+moviestudio+'</td>\n')
             # format movie mpaa
             if str(movie['mpaa']).startswith(__language__(30014)):
@@ -350,8 +350,28 @@ def table_list():
             tvstudio = " / ".join(tvshow['studio'])
             tv_rating = str(round(float(tvshow['rating']),1))
             tv_prem = tvshow['premiered']
-            f.write('<tr>\n')
-            f.write('<td width="30%"><b><a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank">' + tvshow['label']+'</a></b></td>\n')
+            hd_episodes = 0
+            sd_episodes = 0
+            HDshow = False
+            for episode in episodes:                
+                if episode['streamdetails']['video'] != []:
+                    videowidth = episode['streamdetails']['video'][0]['width']
+                    videoheight = episode['streamdetails']['video'][0]['height']                   
+                    if episode['tvshowid'] == tvshow['tvshowid']:
+                        if videowidth >= 1280 and videoheight >= 720:
+                            hd_episodes += 1                   
+                        else:
+                            sd_episodes += 1
+                if hd_episodes > sd_episodes:
+                    HDshow = True
+            f.write('<tr class="table";>\n')
+            f.write('<td width="30%">\n')
+            f.write('<div style="float:left;width:95%;"><b><a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank">' + tvshow['label']+'</a></b></div>\n')            
+            if HDshow == True:
+                f.write('<div style="float:right;width:5%;"><img src="images/hd.png" alt="HD" width="24" height="15"</div>\n')
+            else:
+                f.write('<div style="float:right;width:5%;"><img src="images/sd.png" alt="SD" width="24" height="15"</div>\n')
+            f.write('</td>\n')
             f.write('<td width="4%" align="center">'+str(tv_rating)+' &#9733;</td>\n')
             f.write('<td width="30%">'+str(tvgenre)+'</td>\n')
             f.write('<td width="15%">'+tvstudio+'</td>\n')
