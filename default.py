@@ -46,6 +46,7 @@ file_name = 'index.html'
 data_files = os.listdir(__data__)
 image_files = os.listdir(__image__)
 image_dest = os.path.join(file_path, 'images')
+f = codecs.open(os.path.join(file_path,str(file_name)), "w", encoding="utf-8")
 
 LIST_TYPE = {}
 LIST_TYPE['0'] = 'basic'
@@ -67,7 +68,7 @@ if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Mo
             top250count += 1
 
 if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
-    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "studio", "plot", "rating", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
+    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "studio", "premiered", "plot", "rating", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
     result = xbmc.executeJSONRPC( command )
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
@@ -80,8 +81,7 @@ if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(T
     episodes = jsonobject["result"]["episodes"]
     
 # create html output
-def default_list():
-    f = codecs.open(os.path.join(file_path,str(file_name)), "w", encoding="utf-8")
+def html():
     # password_protect
     if (enable_password == 'true'):
         f.write('\n')
@@ -112,12 +112,28 @@ def default_list():
     f.write('</div>\n')
     f.write('</div>\n')
     f.write('<div id="Body" style="width:100%;padding-top:75px;">\n')
+    if (list_output == 'basic'):
+        default_list()
+    elif (list_output == 'table'):
+        table_list()
+    f.write('</div>\n')
+    f.write('<div id="footer">\n')
+    f.write('<hr width="90%">\n')
+    f.write('<div style="float:right;padding-right:5.5%;padding-bottom:10px;">\n')
+    f.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;">'+__language__(30030)+'<a href="https://github.com/Steveb1968/script.html.library-report" target="_blank">script.html.library-report</a> by Steveb</p>\n')
+    f.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;float:right;">'+__language__(30015)+'<a href="http://forum.xbmc.org/showthread.php?tid=167632" target="_blank">script.html.library-report</a></p>\n')
+    f.write('</div>\n')
+    f.write('</div>\n')
+    f.write('</body>\n')
+    f.write('</html>')
+    f.close()
 
+def default_list():
     if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
         f.write('<a class="anchor" id="movie_link">anchor</a>\n')
-        f.write('<hr width="90%" color="#12b2e7">\n')
+        f.write('<hr width="90%">\n')
         f.write('<h2><span style="text-transform: uppercase">'+xbmc.getLocalizedString(342)+':</span> ('+str(len(movies))+' '+xbmc.getLocalizedString(20161)+' / '+str(top250count)+' '+__language__(30013)+')</h2>\n')
-        f.write('<hr width="90%" color="#12b2e7">\n')
+        f.write('<hr width="90%">\n')
         f.write('&nbsp;\n')
         for movie in movies:
             moviegenre = " / ".join(movie['genre'])
@@ -186,9 +202,9 @@ def default_list():
 
     if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
         f.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
-        f.write('<hr width="90%" color="#12b2e7">\n')
+        f.write('<hr width="90%">\n')
         f.write('<h2><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+' '+xbmc.getLocalizedString(20161)+' / '+str(len(episodes))+' '+xbmc.getLocalizedString(20360)+')</h2>\n')
-        f.write('<hr width="90%" color="#12b2e7">\n')
+        f.write('<hr width="90%">\n')
         for tvshow in tvshows:
             tvgenre = " / ".join(tvshow['genre'])
             tvstudio = " / ".join(tvshow['studio'])
@@ -268,51 +284,8 @@ def default_list():
                 if tvshow != tvshows[-1]:
                     f.write('<hr width="90%">\n')
         f.write('&nbsp;\n')
-    f.write('</div>\n')
-    f.write('<div id="footer">\n')
-    f.write('<hr width="90%">\n')
-    f.write('<div style="float:right;padding-right:5.5%;padding-bottom:10px;">\n')
-    f.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;">'+__language__(30030)+'<a href="https://github.com/Steveb1968/script.html.library-report" target="_blank">script.html.library-report</a> by Steveb</p>\n')
-    f.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;float:right;">'+__language__(30015)+'<a href="http://forum.xbmc.org/showthread.php?tid=167632" target="_blank">script.html.library-report</a></p>\n')
-    f.write('</div>\n')
-    f.write('</div>\n')
-    f.write('</body>\n')
-    f.write('</html>')
-    f.close()
 
 def table_list():
-    f = codecs.open(os.path.join(file_path,str(file_name)), "w", encoding="utf-8")
-    # password_protect
-    if (enable_password == 'true'):
-        f.write('\n')
-    f.write('<!DOCTYPE html>\n')
-    f.write('<head>\n')
-    f.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
-    f.write('<link rel="shortcut icon" href="images/favicon.ico">\n')
-    f.write('<link rel="icon" sizes="16x16 32x32 64x64" href="images/favicon.ico">\n')
-    f.write('<title>Kodi '+__language__(30007)+'</title>\n')
-    f.write('<link rel="stylesheet" href="Default.css">\n') 
-    f.write('<script language="JavaScript" charset="UTF-8" src="SearchScript.js"></script>\n')
-    f.write("</head>\n")
-    f.write('<body background="images/bg.png">\n')
-    f.write('<div id="header" style="height:95px;width:90%;position : fixed;background-color:#333333;margin-left: 5%;margin-right: auto ;">\n')
-    f.write('<div id="Date" style="height:95px;width:20%;float:right;padding-right:1%;padding-top:15px;">\n')
-    f.write('<p class="date">'+__language__(30012)+time.strftime('%d %B %Y')+'</p>\n')
-    # password_protect logout
-    if (enable_password == 'true'):
-        f.write('<form style="float:right;padding-top:30px;" method="get" action="password_protect.php" /><input type="submit" value="Logout" /><input type="hidden" name="logout" value="1" /></form>\n')
-    f.write('</div>\n')
-    f.write('<div id="Search" style="height:95px;width:20%;float:left;padding-left:1%;padding-top:15px;">\n')
-    f.write("<iframe id="+'"srchform2" '+'src="'+"javascript:'<html><body style=margin:0px;><form action="+"\\'javascript:void();\\' onSubmit=if(this.t1.value!=\\'\\')parent.findString(this.t1.value);return(false);><input type=text id=t1 name=t1 size=20><input type=submit name=b1 value=Find></form></body></html>'"+'"'+" width=220 height=34 border=0 frameborder=0 scrolling=no></iframe>\n")
-    if ((include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" )) and ((include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" )):
-        f.write('<p class="links"><a href="#movie_link">'+xbmc.getLocalizedString(342)+' ('+str(len(movies))+')'+'</a>&nbsp;&nbsp;<a href="#tvshow_link">'+xbmc.getLocalizedString(20343)+' ('+str(len(tvshows))+')'+'</a></p>\n')
-    f.write('</div>\n')
-    f.write('<div id="Heading" style="height:95px;width:80%;margin-left: auto;margin-right: auto ;">\n')
-    f.write('<h1><img src="images/logo.png" alt="Kodi" width="150" height="52" align="center"> '+__language__(30007)+'</h1>\n')
-    f.write('</div>\n')
-    f.write('</div>\n')
-    f.write('<div id="Body" style="width:100%;padding-top:75px;">\n')
-
     if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
         f.write('<a class="anchor" id="movie_link">anchor</a>\n')
         f.write('<table class="gridtable">\n')
@@ -339,31 +312,13 @@ def table_list():
                     videoresolution = '<img src="images/hd.png" alt="HD" width="24" height="15">'
             else:
                 videoresolution = ''
-            if movie['streamdetails']['audio'] != []:
-                audiochannels = int(movie['streamdetails']['audio'][0]['channels'])
-                if audiochannels == 8:
-                    channels = '<img src="images/8ch.png" alt="7.1ch" width="40" height="16" style="PADDING-LEFT: 6px">'
-                elif audiochannels == 6:
-                    channels = '<img src="images/6ch.png" alt="5.1ch" width="40" height="16" style="PADDING-LEFT: 6px">'
-                elif audiochannels == 4:
-                    channels = '<img src="images/4ch.png" alt="4.0ch" width="40" height="16" style="PADDING-LEFT: 6px">'
-                elif audiochannels == 3:
-                    channels = '<img src="images/3ch.png" alt="2.1ch" width="40" height="16" style="PADDING-LEFT: 6px">'
-                elif audiochannels == 2:
-                    channels = '<img src="images/2ch.png" alt="2.0ch" width="40" height="16" style="PADDING-LEFT: 6px">'
-                elif audiochannels == 1:
-                    channels = '<img src="images/1ch.png" alt="1.0ch" width="40" height="16" style="PADDING-LEFT: 6px">'
-                else:
-                    channels = ''
-            else:
-                channels = ''
             f.write('<tr>\n')
             f.write('<td width="30%">\n')
-            f.write('<div style="float:left;width:85%;"><b><a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank">'+movie['label']+' ('+str(movie['year'])+')</a></b></div>\n')
-            f.write('<div style="float:right;width:15%;">'+str(videoresolution)+str(channels)+'</div>\n')
+            f.write('<div style="float:left;width:95%;"><b><a href="http://www.imdb.com/title/'+str(movie['imdbnumber'])+'/" target="_blank">'+movie['label']+'</a></b> ('+str(movie['year'])+')</div>\n')
+            f.write('<div style="float:right;width:5%;">'+str(videoresolution)+'</div>\n')
             f.write('</td>\n')
-            f.write('<td width="4%">'+str(movie_rating)+'</td>\n')
-            f.write('<td width="5%">'+str(movie_runtime)+'</td>\n')
+            f.write('<td width="4%" align="center">'+str(movie_rating)+'</td>\n')
+            f.write('<td width="4%" align="center">'+str(movie_runtime)+'</td>\n')
             f.write('<td width="26%">'+str(moviegenre)+'</td>\n')
             f.write('<td width="15%">'+moviestudio+'</td>\n')
             # format movie mpaa
@@ -388,17 +343,19 @@ def table_list():
         f.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
         f.write('<table class="gridtable">\n')
         f.write('<tr>\n')
-        f.write('<th colspan="5"><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+' '+xbmc.getLocalizedString(20161)+' / '+str(len(episodes))+' '+xbmc.getLocalizedString(20360)+')</th>\n')
+        f.write('<th colspan="6"><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+' '+xbmc.getLocalizedString(20161)+' / '+str(len(episodes))+' '+xbmc.getLocalizedString(20360)+')</th>\n')
         f.write('</tr>\n')
         for tvshow in tvshows:
             tvgenre = " / ".join(tvshow['genre'])
             tvstudio = " / ".join(tvshow['studio'])
             tv_rating = str(round(float(tvshow['rating']),1))
+            tv_prem = tvshow['premiered']
             f.write('<tr>\n')
-            f.write('<td width="30%"><b><a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank">' + tvshow['label']+' ('+str(tvshow['year'])+')</a></b></td>\n')
-            f.write('<td width="4%">'+str(tv_rating)+' &#9733;</td>\n')
+            f.write('<td width="30%"><b><a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank">' + tvshow['label']+'</a></b></td>\n')
+            f.write('<td width="4%" align="center">'+str(tv_rating)+' &#9733;</td>\n')
             f.write('<td width="30%">'+str(tvgenre)+'</td>\n')
             f.write('<td width="15%">'+tvstudio+'</td>\n')
+            f.write('<td width="10%">'+tv_prem+'</td>\n')
             # format tvshow mpaa
             if str(tvshow['mpaa']) == "":
                 f.write('<td>'+__language__(30014)+' NA</td>\n')
@@ -408,20 +365,9 @@ def table_list():
             f.write('<tr>\n')
             # list plot
             if (plot_tvshows == 'true'):
-                f.write('<td colspan="5">'+tvshow['plot']+'</td>\n')
+                f.write('<td colspan="6">'+tvshow['plot']+'</td>\n')
             f.write('</tr>\n')
         f.write('</table>\n')
-    f.write('</div>\n')
-    f.write('<div id="footer">\n')
-    f.write('<BR>\n')
-    f.write('<div style="float:right;padding-right:5.5%;padding-bottom:10px;">\n')
-    f.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;">'+__language__(30030)+'<a href="https://github.com/Steveb1968/script.html.library-report" target="_blank">script.html.library-report</a> by Steveb</p>\n')
-    f.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;float:right;">'+__language__(30015)+'<a href="http://forum.xbmc.org/showthread.php?tid=167632" target="_blank">script.html.library-report</a></p>\n')
-    f.write('</div>\n')
-    f.write('</div>\n')
-    f.write('</body>\n')
-    f.write('</html>')
-    f.close()
 
 if (enable_ftp == 'false'):
     xbmc.executebuiltin( "Dialog.Close(busydialog)" )
@@ -527,10 +473,7 @@ def ftp():
 
 if ( __name__ == "__main__" ):
     xbmc.log(__addonname__+": ## STARTED")
-    if (list_output == 'basic'):
-        default_list()
-    elif (list_output == 'table'):
-        table_list()
+    html()
     if (enable_password == 'true'):
         password_protect()
     if (enable_ftp == 'true'):
