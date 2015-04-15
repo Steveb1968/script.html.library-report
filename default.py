@@ -79,7 +79,7 @@ if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(T
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
     episodes = jsonobject["result"]["episodes"]
-    
+
 # create html output
 def html():
     # password_protect
@@ -292,7 +292,7 @@ def table_list():
         f.write('<tr>\n')
         f.write('<th colspan="6"><span style="text-transform: uppercase">'+xbmc.getLocalizedString(342)+':</span> ('+str(len(movies))+' '+xbmc.getLocalizedString(20161)+' / '+str(top250count)+' '+__language__(30013)+')</th>\n')
         f.write('</tr>\n')
-        for movie in movies:
+        for movie in movies:            
             moviegenre = " / ".join(movie['genre'])
             moviestudio = " / ".join(movie['studio'])
             movie_rating = str(round(float(movie['rating']),1))+' &#9733;'
@@ -352,22 +352,22 @@ def table_list():
             tv_prem = tvshow['premiered']
             hd_episodes = 0
             sd_episodes = 0
-            HDshow = False
+            HD_Show = False
             for episode in episodes:                
                 if episode['streamdetails']['video'] != []:
                     videowidth = episode['streamdetails']['video'][0]['width']
                     videoheight = episode['streamdetails']['video'][0]['height']                   
                     if episode['tvshowid'] == tvshow['tvshowid']:
-                        if videowidth >= 1280 and videoheight >= 720:
+                        if videowidth >= 1280 or videoheight >= 720:
                             hd_episodes += 1                   
                         else:
                             sd_episodes += 1
-                if hd_episodes > sd_episodes:
-                    HDshow = True
+            if round(float(hd_episodes),1) > (round(float(hd_episodes),1) + round(float(sd_episodes),1)) * 0.6:
+                HD_Show = True
             f.write('<tr class="table";>\n')
             f.write('<td width="30%">\n')
             f.write('<div style="float:left;width:95%;"><b><a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank">' + tvshow['label']+'</a></b></div>\n')            
-            if HDshow == True:
+            if HD_Show == True:
                 f.write('<div style="float:right;width:5%;"><img src="images/hd.png" alt="HD" width="24" height="15"</div>\n')
             else:
                 f.write('<div style="float:right;width:5%;"><img src="images/sd.png" alt="SD" width="24" height="15"</div>\n')
