@@ -144,9 +144,9 @@ def default_list():
                 videowidth = movie['streamdetails']['video'][0]['width']
                 videoheight = movie['streamdetails']['video'][0]['height']
                 if videowidth >= 1280 or videoheight >= 720:
-                    videoresolution = '<img src="images/hd.png" alt="HD" width="24" height="15">'
+                    videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" alt="HD" width="24" height="15">'
                 else:
-                    videoresolution = '<img src="images/sd.png" alt="SD" width="24" height="15">'
+                    videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" alt="SD" width="24" height="15">'
             if movie['streamdetails']['audio'] != []:
                 audiochannels = int(movie['streamdetails']['audio'][0]['channels'])
                 if audiochannels == 8:
