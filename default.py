@@ -33,8 +33,11 @@ change_ftp_dir = __addon__.getSetting('enable_ftp_dir')
 directory = __addon__.getSetting('ftp_dir')
 web_password = __addon__.getSetting('web_password')
 logout = __addon__.getSetting('logout_url')
-session = ftplib.FTP(host,user,password)
-image_files = os.listdir(__image__)
+
+LIST_TYPE = {}
+LIST_TYPE['0'] = 'basic'
+LIST_TYPE['1'] = 'table'
+list_output = LIST_TYPE[__addon__.getSetting('listtype')]
 
 # file locations/names & paths
 while file_path=="":
@@ -46,12 +49,9 @@ file_name = 'index.html'
 data_files = os.listdir(__data__)
 image_files = os.listdir(__image__)
 image_dest = os.path.join(file_path, 'images')
+session = ftplib.FTP(host,user,password)
+image_files = os.listdir(__image__)
 f_http = codecs.open(os.path.join(file_path,str(file_name)), "w", encoding="utf-8")
-
-LIST_TYPE = {}
-LIST_TYPE['0'] = 'basic'
-LIST_TYPE['1'] = 'table'
-list_output = LIST_TYPE[__addon__.getSetting('listtype')]
 
 xbmc.executebuiltin( "ActivateWindow(busydialog)" )
 
@@ -105,10 +105,10 @@ def html():
     f_http.write('<div id="Search" style="height:95px;width:20%;float:left;padding-left:1%;padding-top:15px;">\n')
     f_http.write("<iframe id="+'"srchform2" '+'src="'+"javascript:'<html><body style=margin:0px;><form action="+"\\'javascript:void();\\' onSubmit=if(this.t1.value!=\\'\\')parent.findString(this.t1.value);return(false);><input type=text id=t1 name=t1 size=20><input type=submit name=b1 value=Find></form></body></html>'"+'"'+" width=220 height=34 border=0 frameborder=0 scrolling=no></iframe>\n")
     if (include_movies == 'true') and (include_tvshows == 'true'):
-        f_http.write('<p class="links"><a href="#movie_link">'+xbmc.getLocalizedString(342)+' ('+str(len(movies))+')'+'</a>&nbsp;&nbsp;<a href="#tvshow_link">'+xbmc.getLocalizedString(20343)+' ('+str(len(tvshows))+')'+'</a></p>\n')
+        f_http.write('<p class="links"><a href="#movie_link">'+xbmc.getLocalizedString(342)+'</a>&nbsp;&nbsp;<a href="#tvshow_link">'+xbmc.getLocalizedString(20343)+'</a></p>\n')
     f_http.write('</div>\n')
     f_http.write('<div id="Heading" style="height:95px;width:80%;margin-left: auto;margin-right: auto ;">\n')
-    f_http.write('<h1><img src="images/logo.png" alt="Kodi" width="150" height="52" align="center"> '+__language__(30007)+'</h1>\n')
+    f_http.write('<h1><a href="http://kodi.tv/" target="_blank"><img src="images/logo.png" alt="Kodi" width="150" height="52" align="center"></a> '+__language__(30007)+'</h1>\n')
     f_http.write('</div>\n')
     f_http.write('</div>\n')
     f_http.write('<div id="Body" style="width:100%;padding-top:75px;">\n')
@@ -143,16 +143,10 @@ def default_list():
             if movie['streamdetails']['video'] != []:
                 videowidth = movie['streamdetails']['video'][0]['width']
                 videoheight = movie['streamdetails']['video'][0]['height']
-                if videowidth <= 720 and videoheight <= 480:
-                    videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" alt="SD" width="24" height="15">'
-                elif videowidth <= 768 and videoheight <= 576:
-                    videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" alt="SD" width="24" height="15">'
-                elif videowidth <= 960 and videoheight <= 544:
-                    videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" alt="SD" width="24" height="15">'
-                elif videowidth <= 1280 and videoheight <= 720:
-                    videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" alt="HD" width="24" height="15">'
+                if videowidth >= 1280 or videoheight >= 720:
+                    videoresolution = '<img src="images/hd.png" alt="HD" width="24" height="15">'
                 else:
-                    videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" alt="HD" width="24" height="15">'
+                    videoresolution = '<img src="images/sd.png" alt="SD" width="24" height="15">'
             if movie['streamdetails']['audio'] != []:
                 audiochannels = int(movie['streamdetails']['audio'][0]['channels'])
                 if audiochannels == 8:
@@ -213,16 +207,10 @@ def default_list():
                 if episode['streamdetails']['video'] != []:
                     videowidth = episode['streamdetails']['video'][0]['width']
                     videoheight = episode['streamdetails']['video'][0]['height']
-                    if videowidth <= 720 and videoheight <= 480:
-                        videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" alt="SD" width="24" height="15">'
-                    elif videowidth <= 768 and videoheight <= 576:
-                        videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" alt="SD" width="24" height="15">'
-                    elif videowidth <= 960 and videoheight <= 544:
-                        videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" alt="SD" width="24" height="15">'
-                    elif videowidth <= 1280 and videoheight <= 720:
-                        videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" alt="HD" width="24" height="15">'
+                    if videowidth >= 1280 or videoheight >= 720:
+                        videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" alt="HD" width="24" height="15">'                   
                     else:
-                        videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" alt="HD" width="24" height="15">'
+                        videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" alt="SD" width="24" height="15">'
                 if episode['streamdetails']['audio'] != []:
                     audiochannels = int(episode['streamdetails']['audio'][0]['channels'])
                     if audiochannels == 8:
@@ -346,7 +334,7 @@ def table_list():
                             hd_episodes += 1                   
                         else:
                             sd_episodes += 1
-            if round(float(hd_episodes),1) > round(float((hd_episodes + sd_episodes) * 0.6),1):
+            if round(float(hd_episodes),1) >= round(float((hd_episodes + sd_episodes) * 0.6),1):
                 HD_Show = True
             f_http.write('<tr class="table";>\n')
             f_http.write('<td width="30%">\n')
