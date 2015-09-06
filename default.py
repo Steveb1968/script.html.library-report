@@ -49,8 +49,6 @@ file_name = 'index.html'
 data_files = os.listdir(__data__)
 image_files = os.listdir(__image__)
 image_dest = os.path.join(file_path, 'images')
-session = ftplib.FTP(host,user,password)
-image_files = os.listdir(__image__)
 f_http = codecs.open(os.path.join(file_path,str(file_name)), "w", encoding="utf-8")
 
 xbmc.executebuiltin( "ActivateWindow(busydialog)" )
@@ -451,6 +449,7 @@ def ftp():
                 file.close()
 
     try:
+        session = ftplib.FTP(host,user,password)
         if (change_ftp_dir == 'true') and directory != "":
             chdir(session, directory)
         ftp_files()
