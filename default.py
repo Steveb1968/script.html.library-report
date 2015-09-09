@@ -458,7 +458,6 @@ def ftp():
                         file = open( os.path.join( __data__, f ),'rb')
                         session.storlines('STOR ' + f, file)
                         file.close()
-                        session.quit()
             else:
                 pass
         except Exception,e:
