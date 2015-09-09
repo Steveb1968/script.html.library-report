@@ -452,12 +452,15 @@ def ftp():
             session = ftplib.FTP(host,user,password)
             if (change_ftp_dir == 'true') and directory != "":
                 chdir(session, directory)
-            for f in data_files:
-                if (f == "password_protect.php"):
-                    file = open( os.path.join( __data__, f ),'rb')
-                    session.storlines('STOR ' + f, file)
-                    file.close()
-                    session.quit()
+            if not "password_protect.php" in session.nlst():
+                for f in data_files:
+                    if (f == "password_protect.php"):
+                        file = open( os.path.join( __data__, f ),'rb')
+                        session.storlines('STOR ' + f, file)
+                        file.close()
+                        session.quit()
+            else:
+                pass
         except Exception,e:
             xbmc.sleep(200)
             xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__language__(30026),e, 4000, __icon__) )
