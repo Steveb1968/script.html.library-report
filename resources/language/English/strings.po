@@ -1,8 +1,8 @@
 # XBMC Media Center language file
 # Addon Name: HTML Library Report
 # Addon id: script.html.library-report
-# Addon version: 0.2.7
-# Addon Provider: steveb
+# Addon version: 0.2.8
+# Addon Provider: Steveb
 msgid ""
 msgstr ""
 "Project-Id-Version: XBMC-Addons\n"
@@ -58,7 +58,7 @@ msgid "Library Report"
 msgstr ""
 
 msgctxt "#30008"
-msgid "Host root folder: [I](If different to "User")[/I]"
+msgid "Host root folder: [I](If different to "User:")[/I]"
 msgstr ""
 
 msgctxt "#30009"

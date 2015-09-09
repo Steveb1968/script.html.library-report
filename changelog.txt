@@ -1,12 +1,15 @@
+[B]Version 0.2.8[/B]
+- Updates & Fixes to Password Protect.
+
 [B]Version 0.2.7[/B]
-- Added Table list
+- Added Table list.
 
 [B]Version 0.2.6[/B]
-- Added video Res & aduio channel images
-- Settings cleanup
+- Added video Res & aduio channel images.
+- Settings cleanup.
 
 [B]Version 0.2.5[/B]
-- Localize images
+- Localize images.
 
 [B]Version 0.2.4[/B]
 - Added option to password protect webpage.
