@@ -58,7 +58,7 @@ msgid "Library Report"
 msgstr ""
 
 msgctxt "#30008"
-msgid "Default password: admin"
+msgid "Host root folder: [I](If different to "User")[/I]"
 msgstr ""
 
 msgctxt "#30009"
@@ -147,4 +147,12 @@ msgstr ""
 
 msgctxt "#30030"
 msgid "Created using: "
+msgstr ""
+
+msgctxt "#30031"
+msgid "Password: [I](Default password: admin)[/I]"
+msgstr ""
+
+msgctxt "#30032"
+msgid "Password Protection FAILED"
 msgstr ""

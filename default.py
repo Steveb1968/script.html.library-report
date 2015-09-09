@@ -3,6 +3,7 @@ import xbmc, xbmcgui, xbmcaddon
 import time
 import codecs, shutil
 import ftplib
+import urllib2
 if sys.version_info < (2, 7):
     import simplejson
 else:
@@ -31,6 +32,7 @@ user = __addon__.getSetting('user')
 password = __addon__.getSetting('password')
 change_ftp_dir = __addon__.getSetting('enable_ftp_dir')
 directory = __addon__.getSetting('ftp_dir')
+web_root = __addon__.getSetting('web_root')
 web_password = __addon__.getSetting('web_password')
 logout = __addon__.getSetting('logout_url')
 
@@ -384,6 +386,7 @@ def copy_files_local():
 
 
 def password_protect():
+    php_data = ""
     password_php = xbmc.translatePath( os.path.join( __data__, 'password_protect.php' ).encode("utf-8") ).decode("utf-8")
     with codecs.open(password_php, "r", encoding="utf-8") as file:
         data = file.readlines()
@@ -395,13 +398,29 @@ def password_protect():
         file.writelines(data)
         file.close()
 
+    try:
+        if not (web_root == ""):
+            if (change_ftp_dir == 'true') and directory != "":
+                php_data = urllib2.urlopen("http://"+host+"/"+web_root+"/"+directory+"/password_protect.php?help", timeout = 5).read()
+            else:
+                php_data = urllib2.urlopen("http://"+host+"/"+web_root+"/password_protect.php?help", timeout = 5).read()
+        else:
+            if (change_ftp_dir == 'true') and directory != "":
+                php_data = urllib2.urlopen("http://"+host+"/"+user+"/"+directory+"/password_protect.php?help", timeout = 5).read()
+            else:
+                php_data = urllib2.urlopen("http://"+host+"/"+user+"/password_protect.php?help", timeout = 5).read()
+    except urllib2.URLError, e:
+        xbmc.log(__addonname__+": ## PHP HEADER ERROR "+str(e.code))
+        xbmc.sleep(200)
+        xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__language__(30032),e, 4000, __icon__) )
+
+    php_data = php_data.split('"', 1)[-1].split('"')[0]
+
     with codecs.open(str(file_path)+str(file_name), "r", encoding="utf-8") as file:
         data = file.readlines()
     # change the selected line
-    if (change_ftp_dir == 'true') and directory != "":
-        data[0] = '<?php include("/data/www/'+host+'/'+user+'/'+directory+'/password_protect.php"); ?>\n'
-    else:
-        data[0] = '<?php include("/data/www/'+host+'/'+user+'/password_protect.php"); ?>\n'
+    data[0] = '<?php include("'+php_data+'"); ?>\n'
+    xbmc.log(__addonname__+": ## PHP HEADER DATA: "+data[0])
     # write back
     with codecs.open(str(file_path)+str(file_name), "w", encoding="utf-8") as file:
         file.writelines(data)
@@ -409,7 +428,6 @@ def password_protect():
 
 # ftp file transfer
 def ftp():
-
     def chdir(session, directory):
         ch_dir_rec(session,directory.split('/'))
     # Check if directory exists (in current location)
@@ -428,6 +446,21 @@ def ftp():
             session.mkd(next_level_directory)
         session.cwd(next_level_directory)
         ch_dir_rec(session,descending_path_split)
+
+    def php_upload():
+        try:
+            session = ftplib.FTP(host,user,password)
+            if (change_ftp_dir == 'true') and directory != "":
+                chdir(session, directory)
+            for f in data_files:
+                if (f == "password_protect.php"):
+                    file = open( os.path.join( __data__, f ),'rb')
+                    session.storlines('STOR ' + f, file)
+                    file.close()
+                    session.quit()
+        except Exception,e:
+            xbmc.sleep(200)
+            xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__language__(30026),e, 4000, __icon__) )
 
     def ftp_files():
         file = open(str(file_path)+str(file_name),'rb')
@@ -452,6 +485,9 @@ def ftp():
         session = ftplib.FTP(host,user,password)
         if (change_ftp_dir == 'true') and directory != "":
             chdir(session, directory)
+        if (enable_password == 'true'):
+            php_upload()
+            password_protect()
         ftp_files()
         session.quit()
         xbmc.executebuiltin( "Dialog.Close(busydialog)" )
@@ -465,8 +501,6 @@ def ftp():
 if ( __name__ == "__main__" ):
     xbmc.log(__addonname__+": ## STARTED")
     html()
-    if (enable_password == 'true'):
-        password_protect()
     if (enable_ftp == 'true'):
         xbmc.log(__addonname__+": ## UPLOADING TO FTP HOST")
         ftp()
