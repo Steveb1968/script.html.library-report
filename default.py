@@ -68,7 +68,7 @@ if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Mo
             top250count += 1
 
 if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
-    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "studio", "premiered", "plot", "rating", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
+    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "studio", "season", "episode", "plot", "rating", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
     result = xbmc.executeJSONRPC( command )
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
@@ -228,15 +228,8 @@ def default_list():
                     else:
                         channels = ''
                 if episode['tvshowid'] == tvshow['tvshowid']:
-                    episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))
-            prev_season = None
-            seasoncount = 0
-            for episode in episode_list:
-                season = episode[0]
-                if season != prev_season:
-                    seasoncount += 1
-                    prev_season = season            
-            f_http.write('<p class="episodecount">('+xbmc.getLocalizedString(33054)+' ' +str(seasoncount)+' / '+str(len(episode_list))+' '+xbmc.getLocalizedString(20360)+')</p>\n')            
+                    episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))           
+            f_http.write('<p class="episodecount">('+xbmc.getLocalizedString(33054)+' '+str(tvshow['season'])+' / '+str(tvshow['episode'])+' '+xbmc.getLocalizedString(20360)+')</p>\n')            
             f_http.write('<p class="genre">'+str(tvgenre)+'<span style="color:white"> &bull; </span><span style="color:GoldenRod">'+str(tv_rating)+' &#9733;</span></p>\n')
             f_http.write('<p class="studio">'+tvstudio+'</p>\n')
             # format tvshow mpaa
@@ -321,7 +314,6 @@ def table_list():
             tvgenre = " / ".join(tvshow['genre'])
             tvstudio = " / ".join(tvshow['studio'])
             tv_rating = str(round(float(tvshow['rating']),1))
-            tv_prem = tvshow['premiered']
             hd_episodes = 0
             sd_episodes = 0
             HD_Show = False
@@ -338,7 +330,7 @@ def table_list():
                 HD_Show = True
             f_http.write('<tr class="table";>\n')
             f_http.write('<td width="30%">\n')
-            f_http.write('<div style="float:left;width:95%;"><b><a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank">' + tvshow['label']+'</a></b></div>\n')            
+            f_http.write('<div style="float:left;width:95%;"><b><a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank">' + tvshow['label']+'</a></b> ('+str(tvshow['year'])+')</div>\n')           
             if HD_Show == True:
                 f_http.write('<div style="float:right;width:5%;"><img src="images/hd.png" alt="HD" width="24" height="15"</div>\n')
             else:
@@ -347,7 +339,7 @@ def table_list():
             f_http.write('<td width="4%" align="center">'+str(tv_rating)+' &#9733;</td>\n')
             f_http.write('<td width="30%">'+str(tvgenre)+'</td>\n')
             f_http.write('<td width="15%">'+tvstudio+'</td>\n')
-            f_http.write('<td width="10%">'+tv_prem+'</td>\n')
+            f_http.write('<td width="12%">'+xbmc.getLocalizedString(33054)+' '+str(tvshow['season'])+' / '+xbmc.getLocalizedString(20360)+' '+str(tvshow['episode'])+'</td>\n')
             # format tvshow mpaa
             if str(tvshow['mpaa']) == "":
                 f_http.write('<td>'+__language__(30014)+' NA</td>\n')
