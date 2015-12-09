@@ -144,6 +144,7 @@ table.gridtable {
 }
 
 table.gridtable th {
+    font-size:18px;
 	border-width: 1px;
 	padding: 8px;
 	border-style: solid;

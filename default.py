@@ -9,73 +9,67 @@ if sys.version_info < (2, 7):
 else:
     import json as simplejson
 
-__addon__     = xbmcaddon.Addon(id='script.html.library-report')
-__addonname__ = __addon__.getAddonInfo('name')
-__language__  = __addon__.getLocalizedString
-__icon__      = __addon__.getAddonInfo('icon')
-__cwd__       = __addon__.getAddonInfo('path').decode("utf-8")
-__resource__  = xbmc.translatePath( os.path.join( __cwd__, 'resources' ).encode("utf-8") ).decode("utf-8")
-__data__      = xbmc.translatePath( os.path.join( __resource__, 'data' ).encode("utf-8") ).decode("utf-8")
-__image__     = xbmc.translatePath( os.path.join( __resource__, 'images' ).encode("utf-8") ).decode("utf-8")
+addon     = xbmcaddon.Addon(id='script.html.library-report')
+addonname = addon.getAddonInfo('name')
+language  = addon.getLocalizedString
+icon      = addon.getAddonInfo('icon')
+cwd       = addon.getAddonInfo('path').decode("utf-8")
+resource  = xbmc.translatePath(os.path.join(cwd, 'resources').encode("utf-8")).decode("utf-8")
+data      = xbmc.translatePath(os.path.join(resource, 'data').encode("utf-8")).decode("utf-8")
+image     = xbmc.translatePath(os.path.join(resource, 'images').encode("utf-8")).decode("utf-8")
 
 # get addon settings
-file_path = __addon__.getSetting('save_location') 
-enable_password = __addon__.getSetting('Enable_Password')
-include_movies = __addon__.getSetting('includemovies')
-plot_movies = __addon__.getSetting('movieplot')
-include_tvshows = __addon__.getSetting('includetvshows')
-plot_tvshows = __addon__.getSetting('tvshowplot')
-list_episodes = __addon__.getSetting('episodes')
-enable_ftp = __addon__.getSetting('Enable_ftp')
-host = __addon__.getSetting('server')
-user = __addon__.getSetting('user')
-password = __addon__.getSetting('password')
-change_ftp_dir = __addon__.getSetting('enable_ftp_dir')
-directory = __addon__.getSetting('ftp_dir')
-web_root = __addon__.getSetting('web_root')
-web_password = __addon__.getSetting('web_password')
-logout = __addon__.getSetting('logout_url')
+file_path = addon.getSetting('save_location') 
+enable_password = addon.getSetting('Enable_Password')
+include_movies = addon.getSetting('includemovies')
+plot_movies = addon.getSetting('movieplot')
+include_tvshows = addon.getSetting('includetvshows')
+plot_tvshows = addon.getSetting('tvshowplot')
+list_episodes = addon.getSetting('episodes')
+enable_ftp = addon.getSetting('Enable_ftp')
+host = addon.getSetting('server')
+user = addon.getSetting('user')
+password = addon.getSetting('password')
+change_ftp_dir = addon.getSetting('enable_ftp_dir')
+directory = addon.getSetting('ftp_dir')
+web_root = addon.getSetting('web_root')
+web_password = addon.getSetting('web_password')
+logout = addon.getSetting('logout_url')
 
-LIST_TYPE = {}
-LIST_TYPE['0'] = 'basic'
-LIST_TYPE['1'] = 'table'
-list_output = LIST_TYPE[__addon__.getSetting('listtype')]
+LIST_TYPE = ['basic', 'table']
+list_output = LIST_TYPE[int(addon.getSetting('listtype'))]
 
 # file locations/names & paths
 while file_path=="":
-    xbmcgui.Dialog().ok(__addonname__,__language__(30004))
-    __addon__.openSettings()
-    file_path = __addon__.getSetting('save_location')
+    xbmcgui.Dialog().ok(addonname,language(30004))
+    addon.openSettings()
+    file_path = addon.getSetting('save_location')
 
 file_name = 'index.html'
-data_files = os.listdir(__data__)
-image_files = os.listdir(__image__)
+data_files = os.listdir(data)
+image_files = os.listdir(image)
 image_dest = os.path.join(file_path, 'images')
 f_http = codecs.open(os.path.join(file_path,str(file_name)), "w", encoding="utf-8")
 
-xbmc.executebuiltin( "ActivateWindow(busydialog)" )
+xbmc.executebuiltin("ActivateWindow(busydialog)")
 
 # data
-if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
+if (include_movies == 'true') and xbmc.getCondVisibility("Library.HasContent(Movies)"):
     command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "studio", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "title", "ignorearticle": true } }, "id": 1}'
-    result = xbmc.executeJSONRPC( command )
+    result = xbmc.executeJSONRPC(command)
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
     movies = jsonobject["result"]["movies"]
-    top250count = 0
-    for movie in movies:
-        if int(movie['top250']) > 0:
-            top250count += 1
 
-if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
+if (include_tvshows == 'true') and xbmc.getCondVisibility("Library.HasContent(TVShows)"):
     command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "studio", "season", "episode", "plot", "rating", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
-    result = xbmc.executeJSONRPC( command )
+    result = xbmc.executeJSONRPC(command)
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
     tvshows = jsonobject["result"]["tvshows"]
 
     command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["tvshowid", "episode", "season", "streamdetails", "runtime"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
-    result = xbmc.executeJSONRPC( command )
+    result = xbmc.executeJSONRPC(command)
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
     episodes = jsonobject["result"]["episodes"]
@@ -90,14 +84,14 @@ def html():
     f_http.write('<meta  content="text/html;  charset=UTF-8"  http-equiv="Content-Type">\n')
     f_http.write('<link rel="shortcut icon" href="images/favicon.ico">\n')
     f_http.write('<link rel="icon" sizes="16x16 32x32 64x64" href="images/favicon.ico">\n')
-    f_http.write('<title>Kodi '+__language__(30007)+'</title>\n')
+    f_http.write('<title>Kodi '+language(30007)+'</title>\n')
     f_http.write('<link rel="stylesheet" href="Default.css">\n') 
     f_http.write('<script language="JavaScript" charset="UTF-8" src="SearchScript.js"></script>\n')
     f_http.write("</head>\n")
     f_http.write('<body background="images/bg.png">\n')
     f_http.write('<div id="header" style="height:95px;width:90%;position : fixed;background-color:#333333;margin-left: 5%;margin-right: auto ;">\n')
     f_http.write('<div id="Date" style="height:95px;width:20%;float:right;padding-right:1%;padding-top:15px;">\n')
-    f_http.write('<p class="date">'+__language__(30012)+time.strftime('%d %B %Y')+'</p>\n')
+    f_http.write('<p class="date">'+language(30012)+time.strftime('%d %B %Y')+'</p>\n')
     # password_protect logout
     if (enable_password == 'true'):
         f_http.write('<form style="float:right;padding-top:30px;" method="get" action="password_protect.php" /><input type="submit" value="Logout" /><input type="hidden" name="logout" value="1" /></form>\n')
@@ -108,7 +102,7 @@ def html():
         f_http.write('<p class="links"><a href="#movie_link">'+xbmc.getLocalizedString(342)+'</a>&nbsp;&nbsp;<a href="#tvshow_link">'+xbmc.getLocalizedString(20343)+'</a></p>\n')
     f_http.write('</div>\n')
     f_http.write('<div id="Heading" style="height:95px;width:80%;margin-left: auto;margin-right: auto ;">\n')
-    f_http.write('<h1><a href="http://kodi.tv/" target="_blank"><img src="images/logo.png" alt="Kodi" width="150" height="52" align="center"></a> '+__language__(30007)+'</h1>\n')
+    f_http.write('<h1><a href="http://kodi.tv/" target="_blank"><img src="images/logo.png" alt="Kodi" width="150" height="52" align="center"></a> '+language(30007)+'</h1>\n')
     f_http.write('</div>\n')
     f_http.write('</div>\n')
     f_http.write('<div id="Body" style="width:100%;padding-top:75px;">\n')
@@ -120,8 +114,8 @@ def html():
     f_http.write('<div id="footer">\n')
     f_http.write('<hr width="90%">\n')
     f_http.write('<div style="float:right;padding-right:5.5%;padding-bottom:10px;">\n')
-    f_http.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;">'+__language__(30030)+'<a href="https://github.com/Steveb1968/script.html.library-report" target="_blank">script.html.library-report</a> by Steveb</p>\n')
-    f_http.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;float:right;">'+__language__(30015)+'<a href="http://forum.xbmc.org/showthread.php?tid=167632" target="_blank">script.html.library-report</a></p>\n')
+    f_http.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;">'+language(30030)+'<a href="https://github.com/Steveb1968/script.html.library-report" target="_blank">script.html.library-report</a> by Steveb</p>\n')
+    f_http.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;float:right;">'+language(30015)+'<a href="http://forum.xbmc.org/showthread.php?tid=167632" target="_blank">script.html.library-report</a></p>\n')
     f_http.write('</div>\n')
     f_http.write('</div>\n')
     f_http.write('</body>\n')
@@ -129,10 +123,10 @@ def html():
     f_http.close()
 
 def default_list():
-    if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
+    if (include_movies == 'true') and xbmc.getCondVisibility("Library.HasContent(Movies)"):
         f_http.write('<a class="anchor" id="movie_link">anchor</a>\n')
         f_http.write('<hr width="90%">\n')
-        f_http.write('<h2><span style="text-transform: uppercase">'+xbmc.getLocalizedString(342)+':</span> ('+str(len(movies))+' '+xbmc.getLocalizedString(20161)+' / '+str(top250count)+' '+__language__(30013)+')</h2>\n')
+        f_http.write('<h2><span style="text-transform: uppercase">'+xbmc.getLocalizedString(342)+':</span> ('+str(len(movies))+')</h2>\n')
         f_http.write('<hr width="90%">\n')
         f_http.write('&nbsp;\n')
         for movie in movies:
@@ -171,12 +165,12 @@ def default_list():
                 f_http.write(str(movie_runtime)+str(videoresolution)+str(channels)+'</p>\n')
             f_http.write('<p class="studio">'+moviestudio+'</p>\n')
             # format movie mpaa
-            if str(movie['mpaa']).startswith(__language__(30014)):
+            if str(movie['mpaa']).startswith(language(30014)):
                 f_http.write('<p class="mpaa">'+str(movie['mpaa'])+'</p>\n')
             elif str(movie['mpaa']) == "":
-                f_http.write('<p class="mpaa">'+__language__(30014)+' NA</p>\n')
+                f_http.write('<p class="mpaa">'+language(30014)+' NA</p>\n')
             else:
-                f_http.write('<p class="mpaa">'+__language__(30014)+' '+str(movie['mpaa'])+'</p>\n')
+                f_http.write('<p class="mpaa">'+language(30014)+' '+str(movie['mpaa'])+'</p>\n')
             # list plot
             if (plot_movies == 'true'):
                 if movie['plotoutline'] != "":
@@ -190,10 +184,10 @@ def default_list():
             else:
                 f_http.write('&nbsp;\n')
 
-    if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
+    if (include_tvshows == 'true') and xbmc.getCondVisibility("Library.HasContent(TVShows)"):
         f_http.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
         f_http.write('<hr width="90%">\n')
-        f_http.write('<h2><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+' '+xbmc.getLocalizedString(20161)+' / '+str(len(episodes))+' '+xbmc.getLocalizedString(20360)+')</h2>\n')
+        f_http.write('<h2><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+') <span style="text-transform: uppercase">'+xbmc.getLocalizedString(20360)+':</span> ('+str(len(episodes))+')</th>\n')
         f_http.write('<hr width="90%">\n')
         for tvshow in tvshows:
             tvgenre = " / ".join(tvshow['genre'])
@@ -234,9 +228,9 @@ def default_list():
             f_http.write('<p class="studio">'+tvstudio+'</p>\n')
             # format tvshow mpaa
             if str(tvshow['mpaa']) == "":
-                f_http.write('<p class="mpaa">'+__language__(30014)+' NA</p>\n')
+                f_http.write('<p class="mpaa">'+language(30014)+' NA</p>\n')
             else:
-                f_http.write('<p class="mpaa">'+__language__(30014)+' '+str(tvshow['mpaa'])+'</p>\n')
+                f_http.write('<p class="mpaa">'+language(30014)+' '+str(tvshow['mpaa'])+'</p>\n')
             # list plot
             if (plot_tvshows == 'true'):
                 f_http.write('<p class="plot">'+tvshow['plot']+'</p>\n')
@@ -259,11 +253,11 @@ def default_list():
         f_http.write('&nbsp;\n')
 
 def table_list():
-    if (include_movies == 'true') and xbmc.getCondVisibility( "Library.HasContent(Movies)" ):
+    if (include_movies == 'true') and xbmc.getCondVisibility("Library.HasContent(Movies)"):
         f_http.write('<a class="anchor" id="movie_link">anchor</a>\n')
         f_http.write('<table class="gridtable">\n')
         f_http.write('<tr>\n')
-        f_http.write('<th colspan="6"><span style="text-transform: uppercase">'+xbmc.getLocalizedString(342)+':</span> ('+str(len(movies))+' '+xbmc.getLocalizedString(20161)+' / '+str(top250count)+' '+__language__(30013)+')</th>\n')
+        f_http.write('<th colspan="6"><span style="text-transform: uppercase">'+xbmc.getLocalizedString(342)+':</span> ('+str(len(movies))+')</th>\n')
         f_http.write('</tr>\n')
         for movie in movies:            
             moviegenre = " / ".join(movie['genre'])
@@ -287,12 +281,12 @@ def table_list():
             f_http.write('<td width="25%">'+str(moviegenre)+'</td>\n')
             f_http.write('<td width="15%">'+moviestudio+'</td>\n')
             # format movie mpaa
-            if str(movie['mpaa']).startswith(__language__(30014)):
+            if str(movie['mpaa']).startswith(language(30014)):
                 f_http.write('<td>'+str(movie['mpaa'])+'</td>\n')
             elif str(movie['mpaa']) == "":
-                f_http.write('<td>'+__language__(30014)+' NA</td>\n')
+                f_http.write('<td>'+language(30014)+' NA</td>\n')
             else:
-                f_http.write('<td>'+__language__(30014)+' '+str(movie['mpaa'])+'</td>\n')
+                f_http.write('<td>'+language(30014)+' '+str(movie['mpaa'])+'</td>\n')
             f_http.write('</tr>\n')
             # list plot
             f_http.write('<tr>\n')
@@ -304,11 +298,11 @@ def table_list():
             f_http.write('</tr>\n')
         f_http.write('</table>\n')
 
-    if (include_tvshows == 'true') and xbmc.getCondVisibility( "Library.HasContent(TVShows)" ):
+    if (include_tvshows == 'true') and xbmc.getCondVisibility("Library.HasContent(TVShows)"):
         f_http.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
         f_http.write('<table class="gridtable">\n')
         f_http.write('<tr>\n')
-        f_http.write('<th colspan="6"><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+' '+xbmc.getLocalizedString(20161)+' / '+str(len(episodes))+' '+xbmc.getLocalizedString(20360)+')</th>\n')
+        f_http.write('<th colspan="6"><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+') <span style="text-transform: uppercase">'+xbmc.getLocalizedString(20360)+':</span> ('+str(len(episodes))+')</th>\n')
         f_http.write('</tr>\n')
         for tvshow in tvshows:
             tvgenre = " / ".join(tvshow['genre'])
@@ -342,9 +336,9 @@ def table_list():
             f_http.write('<td width="12%">'+xbmc.getLocalizedString(33054)+' '+str(tvshow['season'])+' / '+xbmc.getLocalizedString(20360)+' '+str(tvshow['episode'])+'</td>\n')
             # format tvshow mpaa
             if str(tvshow['mpaa']) == "":
-                f_http.write('<td>'+__language__(30014)+' NA</td>\n')
+                f_http.write('<td>'+language(30014)+' NA</td>\n')
             else:
-                f_http.write('<td>'+__language__(30014)+' '+str(tvshow['mpaa'])+'</td>\n')
+                f_http.write('<td>'+language(30014)+' '+str(tvshow['mpaa'])+'</td>\n')
             f_http.write('</tr>\n')
             f_http.write('<tr>\n')
             # list plot
@@ -354,15 +348,15 @@ def table_list():
         f_http.write('</table>\n')
 
 if (enable_ftp == 'false'):
-    xbmc.executebuiltin( "Dialog.Close(busydialog)" )
+    xbmc.executebuiltin("Dialog.Close(busydialog)")
     xbmc.sleep(200)
-    xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addonname__, __language__(30005), 4000, __icon__) )
+    xbmc.executebuiltin("Notification(%s, %s, %d, %s)" % (addonname, language(30005), 4000, icon))
 else:
-    xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % ( __language__(30005), __language__(30006), 4000, __icon__) )
+    xbmc.executebuiltin("Notification(%s, %s, %d, %s)" % (language(30005), language(30006), 4000, icon))
 
 def copy_files_local():
     for f in data_files:
-        full_file_name = os.path.join(__data__, f)
+        full_file_name = os.path.join(data, f)
         if f == 'password_protect.php':
             pass
         else:
@@ -372,14 +366,14 @@ def copy_files_local():
         os.makedirs(image_dest)
 
     for f in image_files:
-        full_file_name = os.path.join(__image__, f)
+        full_file_name = os.path.join(image, f)
         if not(os.path.isfile(image_dest + '/' + f)):
             shutil.copy(full_file_name, image_dest)
 
 
 def password_protect():
     php_data = ""
-    password_php = xbmc.translatePath( os.path.join( __data__, 'password_protect.php' ).encode("utf-8") ).decode("utf-8")
+    password_php = xbmc.translatePath(os.path.join(data, 'password_protect.php').encode("utf-8")).decode("utf-8")
     with codecs.open(password_php, "r", encoding="utf-8") as file:
         data = file.readlines()
     # change the selected lines
@@ -402,9 +396,9 @@ def password_protect():
             else:
                 php_data = urllib2.urlopen("http://"+host+"/"+user+"/password_protect.php?help", timeout = 5).read()
     except urllib2.URLError, e:
-        xbmc.log(__addonname__+": ## PHP HEADER ERROR "+str(e.code))
+        xbmc.log(addonname+": ## PHP HEADER ERROR "+str(e.code))
         xbmc.sleep(200)
-        xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__language__(30032),e, 4000, __icon__) )
+        xbmc.executebuiltin("Notification(%s, %s, %d, %s)" % (language(30032), e, 4000, icon))
 
     php_data = php_data.split('"', 1)[-1].split('"')[0]
 
@@ -412,7 +406,7 @@ def password_protect():
         data = file.readlines()
     # change the selected line
     data[0] = '<?php include("'+php_data+'"); ?>\n'
-    xbmc.log(__addonname__+": ## PHP HEADER DATA: "+data[0])
+    xbmc.log(addonname+": ## PHP HEADER DATA: "+data[0])
     # write back
     with codecs.open(str(file_path)+str(file_name), "w", encoding="utf-8") as file:
         file.writelines(data)
@@ -447,21 +441,21 @@ def ftp():
             if not "password_protect.php" in session.nlst():
                 for f in data_files:
                     if (f == "password_protect.php"):
-                        file = open( os.path.join( __data__, f ),'rb')
+                        file = open( os.path.join( data, f ),'rb')
                         session.storlines('STOR ' + f, file)
                         file.close()
             else:
                 pass
         except Exception,e:
             xbmc.sleep(200)
-            xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__language__(30026),e, 4000, __icon__) )
+            xbmc.executebuiltin("Notification(%s, %s, %d, %s)" % (language(30026), e, 4000, icon))
 
     def ftp_files():
         file = open(str(file_path)+str(file_name),'rb')
         session.storlines('STOR ' + str('index.php'), file)
         file.close()
         for f in data_files:
-            file = open( os.path.join( __data__, f ),'rb')
+            file = open( os.path.join(data, f ),'rb')
             session.storlines('STOR ' + f, file)
             file.close()
         if (enable_password == 'false') and 'password_protect.php' in session.nlst():
@@ -471,7 +465,7 @@ def ftp():
         session.cwd('images')
         for f in image_files:
             if not f in session.nlst():
-                file = open( os.path.join( __image__, f ),'rb')
+                file = open( os.path.join(image, f ),'rb')
                 session.storbinary('STOR ' + f, file)
                 file.close()
 
@@ -484,19 +478,19 @@ def ftp():
             password_protect()
         ftp_files()
         session.quit()
-        xbmc.executebuiltin( "Dialog.Close(busydialog)" )
+        xbmc.executebuiltin("Dialog.Close(busydialog)")
         xbmc.sleep(200)
-        xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__addonname__,__language__(30025), 4000, __icon__) )
+        xbmc.executebuiltin("Notification(%s, %s, %d, %s)" % (addonname, language(30025), 4000, icon))
     except Exception,e:
-        xbmc.executebuiltin( "Dialog.Close(busydialog)" )
+        xbmc.executebuiltin("Dialog.Close(busydialog)")
         xbmc.sleep(200)
-        xbmc.executebuiltin("Notification( %s, %s, %d, %s)" % (__language__(30026),e, 4000, __icon__) )
+        xbmc.executebuiltin("Notification(%s, %s, %d, %s)" % (language(30026), e, 4000, icon))
 
-if ( __name__ == "__main__" ):
-    xbmc.log(__addonname__+": ## STARTED")
+if (__name__ == "__main__"):
+    xbmc.log(addonname+": ## STARTED")
     html()
     if (enable_ftp == 'true'):
-        xbmc.log(__addonname__+": ## UPLOADING TO FTP HOST")
+        xbmc.log(addonname+": ## UPLOADING TO FTP HOST")
         ftp()
     copy_files_local()
-    xbmc.log(__addonname__+": ## FINISHED")
+    xbmc.log(addonname+": ## FINISHED")
