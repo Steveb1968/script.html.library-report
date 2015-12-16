@@ -75,7 +75,7 @@ if (include_tvshows == 'true') and xbmc.getCondVisibility("Library.HasContent(TV
     episodes = jsonobject["result"]["episodes"]
 
 # create html output
-def html():
+def main():
     # password_protect
     if (enable_password == 'true'):
         f_http.write('\n')
@@ -187,7 +187,7 @@ def default_list():
     if (include_tvshows == 'true') and xbmc.getCondVisibility("Library.HasContent(TVShows)"):
         f_http.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
         f_http.write('<hr width="90%">\n')
-        f_http.write('<h2><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+') <span style="text-transform: uppercase">'+xbmc.getLocalizedString(20360)+':</span> ('+str(len(episodes))+')</th>\n')
+        f_http.write('<h2><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+') <span style="text-transform: uppercase">'+xbmc.getLocalizedString(20360)+':</span> ('+str(len(episodes))+')</h2>\n')
         f_http.write('<hr width="90%">\n')
         for tvshow in tvshows:
             tvgenre = " / ".join(tvshow['genre'])
@@ -488,7 +488,7 @@ def ftp():
 
 if (__name__ == "__main__"):
     xbmc.log(__addonname__+": ## STARTED")
-    html()
+    main()
     if (enable_ftp == 'true'):
         xbmc.log(__addonname__+": ## UPLOADING TO FTP HOST")
         ftp()
