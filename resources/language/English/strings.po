@@ -156,3 +156,11 @@ msgstr ""
 msgctxt "#30032"
 msgid "Password Protection FAILED"
 msgstr ""
+
+msgctxt "#30033"
+msgid "Creating HTML List"
+msgstr ""
+
+msgctxt "#30034"
+msgid "Scanning Library"
+msgstr ""

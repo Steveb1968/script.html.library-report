@@ -10,5 +10,7 @@
 		<platform>all</platform>
 		<forum>http://forum.xbmc.org/showthread.php?tid=167632</forum>
 		<source>https://github.com/Steveb1968/script.html.library-report</source>
+		<website>https://github.com/Steveb1968/script.html.library-report</website>
+		<license>GNU GENERAL PUBLIC LICENSE Version 2</license>
 	</extension>
 </addon>
