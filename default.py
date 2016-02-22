@@ -54,13 +54,14 @@ pDialog = xbmcgui.DialogProgressBG()
 
 # data
 pDialog.create(ADDON_NAME)
+pDialog.update(0, message=LANGUAGE(30034))
 if (include_movies == 'true') and xbmc.getCondVisibility("Library.HasContent(Movies)"):
     command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "studio", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "title", "ignorearticle": true } }, "id": 1}'
     result = xbmc.executeJSONRPC(command)
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
     movies = jsonobject["result"]["movies"]
-    pDialog.update(25, message=LANGUAGE(30034))
+    pDialog.update(50, message=LANGUAGE(30034))
 
 if (include_tvshows == 'true') and xbmc.getCondVisibility("Library.HasContent(TVShows)"):
     command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "studio", "season", "episode", "plot", "rating", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
@@ -68,14 +69,14 @@ if (include_tvshows == 'true') and xbmc.getCondVisibility("Library.HasContent(TV
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
     tvshows = jsonobject["result"]["tvshows"]
-    pDialog.update(50, message=LANGUAGE(30034))
+    pDialog.update(75, message=LANGUAGE(30034))
 
     command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["tvshowid", "episode", "season", "streamdetails", "runtime"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
     result = xbmc.executeJSONRPC(command)
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
     episodes = jsonobject["result"]["episodes"]
-    pDialog.update(75, message=LANGUAGE(30034))
+
 pDialog.update(100, message=LANGUAGE(30034))
 xbmc.sleep(200)
 pDialog.close()
@@ -485,6 +486,7 @@ def ftp():
 
     def ftp_files():
         pDialog.create(ADDON_NAME)
+        pDialog.update(0, message=LANGUAGE(30006))
         file = open(str(file_path)+str(file_name),'rb')
         session.storlines('STOR ' + str('index.php'), file)
         file.close()
