@@ -19,7 +19,7 @@ DATA      = xbmc.translatePath(os.path.join(RESOURCE, 'data').encode("utf-8")).d
 IMAGE     = xbmc.translatePath(os.path.join(RESOURCE, 'images').encode("utf-8")).decode("utf-8")
 
 # get addon settings
-file_path = ADDON.getSetting('save_location') 
+file_path = ADDON.getSetting('save_location')
 enable_password = ADDON.getSetting('Enable_Password')
 include_movies = ADDON.getSetting('includemovies')
 plot_movies = ADDON.getSetting('movieplot')
@@ -53,7 +53,7 @@ f_http = codecs.open(os.path.join(file_path,str(file_name)), "w", encoding="utf-
 pDialog = xbmcgui.DialogProgressBG()
 
 # data
-pDialog.create(ADDON_NAME)
+pDialog.create(ADDON_NAME, '')
 pDialog.update(0, message=LANGUAGE(30034))
 if (include_movies == 'true') and xbmc.getCondVisibility("Library.HasContent(Movies)"):
     command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "studio", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "title", "ignorearticle": true } }, "id": 1}'
@@ -76,8 +76,8 @@ if (include_tvshows == 'true') and xbmc.getCondVisibility("Library.HasContent(TV
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = simplejson.loads(result)
     episodes = jsonobject["result"]["episodes"]
+    pDialog.update(100, message=LANGUAGE(30034))
 
-pDialog.update(100, message=LANGUAGE(30034))
 xbmc.sleep(200)
 pDialog.close()
 
@@ -92,7 +92,7 @@ def main():
     f_http.write('<link rel="shortcut icon" href="images/favicon.ico">\n')
     f_http.write('<link rel="icon" sizes="16x16 32x32 64x64" href="images/favicon.ico">\n')
     f_http.write('<title>Kodi '+LANGUAGE(30007)+'</title>\n')
-    f_http.write('<link rel="stylesheet" href="Default.css">\n') 
+    f_http.write('<link rel="stylesheet" href="Default.css">\n')
     f_http.write('<script language="JavaScript" charset="UTF-8" src="SearchScript.js"></script>\n')
     f_http.write("</head>\n")
     f_http.write('<body background="images/bg.png">\n')
@@ -142,13 +142,13 @@ def default_list():
         f_http.write('<h2><span style="text-transform: uppercase">'+xbmc.getLocalizedString(342)+':</span> ('+str(len(movies))+')</h2>\n')
         f_http.write('<hr width="90%">\n')
         f_http.write('&nbsp;\n')
-        pDialog.create(LANGUAGE(30033))
+        pDialog.create(LANGUAGE(30033), '')
         moviecount = 0
         for movie in movies:
             moviegenre = " / ".join(movie['genre'])
             moviestudio = " / ".join(movie['studio'])
             movie_rating = '<span style="color:white"> &bull; </span><span style="color:GoldenRod">'+str(round(float(movie['rating']),1))+' &#9733;</span>'
-            movie_runtime = '<span style="color:white"> &bull; </span><span style="color:darkgrey">%s min</span>' % str(movie['runtime'] / 60)+'</span>' 
+            movie_runtime = '<span style="color:white"> &bull; </span><span style="color:darkgrey">%s min</span>' % str(movie['runtime'] / 60)+'</span>'
             if movie['streamdetails']['video'] != []:
                 videowidth = movie['streamdetails']['video'][0]['width']
                 videoheight = movie['streamdetails']['video'][0]['height']
@@ -201,6 +201,7 @@ def default_list():
             moviecount += 1
             pDialog.update(int(float(moviecount * 100) / len(movies)), message=movie['label'])
             xbmc.sleep(10)
+        xbmc.sleep(200)
         pDialog.close()
 
     if (include_tvshows == 'true') and xbmc.getCondVisibility("Library.HasContent(TVShows)"):
@@ -208,7 +209,7 @@ def default_list():
         f_http.write('<hr width="90%">\n')
         f_http.write('<h2><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+') <span style="text-transform: uppercase">'+xbmc.getLocalizedString(20360)+':</span> ('+str(len(episodes))+')</h2>\n')
         f_http.write('<hr width="90%">\n')
-        pDialog.create(LANGUAGE(30033))
+        pDialog.create(LANGUAGE(30033), '')
         tvcount = 0
         for tvshow in tvshows:
             tvgenre = " / ".join(tvshow['genre'])
@@ -223,7 +224,7 @@ def default_list():
                     videowidth = episode['streamdetails']['video'][0]['width']
                     videoheight = episode['streamdetails']['video'][0]['height']
                     if videowidth >= 1280 or videoheight >= 720:
-                        videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" alt="HD" width="24" height="15">'                   
+                        videoresolution = '&nbsp;&nbsp;<img src="images/hd.png" alt="HD" width="24" height="15">'
                     else:
                         videoresolution = '&nbsp;&nbsp;<img src="images/sd.png" alt="SD" width="24" height="15">'
                 if episode['streamdetails']['audio'] != []:
@@ -243,8 +244,8 @@ def default_list():
                     else:
                         channels = ''
                 if episode['tvshowid'] == tvshow['tvshowid']:
-                    episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))           
-            f_http.write('<p class="episodecount">('+xbmc.getLocalizedString(33054)+' '+str(tvshow['season'])+' / '+str(tvshow['episode'])+' '+xbmc.getLocalizedString(20360)+')</p>\n')            
+                    episode_list.append((episode['season'],episode['episode'],episode['label']+str(episode_runtime)+str(videoresolution)+str(channels)))
+            f_http.write('<p class="episodecount">('+xbmc.getLocalizedString(33054)+' '+str(tvshow['season'])+' / '+str(tvshow['episode'])+' '+xbmc.getLocalizedString(20360)+')</p>\n')
             f_http.write('<p class="genre">'+str(tvgenre)+'<span style="color:white"> &bull; </span><span style="color:GoldenRod">'+str(tv_rating)+' &#9733;</span></p>\n')
             f_http.write('<p class="studio">'+tvstudio+'</p>\n')
             # format tvshow mpaa
@@ -275,6 +276,7 @@ def default_list():
             pDialog.update(int(float(tvcount * 100) / len(tvshows)), message=tvshow['label'])
             xbmc.sleep(10)
         f_http.write('&nbsp;\n')
+        xbmc.sleep(200)
         pDialog.close()
 
 def table_list():
@@ -284,7 +286,7 @@ def table_list():
         f_http.write('<tr>\n')
         f_http.write('<th colspan="6"><span style="text-transform: uppercase">'+xbmc.getLocalizedString(342)+':</span> ('+str(len(movies))+')</th>\n')
         f_http.write('</tr>\n')
-        pDialog.create(LANGUAGE(30033))
+        pDialog.create(LANGUAGE(30033), '')
         moviecount = 0
         for movie in movies:
             moviegenre = " / ".join(movie['genre'])
@@ -327,6 +329,7 @@ def table_list():
             pDialog.update(int(float(moviecount * 100) / len(movies)), message=movie['label'])
             xbmc.sleep(10)
         f_http.write('</table>\n')
+        xbmc.sleep(200)
         pDialog.close()
 
     if (include_tvshows == 'true') and xbmc.getCondVisibility("Library.HasContent(TVShows)"):
@@ -335,7 +338,7 @@ def table_list():
         f_http.write('<tr>\n')
         f_http.write('<th colspan="6"><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+') <span style="text-transform: uppercase">'+xbmc.getLocalizedString(20360)+':</span> ('+str(len(episodes))+')</th>\n')
         f_http.write('</tr>\n')
-        pDialog.create(LANGUAGE(30033))
+        pDialog.create(LANGUAGE(30033), '')
         tvcount = 0
         for tvshow in tvshows:
             tvgenre = " / ".join(tvshow['genre'])
@@ -344,20 +347,20 @@ def table_list():
             hd_episodes = 0
             sd_episodes = 0
             HD_Show = False
-            for episode in episodes:                
+            for episode in episodes:
                 if episode['streamdetails']['video'] != []:
                     videowidth = episode['streamdetails']['video'][0]['width']
-                    videoheight = episode['streamdetails']['video'][0]['height']                   
+                    videoheight = episode['streamdetails']['video'][0]['height']
                     if episode['tvshowid'] == tvshow['tvshowid']:
                         if videowidth >= 1280 or videoheight >= 720:
-                            hd_episodes += 1                   
+                            hd_episodes += 1
                         else:
                             sd_episodes += 1
             if round(float(hd_episodes),1) >= round(float((hd_episodes + sd_episodes) * 0.6),1):
                 HD_Show = True
             f_http.write('<tr class="table";>\n')
             f_http.write('<td width="30%">\n')
-            f_http.write('<div style="float:left;width:95%;"><b><a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank">' + tvshow['label']+'</a></b> ('+str(tvshow['year'])+')</div>\n')           
+            f_http.write('<div style="float:left;width:95%;"><b><a href="http://thetvdb.com/?tab=series&amp;id=' + str(tvshow['imdbnumber']) + '/" target="_blank">' + tvshow['label']+'</a></b> ('+str(tvshow['year'])+')</div>\n')
             if HD_Show == True:
                 f_http.write('<div style="float:right;width:5%;"><img src="images/hd.png" alt="HD" width="24" height="15"</div>\n')
             else:
@@ -382,6 +385,7 @@ def table_list():
             pDialog.update(int(float(tvcount * 100) / len(tvshows)), message=tvshow['label'])
             xbmc.sleep(10)
         f_http.write('</table>\n')
+        xbmc.sleep(200)
         pDialog.close()
 
 
@@ -470,14 +474,11 @@ def ftp():
             if (change_ftp_dir == 'true') and directory != "":
                 chdir(session, directory)
             if not "password_protect.php" in session.nlst():
-                pDialog.create(ADDON_NAME)
                 for f in data_files:
                     if (f == "password_protect.php"):
                         file = open(os.path.join(DATA, f),'rb')
                         session.storlines('STOR ' + f, file)
                         file.close()
-                pDialog.update(100, message=LANGUAGE(30006))
-                pDialog.close()
             else:
                 pass
         except Exception,e:
@@ -485,43 +486,47 @@ def ftp():
             xbmc.executebuiltin("Notification(%s, %s, %d, %s)" % (LANGUAGE(30026),e, 4000, ICON))
 
     def ftp_files():
-        pDialog.create(ADDON_NAME)
-        pDialog.update(0, message=LANGUAGE(30006))
         file = open(str(file_path)+str(file_name),'rb')
         session.storlines('STOR ' + str('index.php'), file)
         file.close()
-        pDialog.update(25, message=LANGUAGE(30006))
         for f in data_files:
             file = open(os.path.join(DATA, f),'rb')
             session.storlines('STOR ' + f, file)
             file.close()
-        pDialog.update(50, message=LANGUAGE(30006))
         if (enable_password == 'false') and 'password_protect.php' in session.nlst():
             session.delete('password_protect.php')
         if not 'images' in session.nlst():
             session.mkd('images')
         session.cwd('images')
-        pDialog.update(75, message=LANGUAGE(30006))
         for f in image_files:
             if not f in session.nlst():
                 file = open(os.path.join(IMAGE, f),'rb')
                 session.storbinary('STOR ' + f, file)
                 file.close()
-        pDialog.update(100, message=LANGUAGE(30006))
-        pDialog.close()
 
     try:
+        pDialog.create(ADDON_NAME, '')
+        pDialog.update(0, message=LANGUAGE(30006))
         session = ftplib.FTP(host,user,password)
+        pDialog.update(25, message=LANGUAGE(30006))
         if (change_ftp_dir == 'true') and directory != "":
             chdir(session, directory)
+            pDialog.update(30, message=LANGUAGE(30006))
         if (enable_password == 'true'):
             php_upload()
+            pDialog.update(40, message=LANGUAGE(30006))
             password_protect()
+            pDialog.update(50, message=LANGUAGE(30006))
         ftp_files()
+        pDialog.update(100, message=LANGUAGE(30006))
         session.quit()
+        xbmc.sleep(200)
+        pDialog.close()
         xbmc.sleep(200)
         xbmc.executebuiltin("Notification(%s, %s, %d, %s)" % (ADDON_NAME,LANGUAGE(30025), 4000, ICON))
     except Exception,e:
+        session.quit()
+        pDialog.close()
         xbmc.sleep(200)
         xbmc.executebuiltin("Notification(%s, %s, %d, %s)" % (LANGUAGE(30026),e, 4000, ICON))
 
