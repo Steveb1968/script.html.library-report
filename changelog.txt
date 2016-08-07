@@ -1,3 +1,6 @@
+[B]Version 0.3.0[/B]
+- Kodi Krypton compatible (v17).
+
 [B]Version 0.2.9[/B]
 - Replace busydialog with background progress dialog.
 
