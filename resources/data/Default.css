@@ -15,96 +15,9 @@ h1 {
 	font-family:Verdana, Geneva, sans-serif;
 }
 
-h2 {
-	font-weight:bold;
-	color:white;
-	text-shadow:1px 1px black;
-	text-align:center;
-	font-family:Tahoma, Geneva, sans-serif;
-}
-
-h3 {
-	font-weight:bold;
-	font-style:italic;
-	color:wheat;
-	text-shadow:1px 1px black;
-	text-align:center;
-	text-decoration:underline;
-	font-family:Arial, Helvetica, sans-serif;
-}
-
 img {
 	border:0;
 	vertical-align:middle;
-}
-
-p.mediatitle {
-	font-size:1.5em;
-	font-weight:bold;
-	color:white;
-	text-shadow:1px 1px black;
-	text-align:center;
-	font-family:"Times New Roman", Times, serif;
-	margin:0;
-	line-height:1.0;
-}
-
-p.episode {
-	font-size:1.0em;
-	color:white;
-	text-align:center;
-	font-family:Arial, Helvetica, sans-serif;
-	margin:0;
-	line-height:1.4;
-}
-
-p.studio {
-	font-weight: bold;
-	font-size:1.0em;
-	color:grey;
-	text-shadow:1px 1px black;
-	text-align:center;
-	font-family:Arial, Helvetica, sans-serif;
-	margin:0;
-	line-height:1.2;
-}
-
-p.plot {
-	font-size:1.0em;
-	color:white;
-	text-align:center;
-	font-family:"Courier New", Courier, monospace;
-	padding:0% 6% 0% 6%;
-}
-
-p.episodecount {
-	font-size:0.9em;
-	color:MediumSeaGreen;
-	text-shadow:1px 1px black;
-	text-align:center;
-	font-family:Arial, Helvetica, sans-serif;
-	margin:6px;
-	line-height:1.2;
-}
-
-p.genre {
-	font-size:1.0em;
-	color:LightSteelBlue;
-	text-shadow:1px 1px black;
-	text-align:center;
-	font-family:Arial, Helvetica, sans-serif;
-	margin:5px;
-	line-height:1.2;
-}
-
-p.mpaa {
-	font-size:0.8em;
-	color:white;
-	text-shadow:1px 1px black;
-	text-align:center;
-	font-family:Arial, Helvetica, sans-serif;
-	margin:6px;
-	line-height:1.2;
 }
 
 p.date {
@@ -134,17 +47,17 @@ a.anchor{
 
 table.gridtable {
 	font-family: verdana,arial,sans-serif;
-	font-size:12px;
+	font-size:14px;
 	color:#333333;
 	border-width: 1px;
 	border-color: #666666;
 	border-collapse: collapse;
-    width: 90%;
-    margin: 0px auto;
+	width: 90%;
+	margin: 0px auto;
 }
 
 table.gridtable th {
-    font-size:18px;
+	font-size:20px;
 	border-width: 1px;
 	padding: 8px;
 	border-style: solid;

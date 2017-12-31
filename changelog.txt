@@ -1,3 +1,6 @@
+[B]Version 0.3.1[/B]
+- Removed basic list (defaults to tabel list).
+
 [B]Version 0.3.0[/B]
 - Kodi Krypton compatible (v17).
 

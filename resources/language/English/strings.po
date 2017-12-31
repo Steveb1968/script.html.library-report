@@ -1,7 +1,7 @@
 # XBMC Media Center language file
 # Addon Name: HTML Library Report
 # Addon id: script.html.library-report
-# Addon version: 0.3.0
+# Addon version: 0.3.1
 # Addon Provider: Steveb
 msgid ""
 msgstr ""
@@ -61,17 +61,13 @@ msgctxt "#30008"
 msgid "Host root folder: [I](If different to "User:")[/I]"
 msgstr ""
 
-msgctxt "#30009"
-msgid "List Type"
-msgstr ""
+#empty string with id 30009
 
 msgctxt "#30010"
 msgid "Include Plot"
 msgstr ""
 
-msgctxt "#30011"
-msgid "Include Episode List"
-msgstr ""
+#empty string with id 30011
 
 msgctxt "#30012"
 msgid "Last Updated: "
@@ -89,17 +85,13 @@ msgctxt "#30015"
 msgid "Help/Support: "
 msgstr ""
 
-msgctxt "#30016"
-msgid "Basic"
-msgstr ""
+#empty string with id 30016
 
 msgctxt "#30017"
 msgid "Enable Webpage Password Protection"
 msgstr ""
 
-msgctxt "#30018"
-msgid "Table"
-msgstr ""
+#empty string with id 30018
 
 msgctxt "#30019"
 msgid "Define Logout Redirection URL"

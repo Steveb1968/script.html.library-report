@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.html.library-report" name="HTML Library Report" version="0.3.0" provider-name="Steveb">
+<addon id="script.html.library-report" name="HTML Library Report" version="0.3.1" provider-name="Steveb">
 	<requires>
 		<import addon="xbmc.python" version="2.14.0"/>
 	</requires>
-	<extension point="xbmc.python.script" library="default.py"/>
+	<extension point="xbmc.python.script" library="default.py">
+		<provides>executable</provides>
+	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary lang="en">Create a HTML file summary of all the movies and tvshows in your library.</summary>
 		<description lang="en">Create a HTML file summary of all the movies and/or tvshows in your library.[CR]Option to upload the results to a server via FTP.[CR]Option to password protect the online web-page.</description>
@@ -18,8 +20,6 @@
 			<fanart>fanart.jpg</fanart>
 			<screenshot>resources/screenshots/screenshot-01.jpg</screenshot>
 			<screenshot>resources/screenshots/screenshot-02.jpg</screenshot>
-			<screenshot>resources/screenshots/screenshot-03.jpg</screenshot>
-			<screenshot>resources/screenshots/screenshot-04.jpg</screenshot>
 		</assets>
 	</extension>
 </addon>
