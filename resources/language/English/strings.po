@@ -58,7 +58,7 @@ msgid "Library Report"
 msgstr ""
 
 msgctxt "#30008"
-msgid "Host root folder: [I](If different to "User:")[/I]"
+msgid "Host root folder: *[I](If different to "FTP - User")[/I]"
 msgstr ""
 
 #empty string with id 30009
@@ -125,12 +125,10 @@ msgctxt "#30026"
 msgid "FTP File Transfer FAILED."
 msgstr ""
 
-msgctxt "#30027"
-msgid "Use setting below to change from the ftp root directory."
-msgstr ""
+#empty string with id 30027
 
 msgctxt "#30028"
-msgid "Create custom or use existing server directory structure."
+msgid "Create a custom directory structure (default root directory)."
 msgstr ""
 
 msgctxt "#30029"

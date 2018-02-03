@@ -33,7 +33,7 @@ web_password = ADDON.getSetting('web_password')
 logout = ADDON.getSetting('logout_url')
 
 # file locations/names & paths
-while file_path=="":
+while file_path == "":
     xbmcgui.Dialog().ok(ADDON_NAME,LANGUAGE(30004))
     ADDON.openSettings()
     file_path = ADDON.getSetting('save_location')
@@ -47,9 +47,9 @@ pDialog = xbmcgui.DialogProgressBG()
 
 # data
 pDialog.create(ADDON_NAME, '')
-pDialog.update(0, message=LANGUAGE(30034))
+pDialog.update(0, message = LANGUAGE(30034))
 if (include_movies == 'true') and xbmc.getCondVisibility("Library.HasContent(Movies)"):
-    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "studio", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "title", "ignorearticle": true } }, "id": 1}'
+    command = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "studio", "plotoutline", "plot", "rating", "year", "mpaa", "imdbnumber", "streamdetails", "top250", "runtime"], "sort": { "order": "ascending", "method": "title", "ignorearticle": true } }, "id": 1}'
     result = xbmc.executeJSONRPC(command)
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = json.loads(result)
@@ -57,14 +57,14 @@ if (include_movies == 'true') and xbmc.getCondVisibility("Library.HasContent(Mov
     pDialog.update(25, message=LANGUAGE(30034))
 
 if (include_tvshows == 'true') and xbmc.getCondVisibility("Library.HasContent(TVShows)"):
-    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "studio", "season", "episode", "plot", "rating", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
+    command = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "studio", "season", "episode", "plot", "rating", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
     result = xbmc.executeJSONRPC(command)
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = json.loads(result)
     tvshows = jsonobject["result"]["tvshows"]
     pDialog.update(75, message=LANGUAGE(30034))
 
-    command='{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["tvshowid", "episode", "season", "streamdetails", "runtime"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
+    command = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["tvshowid", "episode", "season", "streamdetails", "runtime"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}'
     result = xbmc.executeJSONRPC(command)
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = json.loads(result)
@@ -143,13 +143,13 @@ def main():
                 f_http.write('<td>'+LANGUAGE(30014)+' '+str(movie['mpaa'])+'</td>\n')
             f_http.write('</tr>\n')
             # list plot
-            f_http.write('<tr>\n')
             if (plot_movies == 'true'):
+                f_http.write('<tr>\n')
                 if movie['plotoutline'] != "":
                     f_http.write('<td colspan="6">'+movie['plotoutline']+'</td>\n')
                 else:
                     f_http.write('<td colspan="6">'+movie['plot']+'</td>\n')
-            f_http.write('</tr>\n')
+                f_http.write('</tr>\n')
             moviecount += 1
             pDialog.update(int(float(moviecount * 100) / len(movies)), message=movie['label'])
         f_http.write('</table>\n')
@@ -200,11 +200,11 @@ def main():
             else:
                 f_http.write('<td>'+LANGUAGE(30014)+' '+str(tvshow['mpaa'])+'</td>\n')
             f_http.write('</tr>\n')
-            f_http.write('<tr>\n')
             # list plot
             if (plot_tvshows == 'true'):
+                f_http.write('<tr>\n')
                 f_http.write('<td colspan="6">'+tvshow['plot']+'</td>\n')
-            f_http.write('</tr>\n')
+                f_http.write('</tr>\n')
             tvcount += 1
             pDialog.update(int(float(tvcount * 100) / len(tvshows)), message=tvshow['label'])
         f_http.write('</table>\n')
