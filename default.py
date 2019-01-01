@@ -57,7 +57,7 @@ if (include_movies == 'true') and xbmc.getCondVisibility("Library.HasContent(Mov
     pDialog.update(25, message=LANGUAGE(30034))
 
 if (include_tvshows == 'true') and xbmc.getCondVisibility("Library.HasContent(TVShows)"):
-    command = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "studio", "season", "episode", "plot", "rating", "year", "mpaa", "imdbnumber"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
+    command = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["genre", "title", "studio", "season", "episode", "plot", "rating", "year", "mpaa", "imdbnumber", "runtime"], "sort": { "order": "ascending", "method": "title" } }, "id": 1}'
     result = xbmc.executeJSONRPC(command)
     result = unicode(result, 'utf-8', errors='ignore')
     jsonobject = json.loads(result)
@@ -160,7 +160,7 @@ def main():
         f_http.write('<a class="anchor" id="tvshow_link">anchor</a>\n')
         f_http.write('<table class="gridtable">\n')
         f_http.write('<tr>\n')
-        f_http.write('<th colspan="6"><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+') <span style="text-transform: uppercase">'+xbmc.getLocalizedString(20360)+':</span> ('+str(len(episodes))+')</th>\n')
+        f_http.write('<th colspan="7"><span style="text-transform: uppercase">'+xbmc.getLocalizedString(20343)+':</span> ('+str(len(tvshows))+') <span style="text-transform: uppercase">'+xbmc.getLocalizedString(20360)+':</span> ('+str(len(episodes))+')</th>\n')
         f_http.write('</tr>\n')
         pDialog.create(LANGUAGE(30033), '')
         tvcount = 0
@@ -168,6 +168,7 @@ def main():
             tvgenre = " / ".join(tvshow['genre'])
             tvstudio = " / ".join(tvshow['studio'])
             tv_rating = str(round(float(tvshow['rating']),1))
+            tv_runtime = '%s min' % str(tvshow['runtime'] / 60)
             hd_episodes = 0
             sd_episodes = 0
             HD_Show = False
@@ -191,7 +192,8 @@ def main():
                 f_http.write('<div style="float:right;width:5%;"><img src="images/sd.png" alt="SD" width="24" height="15"</div>\n')
             f_http.write('</td>\n')
             f_http.write('<td width="4%" align="center">'+str(tv_rating)+' &#9733;</td>\n')
-            f_http.write('<td width="30%">'+str(tvgenre)+'</td>\n')
+            f_http.write('<td width="5%" align="center">'+str(tv_runtime)+'</td>\n')
+            f_http.write('<td width="25%">'+str(tvgenre)+'</td>\n')
             f_http.write('<td width="15%">'+tvstudio+'</td>\n')
             f_http.write('<td width="12%">'+xbmc.getLocalizedString(33054)+' '+str(tvshow['season'])+' / '+xbmc.getLocalizedString(20360)+' '+str(tvshow['episode'])+'</td>\n')
             # format tvshow mpaa
@@ -203,7 +205,7 @@ def main():
             # list plot
             if (plot_tvshows == 'true'):
                 f_http.write('<tr>\n')
-                f_http.write('<td colspan="6">'+tvshow['plot']+'</td>\n')
+                f_http.write('<td colspan="7">'+tvshow['plot']+'</td>\n')
                 f_http.write('</tr>\n')
             tvcount += 1
             pDialog.update(int(float(tvcount * 100) / len(tvshows)), message=tvshow['label'])
