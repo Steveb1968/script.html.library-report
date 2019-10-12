@@ -7,14 +7,14 @@
 		<provides>executable</provides>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-		<summary lang="en_GB">Create a HTML file summary of all the movies and tvshows in your library.</summary>
-		<description lang="en_GB">Create a HTML file summary of all the movies and/or tvshows in your library.[CR]Option to upload the results to a server via FTP.[CR]Option to password protect the online web-page.</description>
+		<summary lang="en_GB">HTML file summary for movies/tvshows in your library.</summary>
+		<description lang="en_GB">Create a HTML file summary of all the movies and/or tvshows in your library. Options to upload the results to a server via FTP and password protect the web-page.</description>
 		<platform>all</platform>
 		<forum>http://forum.xbmc.org/showthread.php?tid=167632</forum>
 		<source>https://github.com/Steveb1968/script.html.library-report</source>
 		<website>https://github.com/Steveb1968/script.html.library-report</website>
 		<license>GNU GENERAL PUBLIC LICENSE Version 2</license>
-		<news lang="en">Kodi Krypton compatible (v17).[CR]Added runtime for TvShows.</news>
+		<news lang="en">Kodi Krypton compatible (v17). Added runtime for TvShows.</news>
 		<assets>
 			<icon>icon.png</icon>
 			<fanart>fanart.jpg</fanart>

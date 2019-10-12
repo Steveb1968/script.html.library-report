@@ -1,7 +1,14 @@
-import os, sys
-import xbmc, xbmcgui, xbmcaddon
+#!/usr/bin/python
+# coding: utf-8
+
+import os
+import sys
+import xbmc
+import xbmcgui
+import xbmcaddon
 import time
-import codecs, shutil
+import codecs
+import shutil
 import ftplib
 import urllib2
 import json
@@ -217,8 +224,7 @@ def main():
     f_http.write('<div id="footer">\n')
     f_http.write('<hr width="90%">\n')
     f_http.write('<div style="float:right;padding-right:5.5%;padding-bottom:10px;">\n')
-    f_http.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;">'+LANGUAGE(30030)+'<a href="https://github.com/Steveb1968/script.html.library-report" target="_blank">script.html.library-report</a> by Steveb</p>\n')
-    f_http.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;float:right;">'+LANGUAGE(30015)+'<a href="http://forum.xbmc.org/showthread.php?tid=167632" target="_blank">script.html.library-report</a></p>\n')
+    f_http.write('<p style="font-size:0.8em;color:white;text-shadow:1px 1px black;font-family:Arial, Helvetica, sans-serif;margin:0;line-height:1.2;">GitHub: <a href="https://github.com/Steveb1968/script.html.library-report" target="_blank">Kodi library-report</a>')
     f_http.write('</div>\n')
     f_http.write('</div>\n')
     f_http.write('</body>\n')
