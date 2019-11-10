@@ -1,3 +1,9 @@
+[B]Version 0.3.3[/B]
+-This is now a stand-alone html file.
+-Removed images, password protect.
+-Embedded css into html.
+-Added watched state.
+
 [B]Version 0.3.2[/B]
 - Added runtime for TvShows.
 

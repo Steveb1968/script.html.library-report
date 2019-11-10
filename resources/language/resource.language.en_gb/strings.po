@@ -1,7 +1,7 @@
 # XBMC Media Center language file
 # Addon Name: HTML Library Report
 # Addon id: script.html.library-report
-# Addon version: 0.3.2
+# Addon version: 0.3.3
 # Addon Provider: Steveb
 msgid ""
 msgstr ""
