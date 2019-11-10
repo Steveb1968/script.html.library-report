@@ -17,14 +17,6 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-msgctxt "Addon Summary"
-msgid "Create a HTML file summary of all the movies and/or tvshows in your library."
-msgstr ""
-
-msgctxt "Addon Description"
-msgid "Create a HTML file summary of all the movies and/or tvshows in your library. Option to upload the results to a server via FTP. Option to password protect the online web-page."
-msgstr ""
-
 msgctxt "#30000"
 msgid "General"
 msgstr ""
@@ -41,65 +33,29 @@ msgctxt "#30003"
 msgid "List TvShows"
 msgstr ""
 
-msgctxt "#30004"
-msgid "Please Select Output Directory."
-msgstr ""
+# empty string with id 30004
 
 msgctxt "#30005"
-msgid "HTML File Complete."
+msgid "HTML File Completed."
 msgstr ""
 
 msgctxt "#30006"
 msgid "Uploading file to FTP host"
 msgstr ""
 
-msgctxt "#30007"
-msgid "Library Report"
-msgstr ""
-
-msgctxt "#30008"
-msgid "Host root folder: *[I](If different to "FTP - User")[/I]"
-msgstr ""
-
-#empty string with id 30009
-
-msgctxt "#30010"
-msgid "Include Plot"
-msgstr ""
-
-#empty string with id 30011
+# empty strings from id 30007 to 30011
 
 msgctxt "#30012"
 msgid "Last Updated: "
 msgstr ""
 
-msgctxt "#30013"
-msgid "Top250"
-msgstr ""
+# empty string with id 30013
 
 msgctxt "#30014"
 msgid "Rated"
 msgstr ""
 
-msgctxt "#30015"
-msgid "Help/Support: "
-msgstr ""
-
-#empty string with id 30016
-
-msgctxt "#30017"
-msgid "Enable Webpage Password Protection"
-msgstr ""
-
-#empty string with id 30018
-
-msgctxt "#30019"
-msgid "Define Logout Redirection URL"
-msgstr ""
-
-msgctxt "#30020"
-msgid "FTP Upload"
-msgstr ""
+# empty strings from id 30015 to 30020
 
 msgctxt "#30021"
 msgid "Enable FTP File Upload"
@@ -125,27 +81,17 @@ msgctxt "#30026"
 msgid "FTP File Transfer FAILED."
 msgstr ""
 
-#empty string with id 30027
+# empty string with id 30027
 
 msgctxt "#30028"
-msgid "Create a custom directory structure (default root directory)."
+msgid "Upload to a custom FTP directory structure (default root directory)."
 msgstr ""
 
 msgctxt "#30029"
 msgid "Directory:"
 msgstr ""
 
-msgctxt "#30030"
-msgid "Created using: "
-msgstr ""
-
-msgctxt "#30031"
-msgid "Password: [I](Default password: admin)[/I]"
-msgstr ""
-
-msgctxt "#30032"
-msgid "Password Protection FAILED"
-msgstr ""
+# empty strings from id 30030 to 30032
 
 msgctxt "#30033"
 msgid "Creating HTML List"

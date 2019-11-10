@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
-	<category label="30000">
-		<setting id="save_location" type="folder" source="files" label="30001" default=""/>
-		<setting type="sep" />
-		<setting id="includemovies" type="bool" label="30002" default="true" enable="Library.HasContent(movies)"/>
-		<setting id="movieplot" type="bool" label="30010" subsetting="true" enable="eq(-1,true)" visible="Library.HasContent(movies)" default="false"/>
-		<setting type="sep" />
-		<setting id="includetvshows" type="bool" label="30003" default="true" enable="Library.HasContent(tvshows)"/>
-		<setting id="tvshowplot" type="bool" label="30010" subsetting="true" enable="eq(-1,true)" visible="Library.HasContent(tvshows)" default="false"/>
-	</category>
-	<category label="30020">
-		<setting id="Enable_ftp" type="bool" label="30021" default="false"/>
-		<setting id="server" type="text" label="30022" subsetting="true" enable="eq(-1,true)" default=""/>
-		<setting id="user" type="text" label="30023" subsetting="true" enable="eq(-2,true)" default=""/>
-		<setting id="password" type="text" label="30024" subsetting="true" enable="eq(-3,true)" default="" option="hidden"/>
-		<setting type="sep" />
-		<setting id="enable_ftp_dir" type="bool" label="30028" default="false" enable="eq(-5,true)"/>
-		<setting id="ftp_dir" type="text" label="30029" default="" subsetting="true" enable="eq(-1,true)"/>
-		<setting type="sep" />
-		<setting id="Enable_Password" type="bool" label="30017" default="false" enable="eq(-8,true)"/>
-		<setting id="web_root" type="text" label="30008" subsetting="true" enable="eq(-1,true)"/>
-		<setting id="web_password" type="text" label="30031" subsetting="true" enable="eq(-2,true)" default="admin" option="hidden"/>
-		<setting id="logout_url" type="text" label="30019" subsetting="true" enable="eq(-3,true)" default="www.google.com"/>
-	</category>
+    <category label="30000">
+        <setting id="save_location" type="folder" source="files" label="30001" default="Default (userdata/addon_data)"/>
+        <setting id="includemovies" type="bool" label="30002" default="true" enable="Library.HasContent(movies)"/>
+        <setting id="includetvshows" type="bool" label="30003" default="true" enable="Library.HasContent(tvshows)"/>
+        <setting type="sep" />
+        <setting id="Enable_ftp" type="bool" label="30021" default="false"/>
+        <setting id="server" type="text" label="30022" subsetting="true" enable="eq(-1,true)" default=""/>
+        <setting id="user" type="text" label="30023" subsetting="true" enable="eq(-2,true)" default=""/>
+        <setting id="password" type="text" label="30024" subsetting="true" enable="eq(-3,true)" default="" option="hidden"/>
+        <setting id="enable_ftp_dir" type="bool" label="30028" default="false" enable="eq(-4,true)"/>
+        <setting id="ftp_dir" type="text" label="30029" default="" subsetting="true" visible="eq(-1,true)"/>
+    </category>
 </settings>
